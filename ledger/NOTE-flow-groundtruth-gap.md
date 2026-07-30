@@ -1,7 +1,20 @@
 # NOTE — Power Automate has no ground truth
 
+## RESOLVED — an export landed. See `ledger/04-flow-rules.md` §0.
+
+The gap this file describes is closed. Kept because its diagnosis was largely correct and the
+comparison is instructive:
+
+- **Confirmed:** the `template_skeleton` is hand-authored, and its
+  `connectionReferences.<key>.connectionName` does hold the connector API name where an opaque
+  per-connection identifier belongs.
+- **Confirmed:** the skeleton's `OnNewItems` trigger is missing `splitOn`; a real export of an
+  array-returning trigger carries it.
+- **Understated:** the skeleton is missing **three whole files**, not just some field values.
+- **Wrong in the other direction:** this file relayed the research claim that
+  `operationMetadataId` belongs in a real definition. It does not appear at all.
+
 Status: **finding, not a session deliverable.** Recorded before Session 1 ran.
-Read this before Session 3 Task B and before Session 8.
 
 ## The fact that starts this
 

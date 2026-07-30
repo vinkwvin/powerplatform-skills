@@ -3,6 +3,21 @@
 Status: **finding, not a session deliverable.** Read alongside
 `ledger/NOTE-flow-groundtruth-gap.md` before Session 3 Task B and Session 8.
 
+## SUPERSEDED IN PART — a real export has since landed
+
+`ledger/04-flow-rules.md` §0 is Rank 1 and overrides this file. Three findings here were wrong,
+and they are worth recording as wrong because they show how far plausible documentation can drift:
+
+| This file said | The real export shows |
+|---|---|
+| Packages may contain `connections.json` and `flow.json` | **Neither exists.** The extra files are `apisMap.json`, `connectionsMap.json`, and a second `Microsoft.Flow/flows/manifest.json` |
+| Every action has an `operationMetadataId`, so the brief's "never generate it" is a contradiction to resolve | **Zero occurrences** in the whole definition. The brief was right; Finding 5 below is withdrawn |
+| `connectionName` looks like `shared-service-12345` | Half right. Two connections in one file use **two different formats** — a bare 32-hex string and `shared-<api>-<guid>`. There is no single pattern, which is why it must be carried verbatim |
+
+Findings 1 (no community skill covers offline `.zip` generation), 6 (`PackageFlowMissingConnectionMap`
+is a real error string) and 7 (the import connection prompt is expected legacy behaviour) still stand.
+Finding 6 is strengthened: the error almost certainly names `connectionsMap.json`.
+
 ## How to rank this
 
 Public documentation and community repositories. **This is not in the 1–4 hierarchy and

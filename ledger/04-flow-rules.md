@@ -1,12 +1,167 @@
 # 04 — Power Automate flow rules
 
-Session 3 Task B.
+Session 3 Task B, **revised after a real export landed.**
+
+# 0. OBSERVED — a real legacy export, Rank 1
+
+`source-artifacts/flows/OOP[SaleSupportTeam]…updateKYC&SUIT_20260730090946.zip` — a genuine
+export from the InnovestX tenant. This section is Rank 1 and **overrides everything below it.**
+
+## 0.1 The package has five files, not two
+
+```
+manifest.json
+Microsoft.Flow/flows/manifest.json                       <- a SECOND manifest
+Microsoft.Flow/flows/<assetGUID>/definition.json
+Microsoft.Flow/flows/<assetGUID>/apisMap.json            <- nothing predicted this
+Microsoft.Flow/flows/<assetGUID>/connectionsMap.json     <- nothing predicted this
+```
+
+The existing skill's `template_skeleton` has only `manifest.json` + `definition.json`.
+**Three files are missing from it.**
+
+External research predicted `connections.json` and `flow.json`. **Both names are wrong.** The real
+files are `apisMap.json` and `connectionsMap.json`, and there is no `flow.json`.
+
+`Microsoft.Flow/flows/manifest.json` is tiny and lists the asset folders:
+
+```json
+{ "packageSchemaVersion": "1.0",
+  "flowAssets": { "assetPaths": ["5dbb1e49-407c-4324-93ff-286a95d533d6"] } }
+```
+
+The two map files are flat connector→resource-GUID dictionaries:
+
+```json
+// apisMap.json          connector API name -> the apis resource GUID
+{ "shared_sharepointonline": "bd833414-...", "shared_office365": "6dedcde4-..." }
+// connectionsMap.json    connector API name -> the apis/connections resource GUID
+{ "shared_sharepointonline": "a77de9db-...", "shared_office365": "e812a341-..." }
+```
+
+**This is almost certainly the "connection map" in `PackageFlowMissingConnectionMap`.** The error
+names the artifact. A package without `connectionsMap.json` has no connection map to find.
+
+## 0.2 Every connector needs TWO manifest resources, keyed by GUID
+
+The skeleton used friendly keys (`conn_sharepoint`) and one resource per connector. Reality:
+
+| Resource | `type` | `configurableBy` | `dependsOn` |
+|---|---|---|---|
+| the connector | `Microsoft.PowerApps/apis` | `System` | `[]` |
+| **the connection** | `Microsoft.PowerApps/apis/connections` | **`User`** | `[the apis GUID]` |
+
+Both keyed by **GUID**, not by a friendly name. The flow resource `dependsOn` lists all four.
+`suggestedCreationType` is `Existing` on connector resources, `New` on the flow.
+
+The `apis/connections` resource is the one whose `configurableBy: User` makes the import UI offer
+a connection picker — and its `details.displayName` is **the exporting user's email address**.
+The skeleton has no `apis/connections` resources at all.
+
+## 0.3 Two different fields are both called `connectionName`
+
+This is the trap, and it explains why the existing validator can be right while the skeleton is wrong.
+
+| Location | Value in the real export | Meaning |
+|---|---|---|
+| `properties.connectionReferences.<key>` — the **key** | `shared_sharepointonline` | connector API name |
+| `properties.connectionReferences.<key>.connectionName` | `3c98a7f6391549e89bb9a2996b0cc3db` and `shared-office365-75c8d61c-8bb4-4fdb-a8b2-2a0b2265796d` | **per-connection identifier, opaque** |
+| `definition.actions.*.inputs.host.connectionName` | `shared_sharepointonline` | connector API name, matching the key above |
+
+So: the existing validator's check (every `host.connectionName` must appear as a
+`connectionReferences` key) is **correct**. What the skeleton gets wrong is the *value* of
+`connectionReferences.<key>.connectionName` — it put the API name where an opaque per-connection ID
+belongs. **Confirmed as a real defect.**
+
+Note the two connections use **two different formats** — one bare 32-hex, one
+`shared-<api>-<guid>`. There is no single pattern to generate, which is exactly why it must be
+carried verbatim.
+
+`connectionReferences` entries also carry `apiName` and
+`isProcessSimpleApiReferenceConversionAlreadyDone`, neither present in the skeleton.
+
+## 0.4 `splitOn` — confirmed, exactly as stated
+
+Real trigger `When_an_item_is_created_or_modified`, `operationId: GetOnUpdatedItems`:
+
+```json
+"splitOn": "@triggerOutputs()?['body/value']"
+```
+
+One occurrence in the file, on the one array-returning trigger. The rule and its literal form are
+now **observed**, not hypothesized. The trigger also carries `evaluatedRecurrence` alongside
+`recurrence` — absent from the skeleton.
+
+## 0.5 `operationMetadataId` — the brief was right, the research was wrong
+
+**Zero occurrences across the entire definition.** Not on the trigger, not on any of the ~12
+actions at any nesting level.
+
+`ledger/NOTE-flow-external-research.md` Finding 5 reported that external sources say every action
+has one, and flagged the brief's "never generate `operationMetadataId`" as a contradiction to
+resolve. **It is resolved in the brief's favour.** Real exports do not carry it. Delete the
+UNVERIFIED mark and keep the rule.
+
+## 0.6 `metadata` — one occurrence, and it is tenant-specific
+
+`"metadata"` appears exactly once, at `definition.metadata`, and holds environment junk:
+
+```json
+{ "workflowEntityId": null, "provisioningMethod": "FromDefinition",
+  "creator": { "id": "<user GUID>", "type": "User", "tenantId": "<tenant GUID>" },
+  "clientLastModifiedTime": "...", "modifiedSources": "Portal", ... }
+```
+
+So the rule needs splitting: **never generate per-action `metadata`** (it does not exist), and
+**never author `definition.metadata`** — carry it from the template or omit it, because it embeds
+a real user GUID and tenant GUID.
+
+## 0.7 The flow GUID is not the asset GUID
+
+| Where | GUID |
+|---|---|
+| package folder + manifest resource key | `5dbb1e49-407c-4324-93ff-286a95d533d6` |
+| `definition.json` `name` and `id` | `0db6fe46-eecb-48d4-9dca-e700d82e6a1f` |
+
+**Two different GUIDs.** The skeleton reuses one value for both. Whether the mismatch is required
+or merely tolerated is unknown, but copying the skeleton's single-GUID shape is not what a real
+export looks like.
+
+## 0.8 Other fields the skeleton lacks
+
+`properties.flowFailureAlertSubscribed` · `properties.isManaged` · `definition.outputs: {}` ·
+`manifest.details.creator: "N/A"` (not an email) · `details.iconUri` on every connector resource ·
+a real `packageTelemetryId` GUID.
+
+## 0.9 Privacy — the skill must warn about this
+
+A real export embeds, in plain text: the exporting user's **email address**
+(`pimchanok.n@innovestx.co.th`, in two `apis/connections` resources) and their **user GUID and
+tenant GUID** (`definition.metadata.creator`).
+
+Template-anchoring means shipping those values inside every generated package. The skill must say
+so plainly, so nobody publishes a package externally without checking. This file records the email
+because the artifact is already committed to the repo; treat the repo accordingly.
+
+## 0.10 What this changes for Session 8
+
+- The generator must emit **five files**, and `apisMap.json` / `connectionsMap.json` are not optional.
+- `manifest.json` resources must be **GUID-keyed**, with a paired `apis` + `apis/connections` resource per connector.
+- Only `definition.json`'s `triggers`/`actions` are safely regenerable. `connectionReferences`, `definition.metadata`, both manifests, and both map files are **carry-verbatim**.
+- The validator gains: all five files present · every connector in `apisMap` also in `connectionsMap` · every map value resolving to a manifest resource of the right `type` · `connectionReferences.<k>.connectionName` **not equal** to `<k>` · `operationMetadataId` absent · `splitOn` present on `sharepoint_item` triggers · `runAfter` cycle detection.
+
+---
+
+# The rest of this file predates the export
+
+Everything below was written when no export existed. Section 0 supersedes it wherever they
+disagree. Retained because the *designed flows* in §1 are still the only description of what the
+account-closure flows should do.
 
 ## Read this before using anything below
 
-**No flow has ever been built, exported, or imported.** `/source-artifacts/flows/` holds no
-export. Read `ledger/NOTE-flow-groundtruth-gap.md` and `ledger/NOTE-flow-external-research.md`
-first.
+Read `ledger/NOTE-flow-groundtruth-gap.md` and `ledger/NOTE-flow-external-research.md` too —
+both now carry corrections.
 
 Three source classes are mixed here and graded separately. Do not flatten them.
 
