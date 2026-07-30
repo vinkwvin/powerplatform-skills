@@ -78,7 +78,38 @@ The recovered rules. Each holds across the artifacts and appears nowhere in the 
 
 ---
 
-# 3. Contradicted — doc and artifacts disagree
+# 3. Contradicted — RESOLVED by Vin
+
+**Vin's ruling, applied to every row below:**
+
+> *"For each topic that conflicts with the reality, you must stick with how the reality is. For one that only contains in the rule just stick with the rule."*
+> *"Use auto layout rule instead."*
+
+Two standing rules follow, and they govern Sessions 4–9:
+
+- **Conflict → the artifacts win.** Every C-row where a measured count contradicts the doc resolves to the measured value. §6 of `yaml-conventions.md` is superseded by `ledger/01` §5 and must not be quoted as a source of numbers.
+- **Doc-only → the doc stands.** A rule in the doc that the artifacts neither confirm nor contradict is kept as written, at the doc's own confidence. It is not promoted to `high` by surviving — absence of counter-evidence is not evidence.
+- **C9 is resolved explicitly in favour of AutoLayout.** No generated screen positions children with `X`/`Y`. `X`/`Y` appear only on the depth-1 root container.
+
+| # | Resolution |
+|---|---|
+| C1 | `RadioSize: =18` (13 uses); `=16` acceptable (3). **Never 30.** |
+| C2 | `TemplateSize` per gallery from the measured set — 40, 34, 52, 42, 48, 58, 54. **Never 51.** |
+| C3 | `Size` ceiling is **26**. Large numerals use 26, 22 or 20. **`Size: 32` is not a legal value.** |
+| C4 | No `Size: 18`. Use 16 or 20. |
+| C5 | Nav buttons `Height: =34`. **Never 35.** |
+| C6 | Top bar `Height: =60` or `=62`. **Never 58.** |
+| C7 | `Size` floor is **8**, not 9. |
+| C8 | `Icon` enum set is the six measured members: `Document`, `View`, `Person`, `Clock`, `Publish`, `Trash`. **`Icon.Error` is not confirmed** — treat as `UNVERIFIED` if needed. |
+| C9 | **AutoLayout only.** `X`/`Y` on the depth-1 root container and nowhere else. The doc's §9 skeleton and §10 gallery example must be rewritten from a real screen before either is quoted again. |
+| C10 | The Button property set is the measured 14, not the doc's 10. |
+| C11 | `FillPortions` defaults to `=0`; `=1` is the only common alternative. Not a primary layout tool. |
+
+**Consequence for Session 5.** `yaml-conventions.md` §6 and its two copy-paste examples (§9 skeleton, §10 gallery) are the least trustworthy parts of the doc and the most likely to be copied verbatim. The merged skill must carry a skeleton derived from a real screen, not from the doc.
+
+---
+
+# 3-original. Contradicted — as measured (retained for the record)
 
 **Six of these are the same class of failure: a specific numeric value the doc prescribes that
 appears zero times in seventeen shipped screens.** Not rare — absent.
