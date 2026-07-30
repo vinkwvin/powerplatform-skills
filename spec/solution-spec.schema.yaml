@@ -1,0 +1,539 @@
+# solution-spec.yaml — the contract every skill in the suite reads
+#
+# This file is BOTH the schema and a worked example. Every value below is real,
+# taken from the account-closure system, so it can be validated and copied from.
+# Run `python3 spec/validate_spec.py spec/solution-spec.schema.yaml` — it must pass.
+#
+# Derived from formats that already exist, not invented:
+#   AccountClosure_SharePoint_Database.xlsx sheet 11  -> flows[]
+#   ...                                     sheet 12  -> variables[]
+#   ...                                     sheet 13  -> screens[] reads/writes/flows
+#   ...                                     sheet 14  -> bindings[]      (409 rows)
+#   ...                                     sheets 1-10 -> lists[]
+#   ledger/01-observed-conventions.md                 -> screens[] control conventions
+#   ledger/05-list-rules.md                           -> relations[], field types
+#   ledger/NOTE-manual-skill-proposal.md              -> roles[], glossary[], purpose fields
+#
+# WHO READS WHAT — a skill reads only its own sections.
+#   generating-powerapps-yaml     screens[] variables[] bindings[]
+#   building-sharepoint-lists     lists[] relations[]
+#   planning-powerplatform-solutions  writes the whole file; owns process[] glossary[]
+#   building-powerautomate-flows  flows[] lists[]
+#   writing-app-manuals           screens[] roles[] lists[] flows[] glossary[] meta.status
+#
+# CONVENTIONS THROUGHOUT
+#   *_th          Thai text. Always a sibling field, never inside a name. Structural
+#                 rule from the provisioning workbook, which carries a parallel
+#                 "ชื่อไทย (TH)" row rather than Thai column names.
+#   ids           lower_snake_case, stable, referenced by other sections.
+#   list.field    dotted form "New_Request.CustomerName" wherever a field is named.
+
+# ---------------------------------------------------------------------------
+meta:
+  id: account_closure                  # lower_snake_case, stable
+  name: Account Closure
+  name_th: ระบบปิดบัญชี
+  version: 1.0.0
+  status: draft                        # draft | final -- gates manual rendering (D6)
+  owner: InnovestX
+  sharepoint_site: https://<tenant>.sharepoint.com/sites/<site>
+  languages: [th, en]
+  heading_language_order: th_first     # th_first | en_first -- Vin's ruling: th_first
+
+# ---------------------------------------------------------------------------
+# process[] -- the workflow as stages. Drives the Tracking rail in the app and
+# section order in the manual. `index` is the position gblStageIndex holds.
+process:
+  - index: 1
+    id: sales_initial
+    stage: Sales - Initial Contact
+    stage_th: ฝ่ายขาย - ติดต่อครั้งแรก
+    owner_role: sales
+    entry: customer requests closure by phone
+    exit: request submitted, three prechecks created
+  - index: 4
+    id: precheck_gate
+    stage: Parallel Pre-check
+    stage_th: ตรวจสอบพร้อมกัน
+    owner_role: middle_team
+    entry: request dispatched to three departments
+    exit: all three prechecks decided
+
+# ---------------------------------------------------------------------------
+# roles[] -- manual and planner only. No builder skill reads this.
+# system_role / visibility_scope values come from Role_Mapping's Choice columns.
+roles:
+  - id: sales
+    label: Sales
+    label_th: เจ้าหน้าที่การตลาด
+    system_role: Sales                 # Role_Mapping.SystemRole
+    visibility_scope: My_Clients_Only  # All_Data | Department_Only | My_Clients_Only
+    responsibilities:
+      - collect customer confirmation and documents
+      - submit the closure request
+    manual_sections: [user]            # user | admin | both
+  - id: middle_team
+    label: Middle Team
+    label_th: ทีม Middle
+    system_role: Middle_Team
+    visibility_scope: Department_Only
+    responsibilities:
+      - pre-check wallet balances and verify documents
+    manual_sections: [both]
+  - id: head_of_sales
+    label: Head of Sales
+    label_th: ผู้บริหารฝ่ายขาย
+    system_role: Head_Of_Sales
+    visibility_scope: All_Data
+    responsibilities:
+      - approve or reject after all prechecks clear
+    manual_sections: [admin]
+
+# ---------------------------------------------------------------------------
+# glossary[] -- planner builds this FIRST during the interview, because two
+# departments naming one system differently is the most common requirements bug.
+# Rendered as manual Appendix D and in the planner's PDF.
+glossary:
+  - term: Pre-check
+    term_th: การตรวจสอบก่อนอนุมัติ
+    aka: [precheck, pre check, ตรวจสอบเบื้องต้น]
+    definition: >-
+      The parallel review by Digital Assets, Middle Team and Product Op EQ that
+      must all clear before Head of Sales can approve.
+  - term: C&AM
+    term_th: ฝ่าย C&AM
+    aka: [CAM, Client and Account Management]
+    definition: The team that performs identity verification and the final account close.
+
+# ---------------------------------------------------------------------------
+# lists[] -- SharePoint schema. `kind: library` when the first field is a File.
+# Field rows mirror the provisioning workbook's own row structure:
+#   Section | FIELD NAME (EN) | Data type | ชื่อไทย (TH) | Description | Choices / Notes
+lists:
+  - name: New_Request
+    kind: list                         # list | library
+    purpose: One row per closure request -- the request header.
+    purpose_th: หนึ่งแถวต่อหนึ่งคำขอปิดบัญชี
+    title_holds: RequestID             # Title is repurposed as the natural key
+    indexed: [Title]
+    sections: [Customer Info, Account Details, Closure Decision, Transfer Info, Balances, Tracking & Workflow]
+    fields:
+      - name: Title
+        type: text                     # see the type table at the bottom of this file
+        label_th: เลขที่คำขอ (RequestID)
+        section: Customer Info
+        description: Request identifier, e.g. INVX888-1999.
+        populated_by: automation       # user | automation
+        required: true
+      - name: CustomerName
+        type: text
+        label_th: ชื่อลูกค้า
+        section: Customer Info
+        populated_by: user
+        required: true
+      - name: CitizenID
+        type: text
+        label_th: เลขบัตร/พาสปอร์ต
+        section: Customer Info
+        populated_by: user
+        required: true
+      - name: ClosureReasonOther
+        type: text
+        label_th: สาเหตุอื่น (ระบุ)
+        section: Account Details
+        description: Free-text escape, revealed only when ClosureReason is "อื่นๆ".
+        populated_by: user
+      - name: ClosureReason
+        type: choice
+        label_th: สาเหตุการปิดบัญชี
+        section: Account Details
+        choices: [เจ้าของบัญชีเสียชีวิต, ลูกค้าไม่ประสงค์ใช้บริการ, อื่นๆ]
+        other_field: ClosureReasonOther  # the free-text escape for this choice
+        populated_by: user
+      - name: RequestStatus
+        type: choice
+        label_th: สถานะคำขอ
+        section: Tracking & Workflow
+        choices: [PrecheckInProgress, PendingDocuments, PendingApproval, Completed, Rejected]
+        populated_by: automation       # written by flows 1, 3, 4, 5 -- never typed
+      - name: SalesRepresentative
+        type: person                   # people are person, NOT text -- see relations note
+        label_th: เจ้าหน้าที่ Sales
+        section: Tracking & Workflow
+        populated_by: user
+
+  - name: Request_Prechecks
+    kind: list
+    purpose: One row per checking department for a request.
+    purpose_th: หนึ่งแถวต่อหนึ่งหน่วยงานตรวจสอบ
+    fields:
+      - name: RequestID
+        type: text                     # text, not lookup -- delegation. See relations[]
+        label_th: เลขที่คำขอ
+        populated_by: automation
+        required: true
+      - name: Team
+        type: choice
+        label_th: หน่วยงาน
+        choices: [DigitalAssets, Middle, ProductOpEQ]
+        populated_by: automation
+      - name: Result
+        type: choice
+        label_th: ผลการตรวจ
+        choices: [Pending, Clear, Reject]
+        populated_by: user
+      - name: CheckedBy
+        type: person                   # the <Verb>By / <Verb>At audit pair
+        label_th: ตรวจโดย
+        populated_by: automation
+      - name: CheckedAt
+        type: datetime
+        label_th: วันเวลาที่ตรวจ
+        populated_by: automation
+
+  - name: Request_Files
+    kind: library                      # document library -- provisioned differently
+    purpose: Uploaded evidence, one file per row.
+    purpose_th: ไฟล์เอกสารแนบ
+    fields:
+      - name: Name
+        type: file                     # a File-typed first field is what makes it a library
+        label_th: ชื่อไฟล์
+        populated_by: user
+        required: true
+      - name: RequestID
+        type: text
+        label_th: เลขที่คำขอ
+        populated_by: automation
+
+  # The remaining lists are abbreviated to their key fields. A real spec carries
+  # every column; the shape is identical.
+  - name: Request_Accounts
+    kind: list
+    purpose: One row per account in the closure inventory.
+    purpose_th: หนึ่งแถวต่อหนึ่งบัญชี
+    fields:
+      - name: RequestID
+        type: text
+        label_th: เลขที่คำขอ
+        populated_by: automation
+        required: true
+      - name: GroupName
+        type: choice
+        label_th: กลุ่มบัญชี
+        choices: [Cash Account, Credit Balance, Mutual Fund ACC, TFEX ACC, Offshore ACC]
+        populated_by: automation
+      - name: Balance
+        type: currency
+        label_th: ยอดคงเหลือ
+        populated_by: user
+
+  - name: Request_DocChecklist
+    kind: list
+    purpose: Required-document checklist; the row set varies by IsAlive.
+    purpose_th: รายการเอกสารที่ต้องใช้
+    fields:
+      - name: RequestID
+        type: text
+        label_th: เลขที่คำขอ
+        populated_by: automation
+        required: true
+      - name: DocName
+        type: text
+        label_th: ชื่อเอกสาร
+        populated_by: automation
+      - name: Checked
+        type: bool
+        label_th: ตรวจแล้ว
+        populated_by: user
+
+  - name: Approval_Logs
+    kind: list
+    purpose: Append-only audit trail of every state transition.
+    purpose_th: ประวัติการดำเนินการ
+    fields:
+      - name: RequestID
+        type: text
+        label_th: เลขที่คำขอ
+        populated_by: automation
+        required: true
+      - name: ActionType
+        type: choice
+        label_th: ประเภทการดำเนินการ
+        choices: [Submitted, Approved, Rejected, Returned, Completed]
+        populated_by: automation
+      - name: ActionTakenBy
+        type: person
+        label_th: ผู้ดำเนินการ
+        populated_by: automation
+      - name: ActionDate
+        type: datetime
+        label_th: วันเวลา
+        populated_by: automation
+
+  - name: System_Config
+    kind: list
+    purpose: Key/value configuration read by flows.
+    purpose_th: การตั้งค่าระบบ
+    title_holds: ConfigKey
+    fields:
+      - name: Title
+        type: text
+        label_th: ConfigKey
+        description: Unique key, e.g. RequestNumberSeed or CC_Middle.
+        populated_by: user
+        required: true
+      - name: ConfigValue
+        type: multiline
+        label_th: ค่าที่ตั้ง
+        populated_by: user
+
+  - name: Role_Mapping
+    kind: list
+    purpose: Employee to system role to data-visibility scope.
+    purpose_th: การกำหนดบทบาทผู้ใช้
+    fields:
+      - name: EmployeeAccount
+        type: person
+        label_th: บัญชีพนักงาน
+        populated_by: user
+        required: true
+      - name: SystemRole
+        type: choice
+        label_th: บทบาทในระบบ
+        choices: [Sales, Head_Of_Sales, Middle_Team, Risk_Team]
+        populated_by: user
+      - name: DataVisibilityScope
+        type: choice
+        label_th: ขอบเขตเข้าถึงข้อมูล
+        choices: [All_Data, Department_Only, My_Clients_Only]
+        populated_by: user
+      - name: IsActiveUser
+        type: bool
+        label_th: สถานะใช้งาน
+        populated_by: user
+
+  - name: Litigation_Register
+    kind: list
+    purpose: Citizen-ID to litigation-status cache, checked before closure.
+    purpose_th: ทะเบียนการฟ้องร้อง
+    title_holds: CitizenID
+    indexed: [Title]                   # Flow 2 filters on Title eq CitizenID
+    fields:
+      - name: Title
+        type: text
+        label_th: เลขบัตรประชาชน
+        populated_by: user
+        required: true
+      - name: Status
+        type: choice
+        label_th: สถานะ
+        choices: [Clean, Found]
+        populated_by: user
+
+# ---------------------------------------------------------------------------
+# relations[] -- how lists join. Every entry states WHY, because the reason is
+# the rule a builder must not "improve" on.
+relations:
+  - from: Request_Prechecks
+    to: New_Request
+    from_field: RequestID
+    to_field: Title
+    kind: text_key                     # text_key | person | none. NEVER lookup.
+    cardinality: many_to_one
+    reason: >-
+      Lookup columns are not delegable in Power Apps, so filtering a gallery on one
+      silently truncates at the delegation limit and shows an incomplete list with no
+      error. A text key supports delegable Filter() and StartsWith().
+  - from: New_Request
+    to: null
+    from_field: SalesRepresentative
+    kind: person
+    reason: >-
+      People are Person or Group, not text. The text-not-lookup rule applies to
+      list-to-list references only -- do not generalise it to all complex types.
+
+# ---------------------------------------------------------------------------
+# screens[] -- reads/writes/flows come from the Screen_Data_Matrix sheet.
+# purpose and roles are manual-only; the YAML generator ignores them.
+screens:
+  - id: sales_initial_contact
+    name: Sales - Initial Contact      # screen names may contain spaces
+    name_th: ฝ่ายขาย - ติดต่อครั้งแรก
+    file: 02_Sales_InitialContact.pa.yaml
+    purpose: Capture the customer's request and the accounts to close.
+    purpose_th: บันทึกคำขอของลูกค้าและบัญชีที่ต้องปิด
+    roles: [sales]                     # every id must exist in roles[]
+    process_stage: sales_initial
+    reads: [System_Config, Litigation_Register]
+    writes: [New_Request, Request_Accounts, Request_DocChecklist]
+    fires_flows: [flow_1_submit_dispatch, flow_2_litigation_check]
+    scroll_containers: 2               # ledger/01: LayoutOverflowY twice per screen, depth 2
+
+  - id: middle_verify_docs
+    name: Middle - Verify Docs
+    name_th: ทีม Middle - ตรวจเอกสาร
+    file: 07_Middle_VerifyDocs.pa.yaml
+    purpose: Verify uploaded documents and tick the checklist.
+    purpose_th: ตรวจสอบเอกสารที่อัปโหลดและติ๊กรายการ
+    roles: [middle_team]
+    process_stage: precheck_gate
+    reads: [Request_Prechecks, Request_Accounts, Request_Files]
+    writes: [Request_DocChecklist, Request_Files, Approval_Logs]
+    fires_flows: [flow_4_precheck_gate]
+    scroll_containers: 2
+
+# ---------------------------------------------------------------------------
+# variables[] -- from the Variables_Bindings sheet. Naming is a hard convention:
+#   gbl* = global (Set)   col* = collection (ClearCollect)   var* = context (UpdateContext)
+variables:
+  - name: gblRequestID
+    kind: global                       # global | collection | context
+    set_by: Dashboard OnVisible (seed), or the open-request action
+    drives: Which request every screen filters by.
+    scope: app
+    used_on: [sales_initial_contact, middle_verify_docs]
+  - name: colMatrix
+    kind: collection
+    set_by: Screen OnVisible seed, later from Request_Accounts
+    drives: The eight matrix accounts.
+    scope: screen
+    backing_list: Request_Accounts
+    used_on: [sales_initial_contact]
+  - name: varReasonOther
+    kind: context
+    set_by: Reason DropDown OnChange
+    drives: Reveals the "โปรดระบุ" input.
+    scope: screen
+    used_on: [sales_initial_contact]
+  - name: varCardValid
+    kind: context
+    set_by: Card-ID input OnChange, IsMatch on 13 digits
+    drives: Switches the litigation box between waiting and result.
+    scope: screen
+    used_on: [sales_initial_contact]
+
+# ---------------------------------------------------------------------------
+# flows[] -- from the Power_Automate sheet. `trigger.splits_on` is required
+# ONLY for array-returning triggers, which in practice means SharePoint item
+# triggers. Power Apps triggers do not return arrays.
+flows:
+  - id: flow_1_submit_dispatch
+    name: Submit & Dispatch
+    purpose: Create the request header, its child rows, and notify three teams.
+    type: request_response             # request_response | automated | child
+    trigger:
+      kind: powerapps                  # powerapps | sharepoint_item | recurrence | child
+      splits_on: null                  # null unless the trigger returns an array
+    responds_to_app: true              # ends in Respond to Power Apps
+    calls: [flow_6_notify]
+    lists: [System_Config, New_Request, Request_Accounts, Request_Prechecks, Request_DocChecklist, Approval_Logs]
+    steps:
+      - n: 2
+        action: Get number seed
+        connector: SharePoint - Get item
+        list: System_Config
+        notes: ConfigKey = RequestNumberSeed
+      - n: 4
+        action: Update seed
+        connector: SharePoint - Update item
+        list: System_Config
+        notes: seed+1 -- single writer, so no collision
+  - id: flow_4_precheck_gate
+    name: Parallel Pre-check Gate
+    purpose: Advance the request once all three departments have decided.
+    type: automated
+    trigger:
+      kind: sharepoint_item            # the ONLY array-returning trigger in this system
+      list: Request_Prechecks
+      splits_on: "@triggerOutputs()?['body/value']"   # REQUIRED for this trigger kind
+    responds_to_app: false
+    calls: [flow_6_notify]
+    lists: [Request_Prechecks, New_Request, Approval_Logs]
+    steps:
+      - n: 3
+        action: All three decided?
+        connector: Condition
+        notes: count(Result != Pending) = 3, else terminate
+  - id: flow_2_litigation_check
+    name: Litigation Check
+    purpose: Look up the citizen ID in the litigation register and patch the header.
+    type: request_response
+    trigger:
+      kind: powerapps
+      splits_on: null
+    responds_to_app: true
+    calls: []
+    lists: [Litigation_Register, New_Request]
+    steps:
+      - n: 2
+        action: Look up register
+        connector: SharePoint - Get items (top 1)
+        list: Litigation_Register
+        notes: Title eq CitizenID -- Title is indexed, so this stays delegable
+  - id: flow_6_notify
+    name: Notify / CC
+    purpose: Shared mail sender; the only place mail logic lives.
+    type: child                        # called by flows 1, 3, 4, 5
+    trigger:
+      kind: child
+      splits_on: null
+    responds_to_app: false
+    calls: []
+    lists: [System_Config, Role_Mapping]
+    steps:
+      - n: 2
+        action: Resolve recipients
+        connector: SharePoint - Get items
+        list: System_Config
+        notes: CC_<team> keys plus active Role_Mapping members
+
+# ---------------------------------------------------------------------------
+# bindings[] -- one row per data-bearing control. Mirrors App_Field_Coverage.
+# This is the join between screens[], lists[] and variables[].
+bindings:
+  - screen: sales_initial_contact
+    control: SalesInitial_TextInput_631
+    control_type: Classic/TextInput@2.3.2
+    shows: ชื่อ-นามสกุล
+    list: New_Request                  # null when direction is ui
+    field: CustomerName                # must exist in that list's fields[]
+    direction: input                   # input | display | ui
+  - screen: sales_initial_contact
+    control: SalesInitial_Customer_CardId
+    control_type: Classic/TextInput@2.3.2
+    shows: เลขบัตรประชาชน 13 หลัก
+    list: New_Request
+    field: CitizenID
+    direction: input
+    variable: varCardValid             # optional; must exist in variables[]
+    notes: IsMatch 13 digits, then fires flow_2_litigation_check
+  - screen: sales_initial_contact
+    control: Dashboard_Search_Query_TextInput
+    control_type: Classic/TextInput@2.3.2
+    shows: ค้นหาด้วย Request ID หรือชื่อลูกค้า
+    list: null
+    field: null
+    direction: ui                      # UI only -- delegable StartsWith, no column
+    notes: no backing column
+  - screen: middle_verify_docs
+    control: MiddleVerify_DocChecklist_Gallery
+    control_type: Gallery@2.15.0
+    shows: รายการเอกสารที่ต้องตรวจ
+    list: Request_DocChecklist
+    field: DocName
+    direction: display
+
+# ---------------------------------------------------------------------------
+# FIELD TYPE VOCABULARY -- the nine types measured across 131 real fields.
+# Left column is what this spec uses; right is the SharePoint column type.
+#   text        -> Single line of text        (51 uses)
+#   choice      -> Choice                     (27)
+#   bool        -> Yes/No (Boolean)           (21)
+#   person      -> Person or Group            (9)
+#   datetime    -> Date and Time              (8)
+#   multiline   -> Multiple lines of text     (8)
+#   currency    -> Currency                   (5)
+#   number      -> Number                     (1)
+#   file        -> File (document library)    (1)
+# `lookup` is deliberately absent: zero Lookup columns across 131 fields.

@@ -16,6 +16,19 @@ Read this first in any session. Never re-derive what a ledger file already recor
 | `07-buildchat-raw.md` | the build chat's own account of corrections and recurring mistakes, verbatim | Vin | S2 | **done** — Rank 4, unverified |
 | `08-buildchat-verified.md` | per-entry verdicts on `07` after checking against the artifacts; the "corrected 3+ times" list | S2 | S5–S9 | pending |
 
+## Spec contract — Session 4
+
+| File | Holds | Consumed by |
+|---|---|---|
+| `spec/solution-spec.schema.yaml` | the contract, and simultaneously a filled worked example. 10 top-level keys: `meta` `process` `roles` `glossary` `lists` `relations` `screens` `variables` `flows` `bindings`. Validates clean | all five skills; each reads only its own sections |
+| `spec/validate_spec.py` | structure + referential integrity. Non-zero exit, every message naming the offending key path | every skill, as its D2 gate on spec input |
+
+Derived from the formats that already existed rather than invented — `AccountClosure_SharePoint_Database.xlsx` sheets 11–14 map one-to-one onto `flows[]`, `variables[]`, `screens[]` reads/writes, and `bindings[]`.
+
+Two rules the validator enforces that are easy to lose later:
+- `relations[].kind: lookup` is **rejected outright**, with the delegation reason in the message
+- `trigger.kind: sharepoint_item` **requires** `splits_on`; any other trigger kind warns if it sets one
+
 ## Notes — findings recorded outside the numbered sequence
 
 Not session deliverables. Each was produced when the finding appeared, so it would survive to
