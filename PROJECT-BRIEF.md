@@ -262,6 +262,11 @@ Domain specifics:
 
   **Gate:** if `/source-artifacts/flows/` still holds no real export when this session opens, stop and say so. Do not build a skill whose central claim is "carry this verbatim from a real export" with no real export in the repo.
 
+  Read `ledger/NOTE-flow-external-research.md` too. Three things from it belong in the skill:
+  - **No community skill covers this use case.** Every one found (including Microsoft's official plugin) works through a live API against a tenant. Nothing generates an offline legacy `.zip` for browser upload, so there is no reference implementation to check the packaging against.
+  - **Real packages may contain `connections.json` and `flow.json`**, which the existing skeleton lacks entirely. Whether they are required is unknown from documentation.
+  - **The connection prompt on import is expected legacy behaviour, not a failure.** A legacy package requires connections to be remapped manually at import; solutions do not. A skill that treats the prompt as a bug sends people chasing something that is not there. State this prominently.
+
 - **`writing-app-manuals`** — reads `/source-artifacts/manuals/` for structure and `ledger/NOTE-manual-skill-proposal.md` for the measured mapping. References: `full-manual-outline.md`, `user-manual-outline.md`, `screenshot-frames.md`, `bilingual-headings.md`.
 
   One source, two renderings, per D6. `generate_manual.py` (spec + `meta.status` → both `.docx`) and `validate_manual.py`. Build with `docx` (npm) — see the `docx` skill's gotchas; dual widths on every table, `ShadingType.CLEAR` never `SOLID`, built-in `HeadingLevel.*` or the TOC comes out empty.
@@ -275,7 +280,7 @@ Domain specifics:
 ### Session 10 — Lint and package
 
 1. Lint every SKILL.md: description specific and covers what + when; body under 500 lines (target under 200); references one level deep; TOC on references over 100 lines; no time-sensitive content; consistent terminology (one term per concept — no mixing field/column/box); forward slashes; concrete examples.
-2. Print the five descriptions side by side; identify any request matching two; sharpen negative routes until mutually exclusive. Watch three known collision zones: (a) `generating-powerapps-yaml` vs `planning-powerplatform-solutions` both accept an HTML mockup; (b) `planning-powerplatform-solutions` (`system-overview.pdf`) vs `writing-app-manuals` (full manual §2 System Architecture) both describe system structure — and the existing `AccountClosure_Developer_Handbook.pdf` is a third document in that space; (c) `writing-app-manuals` draft mode vs the planner, since both are consumed by a user validating requirements.
+2. Print the five descriptions side by side; identify any request matching two; sharpen negative routes until mutually exclusive. Two known collision zones: (a) `generating-powerapps-yaml` vs `planning-powerplatform-solutions` both accept an HTML mockup; (b) `writing-app-manuals` draft mode vs the planner, since both are consumed by a user validating requirements. The third — three documents describing system structure — is resolved by audience, per Vin's ruling: builder → planner, admin → full manual, normal user → user manual. Write the negative routes on the reader, not the subject.
 3. Strip anything Claude already knows — no explaining what Power Apps, YAML, or a SharePoint list is. Report lines removed per skill.
 4. Package each as an upload-ready `.zip` with `SKILL.md` at the folder root, written to `/dist/`. Verify by unzipping to temp and confirming frontmatter parses: `name` ≤64 chars, lowercase/numbers/hyphens only, no reserved words; `description` non-empty, ≤1024 chars.
 5. Write `README.md`: what each skill does, the one-stage-per-chat rule, install steps for a Pro-plan teammate.
@@ -319,10 +324,22 @@ Setup work completed before Session 1. Verify it is still present; do not recrea
 
 Still missing, and known: `/source-artifacts/flows/` (no flow has ever been built — gates Session 8), `ledger/06-vin-notes.md`, `ledger/07-buildchat-raw.md`.
 
-### Three open questions Vin has not answered
+### Answered — Vin's rulings
 
-Do not resolve these unilaterally. Ask if a session needs them.
+1. **Heading language order was drift, not design.** Standardise on **Thai first, English second** for both manuals: `1. บทนำ / Introduction`. Reasons — the readers are Thai staff, the Thai is the operative text, and the more carefully built of the two references already does it this way. Reversible; per D3 the TH↔EN convention itself lives in Project knowledge, and this is only the ordering rule the skill follows.
 
-1. **Heading language order in manuals.** The two 360 references contradict each other — the user-friendly one leads English (`Introduction / บทนำ`), the full one leads Thai (`1. บทนำ / Introduction`). Both shipped, so both are Rank 1. Deliberate and audience-driven, or drift? Session 9 needs a stated rule; per D3 the TH↔EN convention itself lives in Project knowledge.
-2. **Content boundary between `system-overview.pdf`, `AccountClosure_Developer_Handbook.pdf`, and full-manual §2.** Three documents describing system structure. The suite stays mutually exclusive by *artifact*, but the content overlaps and Session 10 must sharpen the negative routes.
-3. **Whether `html-to-yaml`'s three example `.yaml` files ever compiled in Studio.** 3,234 lines that look exactly like Session 1 input. They were deliberately left inside the skill folder and not promoted to `/source-artifacts/yaml/`, because "example" is not evidence. If they did compile, they are Rank 1 and worth adding.
+2. **The three system-structure documents split by reader, not by subject.** They may cover the same system; each is written for a different person at a different depth.
+
+   | Document | Reader |
+   |---|---|
+   | `system-overview.pdf` (planner) | the **builder** who builds the app |
+   | full manual (`.docx`) | the **admin user** who runs it |
+   | user-friendly manual (`.docx`) | the **normal user** who uses it |
+
+   Session 10's negative routes are written on audience: *"describing the system to the person building it → planner. To the person administering it → full manual. To the person using it → user manual."*
+
+   One residual overlap Vin did not address: `AccountClosure_Developer_Handbook.pdf` also targets the builder, the same reader as `system-overview.pdf`. Ask before Session 7 whether the planner's PDF is meant to replace the handbook or sit beside it.
+
+3. **`html-to-yaml`'s three example `.yaml` files worked, but with "common problems like misformatting and code errors."** They compiled *after* fixing. So they are **not** clean Rank 1 and must not go into `/source-artifacts/yaml/` — a file that needed repair cannot be evidence of what pastes first try.
+
+   They are more valuable elsewhere. Session 5 uses them as the primary input to `references/error-taxonomy.md`: 3,234 lines demonstrating the failure modes the skill exists to prevent. Diffing them against the 17 clean screens shows what "misformatted" concretely means. Promotion in usefulness, not a demotion.

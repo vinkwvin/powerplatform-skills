@@ -1,88 +1,84 @@
 # 06 — Vin's notes
 
-<!-- PART 1 awaiting Vin. PART 2 awaiting Vin. -->
+<!-- Awaiting Vin. Verdicts only — see scope note. -->
 
 **Status:** template. Rank 3 once filled.
 
-**This file changed shape after `ledger/07-buildchat-raw.md` arrived.** It was originally
-meant to be unaided recall, written *before* seeing the harvest, so that agreement between
-the two would be real corroboration. That ordering is gone — Vin has read the harvest. Left
-as-is, this file would restate it and Session 2 would count one source twice.
+## What this file is now, and what it stopped being
 
-So it splits in two, and only Part 2 is still independent.
+Originally: Vin's unaided recall, written before seeing the build-chat harvest, so agreement
+between the two would be real corroboration.
+
+Two things changed that, both deliberately:
+
+1. **Vin read `ledger/07-buildchat-raw.md` first.** Independence for anything the harvest
+   covered is gone — restating it would make Session 2 count one source twice.
+2. **Vin reassigned the recall half to empirical harvesting.** Rather than trying to remember
+   how each element was set up, Session 1 reads the 17 `.pa.yaml` files and measures it.
+   That is a better instrument for this question: the artifacts are Rank 1 and memory is
+   Rank 3.
+
+So this file is now **verdicts only**. The cost is accepted and worth naming: there is no
+longer an independent human source to cross-check `ledger/01` against. Everything about
+how elements are built now rests on the artifacts alone. Session 1's confidence grades carry
+more weight than originally planned, because nothing else votes.
 
 ---
 
-# Part 1 — Verdicts on the harvest
+# Verdicts on the harvest
 
-Not independent evidence. This is **human verification of machine claims**, which is a
-different and in some ways stronger evidence class: it settles entries no artifact can reach.
-Session 2 Task C reads this.
+Human verification of machine claims. Session 2 Task C reads this.
 
-Go through `ledger/07-buildchat-raw.md` entry by entry. For each, one verdict:
+Go through `ledger/07-buildchat-raw.md` entry by entry. One verdict each:
 
 | Verdict | Meaning |
 |---|---|
-| `confirms` | Yes, that happened, and roughly that often |
-| `confirms-understated` | Happened, but more often / worse than it says |
-| `denies` | That is not what happened |
+| `confirms` | Yes, that happened, roughly that often |
+| `confirms-understated` | Happened, but more often or worse than stated |
+| `denies` | Not what happened |
 | `never-happened` | Reconstructed out of nothing |
-| `adds-detail` | True, and here is the part it left out — especially the *why* |
+| `adds-detail` | True, and here is what it left out — especially the *why* |
 
-Priority order — spend effort here first:
+## Priority — the three that matter
 
-1. **The four `corrections` entries marked `recall: reconstructed` with `evidence: none`.**
-   Weakest possible combination, and the corrections list is the most valuable one in the
-   harvest. These four: container height containing children; control inset/padding;
-   light hover-focus styling; mutual-fund unit-holder decision on Middle only. If you
-   confirm a `times: 3` entry that the artifacts also confirm, it goes inline in a skill.
-2. **`sharepoint_gotchas: []`.** The harvest returned nothing. Ten lists exist and a
-   66-row `New_Request` sheet. Did genuinely nothing bite, or did it forget? Part 2 §B is
-   where the answer goes.
-3. **The abandoned entries.** All five are `times: 1`, and four cite `evidence: none`. The
-   *reasoning* is what stops a future skill re-proposing them, and reasoning is exactly what
-   compaction eats first.
+These are `recall: reconstructed` with `evidence: none`: the weakest combination in the
+harvest, sitting in its most valuable list. All three are general layout rules that apply to
+every future project, which is why they are worth your time.
 
-Entries you can skip: the two delivery-mechanism ones (git bundle, sandbox 403). Real events,
-outside all five skills — Session 2 marks them `out-of-scope`.
+1. **Container height must fully contain its children** so content never leaks past the box
+   edge. `times: 3` — high enough that if you confirm it and the artifacts confirm it, it
+   goes inline in `generating-powerapps-yaml`.
+2. **Every control inset from its container with real padding** so adjacent borders never
+   overlap. `times: 2`.
+3. **Minimal, light hover/focus styling** — not thick borders or heavy dark fills. `times: 2`.
+
+## Out of scope — do not spend time on these
+
+Excluded because the skills are general-purpose and these are facts about one project. They
+stay in `ledger/07` as a record; Session 2 marks them `out-of-scope` and no skill inherits them.
+
+- The mutual-fund unit-holder decision belonging only on Middle screens
+- The assets/money matrix appearing only on Sales and Middle
+- Both delivery-mechanism entries (the git bundle, the sandbox 403 on push)
+- Pushing only to `vinkwvin/INVX-Account-Closure`
+
+This also settles the open question in `ledger/NOTE-harvest-spotchecks.md`: the unit-holder
+scope rule no longer needs verifying, because it is not a candidate rule. The matrix leftover
+at `08_HeadOfSales_Approval.pa.yaml:18` is still worth fixing in the prototype, but as a
+project task, not a skill input.
+
+## Worth a verdict if you have the patience
+
+- The five `abandoned` entries. All `times: 1`, four with `evidence: none`. The *reasoning*
+  is what stops a future skill re-proposing them, and reasoning is the first thing compaction
+  eats. Two look generally useful rather than project-specific:
+  - `Visible` bound directly to `DropDown.Selected.Value` did not re-evaluate on paste;
+    moved to `OnChange` writing a context variable
+  - live SharePoint datasource bindings error on paste; ship paste-safe collections plus a
+    separate wiring map
+- `FillPortions` on a non-`Label`/`GroupContainer` control being rejected — `times: 2`,
+  cites `validate_pa_yaml.py`. Session 1 can check this mechanically against the 17 screens.
 
 ## Verdicts
 
 <!-- rule (short) | verdict | correction or detail -->
-
----
-
-# Part 2 — What the harvest did not mention
-
-**Still fully independent.** The harvest never raised any of the below, so your recall here
-is uncontaminated and Session 2 can treat agreement with the artifacts as real signal.
-This is now the more valuable half of the file.
-
-## A. Power Apps / Studio
-
-Failures the harvest missed entirely. It said nothing about: control-type selection
-(bare vs `Classic/`), property ordering, block scalars, RGBA or design tokens, sizing scale,
-gallery structure, `LoadingSpinnerColor`, `DropShadow`, or any specific Studio error code
-except `PA2108`. If any of those cost you time, here is where it counts for the most.
-
-## B. SharePoint lists
-
-The harvest returned `sharepoint_gotchas: []`. Ten lists in the workbook. Column types,
-naming, cross-list references, values a column rejected, the leading-zero problem, choice
-columns, anything about `New_Request` specifically.
-
-## C. Manuals
-
-Out of scope for the harvest — it only knew the account-closure build. What made the 360
-manuals work or not work for their readers. What you would do differently. Whether the
-two-manual split is fixed or negotiable. **And the open question:** heading language order —
-the user-friendly manual leads English, the full manual leads Thai. Deliberate, or drift?
-
-## D. Power Automate
-
-The harvest says seven flows were designed and documented, none built. Anything you know or
-suspect about flows goes here, marked as expectation rather than experience.
-
-## E. Anything else
-
-Including suspicions. Mark them as suspicions and they will be graded as such, not discarded.
