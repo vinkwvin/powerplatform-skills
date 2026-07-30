@@ -1,0 +1,1124 @@
+Screens:
+  3-CustomizeDocumentForm:
+    Properties:
+      Fill: =RGBA(244, 244, 246, 1)
+      Height: =2032
+    Children:
+      - PageTitle_1:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(24, 28, 35, 1)
+            FontWeight: =FontWeight.Bold
+            Size: =26
+            Text: ="Customize Document Form"
+            Width: =1038
+            X: =304
+            Y: =104
+      - Card1_CustomerInfo_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =288
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =168
+          Children:
+            - Card1_CustomerInfo_Badge_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 114, 228, 1)
+                  Height: =32
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card1_CustomerInfo_BadgeNum_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =16
+                  Text: ="1"
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card1_CustomerInfo_Title_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =44
+                  Size: =20
+                  Text: ="ข้อมูลลูกค้า (Customer Information)"
+                  Width: =926
+                  X: =80
+                  Y: =26
+            - Card1_CustomerInfo_CustName_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="ชื่อ-นามสกุล ลูกค้า (CustName)"
+                  Width: =479.0
+                  X: =32
+                  Y: =96
+            - Card1_CustomerInfo_CustName_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ชื่อ-นามสกุล"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =32.0
+                  Y: =120
+            - Card1_CustomerInfo_CustCardID_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="เลขประจำตัวประชาชน / Passport / ทะเบียนนิติบุคคล (CustCardID)"
+                  Width: =479.0
+                  X: =527.0
+                  Y: =96
+            - Card1_CustomerInfo_CustCardID_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="เลขที่บัตร"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =527.0
+                  Y: =120
+            - Card1_CustomerInfo_Nationality_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="สัญชาติ (Nationality)"
+                  Width: =479.0
+                  X: =32.0
+                  Y: =184
+            - Card1_CustomerInfo_Nationality_Dropdown_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =ColorValue("#007FFA")
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =48
+                  Items: =["เลือกสัญชาติ"]
+                  Items.Value: =Value
+                  Size: =10
+                  Width: =479.0
+                  X: =32.0
+                  Y: =208
+            - Card1_CustomerInfo_MobileNumber_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="เบอร์โทรศัพท์มือถือ (Mobile Number)"
+                  Width: =479.0
+                  X: =527.0
+                  Y: =184
+            - Card1_CustomerInfo_MobileNumber_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="08x-xxx-xxxx"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =527.0
+                  Y: =208
+      - Card2_InvestmentDetails_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =288
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =488
+          Children:
+            - Card2_InvestmentDetails_Badge_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 114, 228, 1)
+                  Height: =32
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card2_InvestmentDetails_BadgeNum_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =16
+                  Text: ="2"
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card2_InvestmentDetails_Title_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =20
+                  Text: ="ข้อมูลการลงทุน (Customer Investment details)"
+                  Width: =926
+                  X: =80
+                  Y: =32
+            - Card2_InvestmentDetails_CustCode_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="รหัสลูกค้า (Customer code)"
+                  Width: =479.0
+                  X: =32.0
+                  Y: =96
+            - Card2_InvestmentDetails_CustCode_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="รหัสลูกค้า"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =32.0
+                  Y: =120
+            - Card2_InvestmentDetails_AccountName_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="ชื่อบัญชี (Account Name)"
+                  Width: =479.0
+                  X: =527.0
+                  Y: =96
+            - Card2_InvestmentDetails_AccountName_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ชื่อบัญชี"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =527.0
+                  Y: =120
+            - Card2_InvestmentDetails_BankBranch_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="สาขา ธนาคาร (Bank branch)"
+                  Width: =479.0
+                  X: =32.0
+                  Y: =184
+            - Card2_InvestmentDetails_BankBranch_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="สาขาธนาคาร"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =32.0
+                  Y: =208
+            - Card2_InvestmentDetails_BankAccountNumber_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="เลขบัญชีธนาคาร (Deposit Bank Number)"
+                  Width: =479.0
+                  X: =527.0
+                  Y: =184
+            - Card2_InvestmentDetails_BankAccountNumber_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="เลขที่บัญชี"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =479.0
+                  X: =527.0
+                  Y: =208
+      - Card3_Address_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =464
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =808
+          Children:
+            - Card3_Address_Badge_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 114, 228, 1)
+                  Height: =32
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card3_Address_BadgeNum_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =16
+                  Text: ="3"
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card3_Address_Title_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =20
+                  Text: ="ที่อยู่ลูกค้า (Customer Address)"
+                  Width: =926
+                  X: =80
+                  Y: =32
+            - Card3_Address_HouseNo_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="House No."
+                  Width: =314.0
+                  X: =32.0
+                  Y: =96
+            - Card3_Address_HouseNo_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="เลขที่"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =32.0
+                  Y: =120
+            - Card3_Address_Moo_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Moo"
+                  Width: =314.0
+                  X: =362.0
+                  Y: =96
+            - Card3_Address_Moo_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="หมู่ที่"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =362.0
+                  Y: =120
+            - Card3_Address_FloorTower_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Floor/Tower"
+                  Width: =314.0
+                  X: =692.0
+                  Y: =96
+            - Card3_Address_FloorTower_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ชั้น / อาคาร"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =692.0
+                  Y: =120
+            - Card3_Address_Soi_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Soi"
+                  Width: =314.0
+                  X: =32.0
+                  Y: =184
+            - Card3_Address_Soi_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ซอย"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =32.0
+                  Y: =208
+            - Card3_Address_Road_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Road"
+                  Width: =644.0
+                  X: =362.0
+                  Y: =184
+            - Card3_Address_Road_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ถนน"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =644.0
+                  X: =362.0
+                  Y: =208
+            - Card3_Address_Province_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Province"
+                  Width: =314.0
+                  X: =32.0
+                  Y: =272
+            - Card3_Address_Province_Dropdown_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =ColorValue("#007FFA")
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =48
+                  Items: =["Select Province"]
+                  Items.Value: =Value
+                  Size: =10
+                  Width: =314.0
+                  X: =32.0
+                  Y: =296
+            - Card3_Address_District_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="District"
+                  Width: =314.0
+                  X: =362.0
+                  Y: =272
+            - Card3_Address_District_Dropdown_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =ColorValue("#007FFA")
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =48
+                  Items: =["Select District"]
+                  Items.Value: =Value
+                  Size: =10
+                  Width: =314.0
+                  X: =362.0
+                  Y: =296
+            - Card3_Address_SubDistrict_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Sub District"
+                  Width: =314.0
+                  X: =692.0
+                  Y: =272
+            - Card3_Address_SubDistrict_Dropdown_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =ColorValue("#007FFA")
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =48
+                  Items: =["Select Sub District"]
+                  Items.Value: =Value
+                  Size: =10
+                  Width: =314.0
+                  X: =692.0
+                  Y: =296
+            - Card3_Address_Postcode_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Postcode"
+                  Width: =314.0
+                  X: =32.0
+                  Y: =360
+            - Card3_Address_Postcode_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="รหัสไปรษณีย์"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =32.0
+                  Y: =384
+      - Card4_ICAOInfo_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1304
+          Children:
+            - Card4_ICAOInfo_Badge_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 114, 228, 1)
+                  Height: =32
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card4_ICAOInfo_BadgeNum_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =16
+                  Text: ="4"
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card4_ICAOInfo_Title_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =20
+                  Text: ="ข้อมูลพนักงาน (IC / AO Information)"
+                  Width: =926
+                  X: =80
+                  Y: =32
+            - Card4_ICAOInfo_AOICName_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="ชื่อผู้แนะนำการลงทุน (AO / IC Name)"
+                  Width: =314.0
+                  X: =32.0
+                  Y: =96
+            - Card4_ICAOInfo_AOICName_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ชื่อพนักงาน"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =32.0
+                  Y: =120
+            - Card4_ICAOInfo_DepartmentTeam_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="สังกัดทีม (Department / Team)"
+                  Width: =314.0
+                  X: =362.0
+                  Y: =96
+            - Card4_ICAOInfo_DepartmentTeam_Dropdown_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =ColorValue("#007FFA")
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =48
+                  Items: =["เลือกสังกัดทีม"]
+                  Items.Value: =Value
+                  Size: =10
+                  Width: =314.0
+                  X: =362.0
+                  Y: =120
+            - Card4_ICAOInfo_TraderID_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="TraderID"
+                  Width: =314.0
+                  X: =692.0
+                  Y: =96
+            - Card4_ICAOInfo_TraderID_Input_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Default: =""
+                  Height: =48
+                  HintText: ="ระบุรหัส"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =10
+                  Width: =314.0
+                  X: =692.0
+                  Y: =120
+      - Card5_Remark_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =336
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1536
+          Children:
+            - Card5_Remark_Badge_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 114, 228, 1)
+                  Height: =32
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card5_Remark_BadgeNum_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =16
+                  Text: ="5"
+                  Width: =32
+                  X: =32
+                  Y: =32
+            - Card5_Remark_Title_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =20
+                  Text: ="ข้อมูลเพิ่มเติม (Remark)"
+                  Width: =926
+                  X: =80
+                  Y: =32
+            - Card5_Remark_InfoBox_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(241, 243, 254, 1)
+                  Height: =56
+                  Width: =974
+                  X: =32
+                  Y: =96
+            - Card5_Remark_InfoText_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =56
+                  Size: =12
+                  Text: ="You are currently filling out form OPT018"
+                  Width: =942
+                  X: =48
+                  Y: =96
+            - Card5_Remark_Label_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =20
+                  Size: =12
+                  Text: ="Additional Remarks"
+                  Width: =974
+                  X: =32
+                  Y: =168
+            - Card5_Remark_Textarea_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(193, 198, 215, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =100
+                  HintText: ="ระบุหมายเหตุเพิ่มเติม (ถ้ามี)"
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =974
+                  X: =32
+                  Y: =204
+      - Footer_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =80
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1086
+            X: =280
+            Y: =1951
+          Children:
+            - Footer_StatusText_1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Size: =14
+                  Text: ="All changes saved locally"
+                  Width: =300
+                  X: =24
+                  Y: =28
+            - BackButton_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(0, 127, 250, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(0, 127, 250, 1)
+                  Fill: =RGBA(255,255,255,1)
+                  Height: =48
+                  HoverBorderColor: =ColorValue("#007FFA")
+                  HoverFill: =ColorValue("#007FFA")
+                  PressedBorderColor: =ColorValue("#007FFA")
+                  PressedFill: =ColorValue("#007FFA")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Text: ="Save as draft"
+                  Width: =150
+                  X: =704
+                  Y: =16
+            - NextButton_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =1
+                  Color: =RGBA(255,255,255,1)
+                  Fill: =RGBA(0, 127, 250, 1)
+                  Height: =48
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Text: ="Export to PDF"
+                  Width: =180
+                  X: =882
+                  Y: =16
+      - grpSidebar_7:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =2032
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =280
+          Children:
+            - lblLogo_7:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 127, 250, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =24
+                  Text: ="AutoFillForm"
+                  Width: =232
+                  X: =24
+                  Y: =32
+            - btnNavLanguage_7:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =ColorValue("#e6e8f3")
+                  OnSelect: =Navigate('1-Cases', ScreenTransition.Fade)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Cases"
+                  Width: =280
+                  Y: =104
+            - icoNavLanguage_7:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  HoverColor: =ColorValue("#FFFFFF")
+                  HoverFill: =ColorValue("#FFFFFF")
+                  Icon: =Icon.Globe
+                  Width: =24
+                  X: =16
+                  Y: =116
+            - btnNavSelectDocument_7:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Select Document"
+                  Width: =280
+                  Y: =152
+            - icoNavSelectDocument_7:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =16
+                  Y: =164
+            - btnNavFillForm_7:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(0, 127, 250, 1)
+                  Fill: =RGBA(204, 228, 246, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverFill: =RGBA(0, 127, 250, 1)
+                  PressedColor: =ColorValue("#cce4f6")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Fill Form"
+                  Width: =280
+                  Y: =200
+            - icoNavFillForm_7:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 127, 250, 1)
+                  Height: =24
+                  Icon: =Icon.Edit
+                  Width: =24
+                  X: =16
+                  Y: =212
+            - btnNavMyDocuments_7:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  OnSelect: =Navigate('4-AllYourDocuments', ScreenTransition.Fade)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="My Documents"
+                  Width: =280
+                  Y: =248
+            - icoNavMyDocuments_7:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Folder
+                  Width: =24
+                  X: =16
+                  Y: =260
+            - recNavActiveIndicator_11:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 127, 250, 1)
+                  Height: =48
+                  Width: =4
+                  Y: =200
+      - grpTopBar_11:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =64
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1086
+            X: =280
+          Children:
+            - imgUserAvatar_11:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Width: =40
+                  X: =1033
+                  Y: =12
+            - lblUserName_11:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =20
+                  Size: =14
+                  Text: ="Cristiano Ronaldo"
+                  Width: =295
+                  X: =724
+                  Y: =13
+            - lblUserRole_11:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =18
+                  Size: =9
+                  Text: ="Account Owner"
+                  Width: =160
+                  X: =860
+                  Y: =33
+      - recDot2_8:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =787
+            Y: =1909
+      - recDot1_8:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(0, 127, 250, 1)
+            Height: =4
+            Width: =48
+            X: =811
+            Y: =1909
+      - recDot3_8:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =799
+            Y: =1909

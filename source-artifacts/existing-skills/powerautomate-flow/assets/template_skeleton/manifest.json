@@ -1,0 +1,42 @@
+{
+  "schema": "1.0",
+  "details": {
+    "displayName": "REPLACE - Flow display name",
+    "description": "",
+    "createdTime": "2026-07-15T00:00:00.0000000Z",
+    "packageTelemetryId": "00000000-0000-0000-0000-000000000000",
+    "creator": "REPLACE@contoso.com",
+    "sourceEnvironment": ""
+  },
+  "resources": {
+    "11111111-2222-3333-4444-555555555555": {
+      "id": null,
+      "name": "11111111-2222-3333-4444-555555555555",
+      "type": "Microsoft.Flow/flows",
+      "suggestedCreationType": "New",
+      "creationType": "Existing, New, Update",
+      "details": { "displayName": "REPLACE - Flow display name" },
+      "configurableBy": "User",
+      "hierarchy": "Root",
+      "dependsOn": ["conn_sharepoint", "conn_office365"]
+    },
+    "conn_sharepoint": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+      "name": "shared_sharepointonline",
+      "type": "Microsoft.PowerApps/apis",
+      "details": { "displayName": "SharePoint" },
+      "configurableBy": "System",
+      "hierarchy": "Child",
+      "dependsOn": []
+    },
+    "conn_office365": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_office365",
+      "name": "shared_office365",
+      "type": "Microsoft.PowerApps/apis",
+      "details": { "displayName": "Office 365 Outlook" },
+      "configurableBy": "System",
+      "hierarchy": "Child",
+      "dependsOn": []
+    }
+  }
+}

@@ -1,0 +1,1732 @@
+Screens:
+  2.5-CustomizeDocument:
+    Properties:
+      Fill: =RGBA(244, 244, 246, 1)
+      Height: =2232
+    Children:
+      - PageTitle_3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(24, 28, 35, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =26
+            Text: ="Customize Document Checklist"
+            Width: =1000
+            X: =323
+            Y: =99
+      - PageSubtitle_3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(65, 71, 84, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =12
+            Text: ="Select one or more documents to include in your customized checklist."
+            Width: =1000
+            X: =323
+            Y: =139
+      - Doc01_KYC_TH_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =208
+          Children:
+            - Doc01_KYC_TH_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc01_KYC_TH_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc01_KYC_TH_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="1.1 Suitability & KYC(TH)_บุคคลธรรมดา_V202402.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc01_KYC_TH_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc01_KYC_TH_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc01_KYC_TH, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc01_KYC_TH_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc01_KYC_TH
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc01_KYC_TH_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc01_KYC_TH, !varSel_Doc01_KYC_TH)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc02_KYC_EN_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =320
+          Children:
+            - Doc02_KYC_EN_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc02_KYC_EN_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc02_KYC_EN_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="1.2 Suitability & KYC(EN)_บุคคลธรรมดา_V202402.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc02_KYC_EN_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc02_KYC_EN_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc02_KYC_EN, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc02_KYC_EN_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc02_KYC_EN
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc02_KYC_EN_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc02_KYC_EN, !varSel_Doc02_KYC_EN)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc03_Amendment_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =432
+          Children:
+            - Doc03_Amendment_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc03_Amendment_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc03_Amendment_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="20181001-form_Amendment.pdf"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc03_Amendment_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="PDF Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc03_Amendment_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc03_Amendment, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc03_Amendment_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc03_Amendment
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc03_Amendment_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc03_Amendment, !varSel_Doc03_Amendment)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc04_Redemption_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =544
+          Children:
+            - Doc04_Redemption_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc04_Redemption_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc04_Redemption_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="20250501_form_Redemption_V3.pdf"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc04_Redemption_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="PDF Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc04_Redemption_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc04_Redemption, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc04_Redemption_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc04_Redemption
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc04_Redemption_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc04_Redemption, !varSel_Doc04_Redemption)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc05_Subscription_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =656
+          Children:
+            - Doc05_Subscription_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc05_Subscription_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc05_Subscription_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="20250501_form_Subscription_V3.pdf"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc05_Subscription_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="PDF Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc05_Subscription_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc05_Subscription, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc05_Subscription_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc05_Subscription
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc05_Subscription_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc05_Subscription, !varSel_Doc05_Subscription)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc06_Switching_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =768
+          Children:
+            - Doc06_Switching_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc06_Switching_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc06_Switching_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="20250501_form_Switching_V3.pdf"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc06_Switching_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="PDF Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc06_Switching_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc06_Switching, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc06_Switching_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc06_Switching
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc06_Switching_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc06_Switching, !varSel_Doc06_Switching)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc07_FATCA_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =880
+          Children:
+            - Doc07_FATCA_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc07_FATCA_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc07_FATCA_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="FATCA & CRS 01 - ลูกค้าบุคคลธรรมดา.pdf"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc07_FATCA_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="PDF Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc07_FATCA_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc07_FATCA, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc07_FATCA_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc07_FATCA
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc07_FATCA_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc07_FATCA, !varSel_Doc07_FATCA)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc08_OPT003_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =992
+          Children:
+            - Doc08_OPT003_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc08_OPT003_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc08_OPT003_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="OPT 003_Signature Card_V202402.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc08_OPT003_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc08_OPT003_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc08_OPT003, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc08_OPT003_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc08_OPT003
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc08_OPT003_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc08_OPT003, !varSel_Doc08_OPT003)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc09_OPT018E_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1104
+          Children:
+            - Doc09_OPT018E_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc09_OPT018E_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc09_OPT018E_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="OPT 018_E_แบบคำขอเปลี่ยนแปลงข้อมูล_V202402.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc09_OPT018E_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc09_OPT018E_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc09_OPT018E, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc09_OPT018E_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc09_OPT018E
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc09_OPT018E_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc09_OPT018E, !varSel_Doc09_OPT018E)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc10_OPT018T_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1216
+          Children:
+            - Doc10_OPT018T_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc10_OPT018T_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc10_OPT018T_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="OPT 018_T_แบบคำขอเปลี่ยนแปลงข้อมูล_V202402.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc10_OPT018T_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc10_OPT018T_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc10_OPT018T, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc10_OPT018T_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc10_OPT018T
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc10_OPT018T_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc10_OPT018T, !varSel_Doc10_OPT018T)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc11_PTG001E_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1328
+          Children:
+            - Doc11_PTG001E_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc11_PTG001E_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc11_PTG001E_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="PTG 001_E_เอกสารเปิดเผยข้อมูลความเสี่ยง SN_V202510.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc11_PTG001E_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc11_PTG001E_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc11_PTG001E, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc11_PTG001E_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc11_PTG001E
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc11_PTG001E_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc11_PTG001E, !varSel_Doc11_PTG001E)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc12_PTG001T_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1440
+          Children:
+            - Doc12_PTG001T_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc12_PTG001T_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc12_PTG001T_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="PTG 001_T_เอกสารเปิดเผยข้อมูลความเสี่ยง SN_V202510.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc12_PTG001T_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc12_PTG001T_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc12_PTG001T, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc12_PTG001T_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc12_PTG001T
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc12_PTG001T_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc12_PTG001T, !varSel_Doc12_PTG001T)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc13_PTG004T_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1552
+          Children:
+            - Doc13_PTG004T_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc13_PTG004T_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc13_PTG004T_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="PTG 004_T บันทึกข้อตกลงธุรกรรมซื้อขาย Single Stock Futures (SSF) Block Trade_V202510.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc13_PTG004T_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc13_PTG004T_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc13_PTG004T, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc13_PTG004T_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc13_PTG004T
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc13_PTG004T_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc13_PTG004T, !varSel_Doc13_PTG004T)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc14_PTG005_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1664
+          Children:
+            - Doc14_PTG005_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc14_PTG005_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc14_PTG005_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="PTG005~1.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc14_PTG005_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc14_PTG005_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc14_PTG005, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc14_PTG005_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc14_PTG005
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc14_PTG005_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc14_PTG005, !varSel_Doc14_PTG005)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc15_SBL001a_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1776
+          Children:
+            - Doc15_SBL001a_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc15_SBL001a_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc15_SBL001a_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="SBL001~1.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc15_SBL001a_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc15_SBL001a_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc15_SBL001a, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc15_SBL001a_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc15_SBL001a
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc15_SBL001a_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc15_SBL001a, !varSel_Doc15_SBL001a)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc16_SBL001b_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =1888
+          Children:
+            - Doc16_SBL001b_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc16_SBL001b_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc16_SBL001b_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="SBL001~2.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc16_SBL001b_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc16_SBL001b_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc16_SBL001b, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc16_SBL001b_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc16_SBL001b
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc16_SBL001b_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc16_SBL001b, !varSel_Doc16_SBL001b)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - Doc17_SS001_Card_3:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =96
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1038
+            X: =304
+            Y: =2000
+          Children:
+            - Doc17_SS001_IconBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(235, 237, 248, 1)
+                  Height: =48
+                  Width: =48
+                  X: =24
+                  Y: =24
+            - Doc17_SS001_Icon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 114, 228, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =36
+                  Y: =36
+            - Doc17_SS001_Title_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  Size: =14
+                  Text: ="SS001 หนังสือยืนยันคุณสมบัติของผู้ลงทุนสถาบัน ผู้ลงทุนรายใหญ่ และผู้ลงทุนรายใหญ่พิเศษ Ver. 2026_03.docx"
+                  Width: =886
+                  X: =88
+                  Y: =18
+            - Doc17_SS001_Subtitle_3:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(65, 71, 84, 0.6)
+                  Font: =Font.'Segoe UI'
+                  Height: =20
+                  Size: =12
+                  Text: ="Word Document"
+                  Width: =886
+                  X: =88
+                  Y: =46
+            - Doc17_SS001_CheckboxBox_3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =If(varSel_Doc17_SS001, RGBA(0, 90, 182, 1), RGBA(255, 255, 255, 1))
+                  Height: =24
+                  Width: =24
+                  X: =990
+                  Y: =36
+            - Doc17_SS001_CheckIcon_3:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =20
+                  Icon: =Icon.Check
+                  Visible: =varSel_Doc17_SS001
+                  Width: =20
+                  X: =992
+                  Y: =38
+            - Doc17_SS001_ClickOverlay_3:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Fill: =RGBA(0, 0, 0, 0)
+                  Height: =96
+                  HoverBorderColor: =RGBA(230, 232, 243, 0.5)
+                  HoverFill: =RGBA(230, 232, 243, 0.5)
+                  OnSelect: =Set(varSel_Doc17_SS001, !varSel_Doc17_SS001)
+                  PressedBorderColor: =RGBA(210, 214, 235, 0.6)
+                  PressedFill: =RGBA(210, 214, 235, 0.6)
+                  Text: =""
+                  Width: =1038
+      - grpSidebar_9:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =2232
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =280
+          Children:
+            - lblLogo_9:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 127, 250, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =24
+                  Text: ="AutoFillForm"
+                  Width: =232
+                  X: =24
+                  Y: =32
+            - btnNavLanguage_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =0
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =ColorValue("#e6e8f3")
+                  OnSelect: =Navigate('1-Cases', ScreenTransition.Fade)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Cases"
+                  Width: =280
+                  Y: =104
+            - icoNavLanguage_9:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  HoverColor: =ColorValue("#FFFFFF")
+                  HoverFill: =ColorValue("#FFFFFF")
+                  Icon: =Icon.Globe
+                  Width: =24
+                  X: =16
+                  Y: =116
+            - btnNavSelectDocument_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(0, 127, 250, 1)
+                  Fill: =RGBA(204, 228, 246, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverFill: =RGBA(0, 127, 250, 1)
+                  PressedColor: =ColorValue("#007FFA")
+                  PressedFill: =ColorValue("#cce4f6")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Select Document"
+                  Width: =280
+                  Y: =152
+            - recNavActiveIndicator_10:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 127, 250, 1)
+                  Height: =48
+                  Width: =4
+                  Y: =152
+            - icoNavSelectDocument_9:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 127, 250, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =16
+                  Y: =164
+            - btnNavFillForm_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Fill Form"
+                  Width: =280
+                  Y: =200
+            - icoNavFillForm_9:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Edit
+                  Width: =24
+                  X: =16
+                  Y: =212
+            - btnNavMyDocuments_9:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  OnSelect: =Navigate('4-AllYourDocuments', ScreenTransition.Fade)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="My Documents"
+                  Width: =280
+                  Y: =248
+            - icoNavMyDocuments_9:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Folder
+                  Width: =24
+                  X: =16
+                  Y: =260
+      - grpTopBar_9:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =64
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1086
+            X: =280
+          Children:
+            - imgUserAvatar_9:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Width: =40
+                  X: =1033
+                  Y: =12
+            - lblUserName_9:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =20
+                  Size: =14
+                  Text: ="Cristiano Ronaldo"
+                  Width: =295
+                  X: =724
+                  Y: =13
+            - lblUserRole_9:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =18
+                  Size: =9
+                  Text: ="Account Owner"
+                  Width: =160
+                  X: =860
+                  Y: =33
+      - BackButton_7:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(0, 127, 250, 1)
+            BorderThickness: =1
+            Color: =RGBA(0, 127, 250, 1)
+            Fill: =RGBA(255,255,255,1)
+            Height: =48
+            HoverBorderColor: =ColorValue("#007FFA")
+            HoverFill: =ColorValue("#007FFA")
+            OnSelect: =Navigate('1-Cases', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#007FFA")
+            PressedFill: =ColorValue("#007FFA")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="< BACK"
+            Width: =150
+            X: =304
+            Y: =2144
+      - NextButton_7:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =RGBA(255,255,255,1)
+            Fill: =RGBA(0, 127, 250, 1)
+            Height: =48
+            OnSelect: =Navigate('3-CustomizeDocumentForm', ScreenTransition.Fade)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="NEXT >"
+            Width: =180
+            X: =1162
+            Y: =2144
+      - recDot2_7:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =787
+            Y: =2166
+      - recDot1_7:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(0, 127, 250, 1)
+            Height: =4
+            Width: =48
+            X: =799
+            Y: =2166
+      - recDot3_7:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =851
+            Y: =2166

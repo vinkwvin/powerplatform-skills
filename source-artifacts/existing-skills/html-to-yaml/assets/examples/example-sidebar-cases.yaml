@@ -1,0 +1,378 @@
+Screens:
+  1-Cases:
+    Properties:
+      Fill: =RGBA(244, 244, 246, 1)
+    Children:
+      - grpSidebar:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =280
+          Children:
+            - lblLogo:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 127, 250, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =32
+                  Size: =24
+                  Text: ="AutoFillForm"
+                  Width: =232
+                  X: =24
+                  Y: =32
+            - btnNavLanguage:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(0, 127, 250, 1)
+                  Fill: =RGBA(204, 228, 246, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverFill: =ColorValue("#007FFA")
+                  PressedColor: =ColorValue("#007FFA")
+                  PressedFill: =ColorValue("#cce4f6")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Cases"
+                  Width: =280
+                  Y: =104
+            - recNavActiveIndicator:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(0, 127, 250, 1)
+                  Height: =48
+                  Width: =4
+                  Y: =104
+            - btnNavSelectDocument:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Select Document"
+                  Width: =280
+                  Y: =152
+            - btnNavFillForm:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="Fill Form"
+                  Width: =280
+                  Y: =200
+            - btnNavMyDocuments:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderStyle: =BorderStyle.None
+                  Color: =RGBA(65, 71, 84, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =48
+                  HoverColor: =ColorValue("#414754")
+                  HoverFill: =RGBA(230, 232, 243, 1)
+                  OnSelect: =Navigate('4-AllYourDocuments', ScreenTransition.Fade)
+                  PressedColor: =ColorValue("#414754")
+                  PressedFill: =ColorValue("#e6e8f3")
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Size: =16
+                  Text: ="My Documents"
+                  Width: =280
+                  Y: =248
+            - icoNavLanguage:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(0, 127, 250, 1)
+                  Height: =24
+                  HoverColor: =ColorValue("#FFFFFF")
+                  HoverFill: =ColorValue("#FFFFFF")
+                  Icon: =Icon.Globe
+                  Width: =24
+                  X: =16
+                  Y: =116
+            - icoNavSelectDocument:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Document
+                  Width: =24
+                  X: =16
+                  Y: =164
+            - icoNavFillForm:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Edit
+                  Width: =24
+                  X: =16
+                  Y: =212
+            - icoNavMyDocuments:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  Color: =RGBA(65, 71, 84, 1)
+                  Height: =24
+                  Icon: =Icon.Folder
+                  Width: =24
+                  X: =16
+                  Y: =260
+      - grpTopBar:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =64
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1086
+            X: =280
+          Children:
+            - lblUserName:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(24, 28, 35, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =20
+                  Size: =14
+                  Text: ="Cristiano Ronaldo"
+                  Width: =295
+                  X: =724
+                  Y: =13
+            - lblUserRole:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(65, 71, 84, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =18
+                  Size: =9
+                  Text: ="Account Owner"
+                  Width: =160
+                  X: =860
+                  Y: =33
+            - imgUserAvatar:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Width: =40
+                  X: =1033
+                  Y: =12
+      - lblHeadline:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(24, 28, 35, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =26
+            Text: ="Select Cases Document Form"
+            Width: =880
+            X: =383
+            Y: =121
+      - lblSubheadline:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(65, 71, 84, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =14
+            Text: ="Choose an option to continue auto fill form system"
+            Width: =880
+            X: =383
+            Y: =161
+      - recDot1:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(0, 127, 250, 1)
+            Height: =4
+            Width: =48
+            X: =787
+            Y: =716
+      - recDot2:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =839
+            Y: =716
+      - recDot3:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(193, 198, 215, 1)
+            Height: =4
+            Width: =8
+            X: =851
+            Y: =716
+      - btnCustomizeDocument:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Color: =RGBA(65, 71, 84, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =48
+            HoverBorderColor: =ColorValue("#e6e6e6")
+            HoverColor: =ColorValue("#414754")
+            HoverFill: =RGBA(230, 230, 230, 1)
+            OnSelect: =Navigate('2.5-CustomizeDocument', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#414754")
+            PressedColor: =ColorValue("#e6e6e6")
+            PressedFill: =ColorValue("#414754")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =14
+            Text: ="Customize Document"
+            Width: =240
+            X: =703
+            Y: =560
+      - btnFlagSN/HNW/UHNW:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Color: =RGBA(65, 71, 84, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =128
+            HoverBorderColor: =ColorValue("#e6e6e6")
+            HoverColor: =ColorValue("#414754")
+            HoverFill: =RGBA(230, 230, 230, 1)
+            OnSelect: =Navigate('2.1-FlagSN/HNW/UHNWChecklist', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#414754")
+            PressedColor: =ColorValue("#e6e6e6")
+            PressedFill: =ColorValue("#414754")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =22
+            Text: ="Flag SN / HNW / UHNW"
+            Width: =420
+            X: =387
+            Y: =247
+      - btnUpdateSuit&KYC:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Color: =RGBA(65, 71, 84, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =128
+            HoverBorderColor: =ColorValue("#e6e6e6")
+            HoverColor: =ColorValue("#414754")
+            HoverFill: =RGBA(230, 230, 230, 1)
+            OnSelect: =Navigate('2.2-UpdateSuit&KYCChecklist', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#414754")
+            PressedColor: =ColorValue("#e6e6e6")
+            PressedFill: =ColorValue("#414754")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =22
+            Text: ="Update Suit & KYC"
+            Width: =420
+            X: =839
+            Y: =247
+      - btnFundTransaction:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Color: =RGBA(65, 71, 84, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =128
+            HoverBorderColor: =ColorValue("#e6e6e6")
+            HoverColor: =ColorValue("#414754")
+            HoverFill: =RGBA(230, 230, 230, 1)
+            OnSelect: =Navigate('2.3-FundTransactionChecklist', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#414754")
+            PressedColor: =ColorValue("#e6e6e6")
+            PressedFill: =ColorValue("#414754")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =22
+            Text: ="Fund Transaction"
+            Width: =420
+            X: =387
+            Y: =402
+      - btnChangeInformation:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(193, 198, 215, 1)
+            BorderThickness: =1
+            Color: =RGBA(65, 71, 84, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =128
+            HoverBorderColor: =ColorValue("#e6e6e6")
+            HoverColor: =ColorValue("#414754")
+            HoverFill: =RGBA(230, 230, 230, 1)
+            OnSelect: =Navigate('2.4-ChangeInformationChecklist', ScreenTransition.Fade)
+            PressedBorderColor: =ColorValue("#414754")
+            PressedColor: =ColorValue("#e6e6e6")
+            PressedFill: =ColorValue("#414754")
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =22
+            Text: ="Change Information"
+            Width: =420
+            X: =839
+            Y: =402
