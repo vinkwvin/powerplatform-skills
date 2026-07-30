@@ -1,19 +1,18 @@
 ---
 name: building-sharepoint-lists
 description: >-
-  Generates a SharePoint provisioning workbook (.xlsx) and a column-creation script from a
+  Generates a SharePoint provisioning workbook (.xlsx) and column-creation script from a
   solution-spec.yaml lists section, so lists and libraries can be created in the browser with no
-  CLI. Use whenever the user wants SharePoint data structure built, changed, or reviewed —
-  triggers: "create the SharePoint lists", "make the list schema", "provisioning workbook",
-  "column script", "what columns do I need", "set up the SharePoint site", "add a field to the
-  list", "why is my gallery only showing 500 rows", "delegation warning", or a request to model
-  data for a Power Platform app. Do NOT use to generate Power Apps screens or .pa.yaml — use
-  generating-powerapps-yaml. Do NOT use for Power Automate flows or .zip packages — use
-  building-powerautomate-flows. Do NOT use to gather requirements or write the spec itself — use
-  planning-powerplatform-solutions. Do NOT use for user or admin manuals — use
-  writing-app-manuals. If no solution-spec.yaml exists, ask for it first; if the user is
-  describing a whole system rather than its data, route them to
-  planning-powerplatform-solutions before generating anything.
+  CLI. Use whenever SharePoint data structure is being built, changed, or reviewed — triggers:
+  "create the SharePoint lists", "make the list schema", "provisioning workbook", "column
+  script", "what columns do I need", "add a field to the list", "why is my gallery only showing
+  500 rows", "delegation warning", or modelling data for a Power Platform app. Do NOT use for
+  Power Apps screens or .pa.yaml — use generating-powerapps-yaml. Do NOT use for Power Automate
+  flows or .zip packages — use building-powerautomate-flows. Do NOT use to gather requirements
+  or write the spec itself — use planning-powerplatform-solutions. Do NOT use for user or admin
+  manuals — use writing-app-manuals. If no solution-spec.yaml exists, ask for it first; if the
+  user is describing a whole system rather than its data, route them to
+  planning-powerplatform-solutions first.
 ---
 
 # solution-spec.yaml → SharePoint provisioning workbook
