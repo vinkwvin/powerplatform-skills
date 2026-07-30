@@ -78,6 +78,17 @@ The manual also ships at two points in the project, from the same source:
 
 `meta.status: draft | final` drives the difference. The 360 reference is itself stamped `ฉบับร่าง 1.0 (Draft)`.
 
+**D7. The skills improve from field use, and the corrected artifact is the evidence.** The suite is built from one project. Every later project hits things those 17 screens never contained, so there must be an intake path — otherwise each teammate rediscovers the same corrections privately and nothing improves.
+
+The mechanism mirrors how this project was built: a **corrected artifact** is Rank 1 and mechanically checkable; the model's account of what went wrong is Rank 4 context that explains it. Collect both, weight them differently.
+
+- Every `SKILL.md` closes with a capture step pointing at `prompts/feedback-session.md`.
+- Reports land in `feedback/<skill>/`, dated, artifact alongside record. Intake is cheap and unfiltered; triage belongs to the reviewing session.
+- **`rule_status` decides the fix.** `absent` → add a rule. `present-but-wrong` → correct it. `present-and-ignored` → the rule was there, correct, and still not followed, so it is buried, ambiguous, in a reference when it should be inline, or phrased as advice where an instruction was needed. That third case is the one that makes a skill better *without making it longer* — the only sustainable direction, and the one a self-report will avoid unless explicitly asked for.
+- **`caught_by: studio` outranks everything.** A failure that reached a real paste is a validator gap, and the validator is the only thing between a teammate and a broken paste.
+- Every confirmed fix becomes an eval fixture, so a fixed failure cannot return silently.
+- An intake round ends with a version bump, a `dist/CHANGELOG.md` line, and **telling the team to re-install** — because per D5 skills are per-account and do not sync, so an improved skill in `/dist/` helps nobody until it is re-uploaded.
+
 ---
 
 ## Ground truth hierarchy — the most important rule in this brief
@@ -139,6 +150,9 @@ Ten sessions. What changed from v2.1 and why:
 | 8 | `building-powerautomate-flows` | skill + evals |
 | 9 | `writing-app-manuals` | skill + evals |
 | 10 | Lint and package | `/dist/*.zip` ×5, `README.md` |
+| 11 | **Feedback intake — recurring** | updated skills, new evals, `dist/CHANGELOG.md`, re-packaged zips |
+
+Session 11 is the first session that **repeats**. Sessions 1–10 each run once and are done; 11 runs whenever `feedback/` has accumulated enough to be worth a round. It is the session that keeps the suite alive after the build finishes.
 
 ### Session 1 — Harvest the working artifacts
 
@@ -237,6 +251,7 @@ skills/<name>/
 - a numbered workflow with a copyable checklist
 - **only** rules marked `high` confidence or corrected 3+ times, inline. Everything else is a one-level-deep pointer to `references/`.
 - the D2 validation gate, verbatim
+- a **closing capture step**, per D7: once the work is delivered and working, tell the user they can paste `prompts/feedback-session.md` to record what had to be corrected. One or two lines — not a lecture, and never a blocker.
 - a `<!-- v1.0.0 -->` version line
 
 Each session must also:
@@ -286,6 +301,20 @@ Domain specifics:
 5. Write `README.md`: what each skill does, the one-stage-per-chat rule, install steps for a Pro-plan teammate.
 
 **Stop gate:** report the five zip paths and any checklist item you couldn't satisfy.
+
+### Session 11 — Feedback intake (recurring)
+
+Runs whenever `feedback/` has accumulated new reports. Read `feedback/README.md` for the layout and the weighting rules. Order of work:
+
+1. **Validator gaps first.** Every `caught_by: studio` entry is something that reached a real paste. Turn each into a validator check before considering anything else.
+2. **Group by `element` across reports.** The same element failing for two teammates on two projects is stronger than one report claiming `times: 5`.
+3. **Act on `rule_status`,** per D7. Resist the pull toward `absent` — a skill that only ever grows is a skill nobody finishes reading.
+4. **Verify against the corrected artifact,** not the prose. Same discipline as Session 2: the artifact promotes a rule, the account only explains it.
+5. **Add an eval per confirmed fix,** using the corrected artifact as the fixture.
+6. **Bump the version, write the changelog line, re-package,** and state plainly that the team must re-install.
+7. **Report what you did not act on and why.** A report filed and silently ignored teaches teammates not to file.
+
+**Stop gate:** show the validator gaps closed, the rules changed with their `rule_status`, the new evals, and the changelog line.
 
 ---
 
