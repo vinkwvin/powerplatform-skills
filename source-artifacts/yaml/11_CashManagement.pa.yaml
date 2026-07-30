@@ -1,0 +1,1342 @@
+Screens:
+  Cash Management:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."));
+        ClearCollect(colFiles, {Name: "customer_documents.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:40"}, {Name: "eservice_transfer_proof.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:52"}, {Name: "da_wallet_statement.pdf", Dept: "Digital Assets", By: "Pranee K. · 28/06 11:08"}, {Name: "wallet_precheck_summary.pdf", Dept: "Middle", By: "Nattapong S. · 28/06 14:22"}, {Name: "algo_livex_precheck.pdf", Dept: "Product Op (EQ)", By: "Somchai P. · 28/06 13:05"});
+        If(IsEmpty(colTasks), ClearCollect(colTasks, {TaskID: "TFEX-1", Product: "TFEX", StepNo: 1, Dept: "Cash", Task: "เช็ค Position", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-2", Product: "TFEX", StepNo: 2, Dept: "CAM", Task: "Post ดอกเบี้ย (ถ้ามี)", Status: If(2=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-3", Product: "TFEX", StepNo: 3, Dept: "Cash", Task: "ถอน + โอนเงิน THB", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-4", Product: "TFEX", StepNo: 4, Dept: "CAM", Task: "ปิดบัญชี BSB", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-5", Product: "TFEX", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-1", Product: "Offshore", StepNo: 1, Dept: "Offshore", Task: "เช็ค Position + Dividend", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-2", Product: "Offshore", StepNo: 2, Dept: "Offshore", Task: "เช็ค Accrued Interest USD", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-3", Product: "Offshore", StepNo: 3, Dept: "Offshore", Task: "ถอนเงิน + โอน FCD (optional · pass ได้)", Status: If(3=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-4", Product: "Offshore", StepNo: 4, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-5", Product: "Offshore", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS แล้วปิดบัญชี SAXO / GTN", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-1", Product: "Equity + Bond + SN", StepNo: 1, Dept: "EQ", Task: "เช็ค Position Bond + SN", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-2", Product: "Equity + Bond + SN", StepNo: 2, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-3", Product: "Equity + Bond + SN", StepNo: 3, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "บัญชีซื้อขายหน่วยลงทุน-1", Product: "บัญชีซื้อขายหน่วยลงทุน", StepNo: 1, Dept: "CAM", Task: "ปิดบัญชี FundConnext", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "บัญชีซื้อขายหน่วยลงทุน-2", Product: "บัญชีซื้อขายหน่วยลงทุน", StepNo: 2, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-1", Product: "DA Digital Assets", StepNo: 1, Dept: "DA", Task: "โอน Crypto (กรณีเสียชีวิตเท่านั้น)", Status: If(1=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-2", Product: "DA Digital Assets", StepNo: 2, Dept: "DA", Task: "Suspend บัญชี DA", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-3", Product: "DA Digital Assets", StepNo: 3, Dept: "DA", Task: "ลง GL", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-4", Product: "DA Digital Assets", StepNo: 4, Dept: "Cash", Task: "โอนเงิน THB", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-1", Product: "LiVEx", StepNo: 1, Dept: "EQ", Task: "เช็ค Position", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-2", Product: "LiVEx", StepNo: 2, Dept: "Cash", Task: "ถอน + โอนเงิน THB", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-3", Product: "LiVEx", StepNo: 3, Dept: "CAM", Task: "ปิดบัญชี LiveX", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-4", Product: "LiVEx", StepNo: 4, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-1", Product: "Algo", StepNo: 1, Dept: "CAM", Task: "Stop model ที่ Jaeger", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-2", Product: "Algo", StepNo: 2, Dept: "EQ", Task: "เช็ค Position ที่ SBA (เจอ → Reject)", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-3", Product: "Algo", StepNo: 3, Dept: "Cash", Task: "แจ้ง IT post รายการถอนเข้ามาที่ SBA", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-4", Product: "Algo", StepNo: 4, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-5", Product: "Algo", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}))
+    Children:
+      - CashMgmt_Root_675:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - CashMgmt_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - CashMgmt_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - CashMgmt_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - CashMgmt_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - CashMgmt_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - CashMgmt_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - CashMgmt_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - CashMgmt_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - CashMgmt_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - CashMgmt_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(59, 57, 194, 1)
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =38
+                        HoverColor: =RGBA(59, 57, 194, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(59, 57, 194, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - CashMgmt_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - CashMgmt_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - CashMgmt_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - CashMgmt_Main_674:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - CashMgmt_TopBar_603:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_User_601:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - CashMgmt_Icon_602:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - CashMgmt_Header_625:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =190
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =190
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_HeadTop_610:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =90
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =90
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CashMgmt_HeadLeft_607:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =90
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =90
+                                  Children:
+                                    - CashMgmt_Eyebrow_604:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =16
+                                          Size: =9
+                                          Text: ="Settlement · Cash Management"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - CashMgmt_HTitle_605:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =30
+                                          Size: =20
+                                          Text: ="Cash Management · คิวงานถอน/โอนเงิน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - CashMgmt_Sub_606:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =36
+                                          Size: =11
+                                          Text: ="ทำเฉพาะงานที่พร้อม (เช็ค Position, ถอน+โอนเงิน THB, ปิด SBA) · เลือกว่าจะ Post ดอกเบี้ยหรือไม่"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - CashMgmt_Pill_609:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(170, 237, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    LayoutMinWidth: =150
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =240
+                                  Children:
+                                    - CashMgmt_PillTx_608:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Cash Mgmt"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - CashMgmt_MetaStrip_623:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =62
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =62
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CashMgmt_MetaCell_613:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CashMgmt_MetaCap_611:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Request ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CashMgmt_MetaV_612:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CashMgmt_MetaCell_616:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CashMgmt_MetaCap_614:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CashMgmt_MetaV_615:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CashMgmt_MetaCell_619:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CashMgmt_MetaCap_617:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Customer Card ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CashMgmt_MetaV_618:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CashMgmt_MetaCell_622:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CashMgmt_MetaCap_620:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="เหตุผลการปิดบัญชี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CashMgmt_MetaV_621:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="เจ้าของบัญชีเสียชีวิต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - CashMgmt_Dyn_624:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - CashMgmt_FilesCard_627:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(varVFCashMgmt, 264, 44)
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =44
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_FilesBar_626:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Left
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(27, 27, 35, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =44
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: |
+                                =UpdateContext({varVFCashMgmt: !varVFCashMgmt})
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =12
+                              Text: ="📂  View Files · เอกสารแนบจากทุกฝ่าย (" & CountRows(colFiles) & ")      " & If(varVFCashMgmt, "▲ ซ่อนไฟล์", "▼ แสดงไฟล์")
+                              Width: =Parent.Width - 56
+                        - CashMgmt_Files_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =210
+                              Items: =colFiles
+                              LayoutMinHeight: =210
+                              TemplatePadding: =0
+                              TemplateSize: =40
+                              Visible: =varVFCashMgmt
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CashMgmt_Files_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =36
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - CashMgmt_Files_Icon:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          Height: =16
+                                          Icon: =Icon.Document
+                                          Width: =16
+                                    - CashMgmt_Files_Name:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =6
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Name
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CashMgmt_Files_Meta:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Dept & " · " & ThisItem.By
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CashMgmt_Files_View:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =16
+                                          Icon: =Icon.View
+                                          Width: =16
+                  - CashMgmt_Card_651:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =480
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =480
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_Title_649:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ข้อมูลลูกค้า & คำขอปิดบัญชี (Customer & Closure Request)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Dyn_650:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_GridRow_638:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =86
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CashMgmt_CellA_634:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - CashMgmt_Cap_632:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER NAME"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CashMgmt_VBox_628:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CashMgmt_Attr_633:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CashMgmt_CellA_637:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - CashMgmt_Cap_635:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER CARD ID (13 หลัก)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CashMgmt_VBox_629:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CashMgmt_Attr_636:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - CashMgmt_FCellA_642:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CashMgmt_Cap_640:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="สาเหตุการปิดบัญชี · REASON FOR CLOSURE"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_VBox_639:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เจ้าของบัญชีเสียชีวิต"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_Attr_641:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - CashMgmt_FCellA_645:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CashMgmt_Cap_643:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="เจ้าหน้าที่การตลาด / ความเห็นบริษัท (AO OPINION)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_VBox_630:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เห็นควรให้ปิดบัญชีตามความประสงค์ผู้จัดการมรดก"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_Attr_644:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - CashMgmt_FCellA_648:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CashMgmt_Cap_646:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="AO REMARK"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_VBox_631:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="ลูกค้าเสียชีวิต ผู้จัดการมรดกยื่นเอกสารครบ"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CashMgmt_Attr_647:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                  - CashMgmt_Card_655:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =180
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =180
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_Title_654:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="จะ Post ดอกเบี้ยหรือไม่?"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Note_652:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =38
+                              Size: =11
+                              Text: ="กรณีไม่ต้อง Post ดอกเบี้ย → ส่งให้ C&AM ปิดบัญชีได้เลย (ข้ามขั้น Post ดอกเบี้ยของ C&AM)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Radio_653:
+                            Control: Classic/Radio@2.3.0
+                            Properties:
+                              Default: ="Post ดอกเบี้ย"
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =56
+                              Items: =["Post ดอกเบี้ย", "ไม่ต้อง Post ดอกเบี้ย → ส่ง C&AM ปิดบัญชีเลย"]
+                              Items.Value: =Value
+                              Layout: =Layout.Vertical
+                              RadioSize: =18
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - CashMgmt_Card_665:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =513
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =513
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_Title_664:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="คิวงานของ Cash Management · เฉพาะงานที่พร้อมทำตอนนี้ (My ready tasks)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Note_662:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =57
+                              Size: =11
+                              Text: ="ติ๊ก ""เสร็จแล้ว"" เมื่อทำงานนั้นเสร็จ · ระบบจะปลดล็อกงานขั้นถัดไปของ product นั้นให้ทีมที่รับผิดชอบทันที (เข้าระบบครั้งเดียว เคลียร์งานที่พร้อมทำ)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Dyn_663:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Label_661:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="เมื่อทีมก่อนหน้าทำขั้นก่อนหน้าเสร็จ งานของทีมนี้จะปรากฏที่นี่โดยอัตโนมัติ · ตอนนี้อาจยังไม่มีงานพร้อมทำ"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_Q_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =312
+                              Items: =Filter(colTasks, Dept = "Cash" And Status = "Ready")
+                              LayoutMinHeight: =312
+                              TemplatePadding: =6
+                              TemplateSize: =52
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CashMgmt_Q_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =46
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - CashMgmt_Dot_656:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          Height: =10
+                                          LayoutMinHeight: =10
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                          Width: =10
+                                    - CashMgmt_QProd_657:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =3
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Product
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CashMgmt_QTask_658:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =7
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Task
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CashMgmt_QDoneCell_660:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =3
+                                          Height: =Parent.Height
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =44
+                                          LayoutMinWidth: =120
+                                        Children:
+                                          - CashMgmt_QDone_659:
+                                              Control: Classic/CheckBox@2.1.0
+                                              Properties:
+                                                Default: =false
+                                                OnCheck: |
+                                                  =Patch(colTasks, ThisItem, {Status: "Done", DoneBy: User().FullName, DoneAt: Text(Now(), "dd/mm hh:mm")});
+                                                  If(!IsBlank(LookUp(colTasks, Product = ThisItem.Product And StepNo = ThisItem.StepNo + 1)),
+                                                    Patch(colTasks, LookUp(colTasks, Product = ThisItem.Product And StepNo = ThisItem.StepNo + 1), {Status: "Ready"}))
+                                                Size: =11
+                                                Text: ="เสร็จแล้ว"
+                                                Width: =Parent.Width
+                  - CashMgmt_Card_668:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =154
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =154
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_Title_667:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="หมายเหตุ (Remark)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CashMgmt_TextInput_666:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Default: =""
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =80
+                              HintText: ="เขียนหมายเหตุถึงทีมถัดไป…"
+                              HoverBorderColor: =RGBA(199, 196, 215, 1)
+                              HoverFill: =RGBA(247, 246, 252, 1)
+                              Mode: =TextMode.MultiLine
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - CashMgmt_SFoot_672:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =40
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CashMgmt_Button_669:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(70, 69, 84, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: =Navigate('Settlement - Overview')
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =11
+                              Text: ="กลับภาพรวม Settlement"
+                              Width: =220
+                        - CashMgmt_Button_670:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(186, 26, 26, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(186, 26, 26, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(186, 26, 26, 1)
+                              HoverFill: =RGBA(255, 240, 238, 1)
+                              OnSelect: |
+                                =Set(gblStageIndex, 1);
+                                Set(gblStatus, "Rejected — ปิดบัญชีไม่ได้ (แจ้งลูกค้า)");
+                                UpdateIf(colTasks, Status <> "Done", {Status: "Rejected"});
+                                Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Cash Management", Action: "Reject → ปิดบัญชีไม่ได้ · หยุดทุกงาน ส่งกลับ Sales"});
+                                Navigate('Sales - Initial Contact')
+                              PressedColor: =RGBA(186, 26, 26, 1)
+                              PressedFill: =RGBA(255, 224, 221, 1)
+                              Size: =11
+                              Text: ="Reject → ปิดบัญชีไม่ได้ (Sales)"
+                              Width: =250
+                        - CashMgmt_Button_671:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              Fill: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(48, 46, 175, 1)
+                              OnSelect: |
+                                =Set(gblStageIndex, 7);
+                                Set(gblStatus, "CAM - Close Account");
+                                Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Cash Management", Action: "Cash done → C&AM"});
+                                Navigate('CAM - Close Account')
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(40, 38, 150, 1)
+                              Size: =11
+                              Text: ="ส่งให้ C&AM (ปิดบัญชี)"
+                              Width: =280
+                  - CashMgmt_BottomGap_673:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56

@@ -1,0 +1,1440 @@
+Screens:
+  Tracking:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."))
+    Children:
+      - Tracking_Root_681:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - Tracking_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - Tracking_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - Tracking_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - Tracking_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - Tracking_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - Tracking_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - Tracking_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - Tracking_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - Tracking_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - Tracking_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - Tracking_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - Tracking_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - Tracking_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - Tracking_Main_680:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - Tracking_TopBar_667:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Tracking_User_665:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - Tracking_Icon_666:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - Tracking_Header_675:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =74
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =74
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Tracking_HeadTop_674:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =74
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =74
+                              Width: =Parent.Width - 56
+                            Children:
+                              - Tracking_HeadLeft_671:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =74
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =74
+                                  Children:
+                                    - Tracking_Eyebrow_668:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =16
+                                          Size: =9
+                                          Text: ="Tracking · INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - Tracking_HTitle_669:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =30
+                                          Size: =20
+                                          Text: |
+                                            ="Request Tracking: Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - Tracking_Sub_670:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="สถานะล่าสุดของคำขอปิดบัญชี ครบทุกทีมในหน้าเดียว"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - Tracking_Pill_673:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(170, 237, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    LayoutMinWidth: =150
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =240
+                                  Children:
+                                    - Tracking_PillTx_672:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="กำลังดำเนินการ · Pre-check 3 ทีม"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                  - Tracking_Card_627:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =256
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =256
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Tracking_Title_626:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ความคืบหน้าของงาน (Workflow)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Tracking_Dyn_625:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Tracking_TRow_617:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =46
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =6
+                              LayoutMinHeight: =46
+                              Width: =Parent.Width - 40
+                            Children:
+                              - Tracking_TStep_602:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 1, RGBA(59, 57, 194, 1), gblStageIndex = 1, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 1, RGBA(59, 57, 194, 1), gblStageIndex = 1, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_601:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 1, RGBA(255, 255, 255, 1), gblStageIndex = 1, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 1, "✓ ", "1. ") & "Sales" & Char(10) & If(gblStageIndex > 1, "เสร็จแล้ว", gblStageIndex = 1, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_604:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 2, RGBA(59, 57, 194, 1), gblStageIndex = 2, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 2, RGBA(59, 57, 194, 1), gblStageIndex = 2, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_603:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 2, RGBA(255, 255, 255, 1), gblStageIndex = 2, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 2, "✓ ", "2. ") & "Pre-check" & Char(10) & If(gblStageIndex > 2, "เสร็จแล้ว", gblStageIndex = 2, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_606:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 3, RGBA(59, 57, 194, 1), gblStageIndex = 3, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 3, RGBA(59, 57, 194, 1), gblStageIndex = 3, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_605:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 3, RGBA(255, 255, 255, 1), gblStageIndex = 3, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 3, "✓ ", "3. ") & "Middle" & Char(10) & If(gblStageIndex > 3, "เสร็จแล้ว", gblStageIndex = 3, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_608:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 4, RGBA(59, 57, 194, 1), gblStageIndex = 4, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 4, RGBA(59, 57, 194, 1), gblStageIndex = 4, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_607:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 4, RGBA(255, 255, 255, 1), gblStageIndex = 4, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 4, "✓ ", "4. ") & "Head of Sales" & Char(10) & If(gblStageIndex > 4, "เสร็จแล้ว", gblStageIndex = 4, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_610:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 5, RGBA(59, 57, 194, 1), gblStageIndex = 5, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 5, RGBA(59, 57, 194, 1), gblStageIndex = 5, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_609:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 5, RGBA(255, 255, 255, 1), gblStageIndex = 5, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 5, "✓ ", "5. ") & "CAM Gate" & Char(10) & If(gblStageIndex > 5, "เสร็จแล้ว", gblStageIndex = 5, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_612:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 6, RGBA(59, 57, 194, 1), gblStageIndex = 6, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 6, RGBA(59, 57, 194, 1), gblStageIndex = 6, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_611:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 6, RGBA(255, 255, 255, 1), gblStageIndex = 6, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 6, "✓ ", "6. ") & "Settlement" & Char(10) & If(gblStageIndex > 6, "เสร็จแล้ว", gblStageIndex = 6, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_614:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 7, RGBA(59, 57, 194, 1), gblStageIndex = 7, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 7, RGBA(59, 57, 194, 1), gblStageIndex = 7, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_613:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 7, RGBA(255, 255, 255, 1), gblStageIndex = 7, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 7, "✓ ", "7. ") & "Close-out" & Char(10) & If(gblStageIndex > 7, "เสร็จแล้ว", gblStageIndex = 7, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - Tracking_TStep_616:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =If(gblStageIndex > 8, RGBA(59, 57, 194, 1), gblStageIndex = 8, RGBA(0, 104, 121, 1), RGBA(199, 196, 215, 1))
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(gblStageIndex > 8, RGBA(59, 57, 194, 1), gblStageIndex = 8, RGBA(170, 237, 255, 1), RGBA(245, 242, 254, 1))
+                                    FillPortions: =1
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =46
+                                    LayoutMinWidth: =40
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_TStepTx_615:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(gblStageIndex > 8, RGBA(255, 255, 255, 1), gblStageIndex = 8, RGBA(0, 104, 121, 1), RGBA(70, 69, 84, 1))
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =38
+                                          Size: =9
+                                          Text: =If(gblStageIndex > 8, "✓ ", "8. ") & "Completed" & Char(10) & If(gblStageIndex > 8, "เสร็จแล้ว", gblStageIndex = 8, "กำลังทำ", "รอดำเนินการ")
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - Tracking_Fan_624:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(193, 193, 255, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(238, 242, 255, 1)
+                              FillPortions: =0
+                              Height: =98
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =10
+                              LayoutMinHeight: =98
+                              PaddingBottom: =14
+                              PaddingLeft: =14
+                              PaddingRight: =14
+                              PaddingTop: =14
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Width: =Parent.Width - 40
+                            Children:
+                              - Tracking_Label_618:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
+                                    Size: =12
+                                    Text: ="Pre-check — 2 ทีมทำพร้อมกัน (DA + Middle)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 28
+                              - Tracking_FanRow_623:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =40
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =40
+                                    Width: =Parent.Width - 28
+                                  Children:
+                                    - Tracking_FanChip_620:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(83, 112, 28, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(204, 239, 140, 1)
+                                          FillPortions: =1
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =40
+                                          LayoutMinWidth: =60
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                        Children:
+                                          - Tracking_FanTx_619:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                Color: =RGBA(60, 87, 1, 1)
+                                                FillPortions: =0
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                Size: =10
+                                                Text: ="Digital Assets — ยืนยันแล้ว"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =Parent.Width - 8
+                                    - Tracking_FanChip_622:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(0, 104, 121, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(170, 237, 255, 1)
+                                          FillPortions: =1
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =40
+                                          LayoutMinWidth: =60
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                        Children:
+                                          - Tracking_FanTx_621:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                Color: =RGBA(0, 104, 121, 1)
+                                                FillPortions: =0
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                Size: =10
+                                                Text: ="Middle — กำลังทำ"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =Parent.Width - 8
+                  - Tracking_Card_664:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =346
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =346
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Tracking_Title_663:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="รายละเอียดคำขอ"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Tracking_Dyn_662:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Tracking_InfoGrid_661:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =246
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =246
+                              Width: =Parent.Width - 40
+                            Children:
+                              - Tracking_InfoC_660:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =236
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =236
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_Label_651:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =12
+                                          Text: ="ข้อมูลลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_652:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Customer ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_653:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_654:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Citizen ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_655:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_656:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Closure Reason"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_657:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="เจ้าของบัญชีเสียชีวิต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_658:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Request Date"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Label_659:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="June 22, 2026 · 16:47"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                              - Tracking_DocsC_647:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =208
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =208
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_Label_628:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =12
+                                          Text: ="เอกสาร (3)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_DocR_634:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =34
+                                          PaddingBottom: =8
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          PaddingTop: =8
+                                          RadiusBottomLeft: =6
+                                          RadiusBottomRight: =6
+                                          RadiusTopLeft: =6
+                                          RadiusTopRight: =6
+                                          Width: =Parent.Width - 32
+                                        Children:
+                                          - Tracking_Col_631:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =1
+                                                Height: =34
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =34
+                                              Children:
+                                                - Tracking_Label_629:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="สำเนาใบมรณะบัตร"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                                - Tracking_Label_630:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(120, 118, 134, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: ="death_certificate.pdf"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                          - Tracking_DBadge_632:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =6
+                                                RadiusBottomRight: =6
+                                                RadiusTopLeft: =6
+                                                RadiusTopRight: =6
+                                                Width: =76
+                                              Children:
+                                                - Tracking_Label_633:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="VERIFIED"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =64
+                                    - Tracking_DocR_640:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =34
+                                          PaddingBottom: =8
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          PaddingTop: =8
+                                          RadiusBottomLeft: =6
+                                          RadiusBottomRight: =6
+                                          RadiusTopLeft: =6
+                                          RadiusTopRight: =6
+                                          Width: =Parent.Width - 32
+                                        Children:
+                                          - Tracking_Col_637:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =1
+                                                Height: =34
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =34
+                                              Children:
+                                                - Tracking_Label_635:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="สำเนาบัตรประชาชน"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                                - Tracking_Label_636:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(120, 118, 134, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: ="id_card_scan.png"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                          - Tracking_DBadge_638:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =6
+                                                RadiusBottomRight: =6
+                                                RadiusTopLeft: =6
+                                                RadiusTopRight: =6
+                                                Width: =76
+                                              Children:
+                                                - Tracking_Label_639:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="VERIFIED"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =64
+                                    - Tracking_DocR_646:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =34
+                                          PaddingBottom: =8
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          PaddingTop: =8
+                                          RadiusBottomLeft: =6
+                                          RadiusBottomRight: =6
+                                          RadiusTopLeft: =6
+                                          RadiusTopRight: =6
+                                          Width: =Parent.Width - 32
+                                        Children:
+                                          - Tracking_Col_643:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =1
+                                                Height: =34
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =34
+                                              Children:
+                                                - Tracking_Label_641:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="สำเนาทะเบียนบ้าน"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                                - Tracking_Label_642:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(120, 118, 134, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: ="รอการอัปโหลด…"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                          - Tracking_DBadge_644:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(245, 242, 254, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =6
+                                                RadiusBottomRight: =6
+                                                RadiusTopLeft: =6
+                                                RadiusTopRight: =6
+                                                Width: =76
+                                              Children:
+                                                - Tracking_Label_645:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(70, 69, 84, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="PENDING"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =64
+                              - Tracking_LogC_650:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =246
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =246
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - Tracking_Label_648:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =12
+                                          Text: ="ประวัติการทำงาน (live จาก colLog)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 32
+                                    - Tracking_Dyn_649:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 40
+                                    - Tracking_Log_Gallery:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          Height: =160
+                                          Items: =colLog
+                                          LayoutMinHeight: =160
+                                          TemplatePadding: =0
+                                          TemplateSize: =48
+                                          Width: =Parent.Width - 32
+                                        Children:
+                                          - Tracking_Log_Row:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =Parent.TemplateHeight
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =44
+                                                Width: =Parent.TemplateWidth
+                                              Children:
+                                                - Tracking_Log_Meta:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(120, 118, 134, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: =ThisItem.At & " — " & ThisItem.Who
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width
+                                                - Tracking_Log_Action:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(70, 69, 84, 1)
+                                                      FillPortions: =0
+                                                      Height: =28
+                                                      Size: =10
+                                                      Text: =ThisItem.Stage & " · " & ThisItem.Action
+                                                      VerticalAlign: =VerticalAlign.Top
+                                                      Width: =Parent.Width
+                  - Tracking_TrFoot_678:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =40
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Tracking_Button_676:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(70, 69, 84, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: =Navigate('Dashboard')
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =11
+                              Text: ="กลับหน้า Dashboard"
+                              Width: =200
+                        - Tracking_Button_677:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              Fill: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(48, 46, 175, 1)
+                              OnSelect: =Notify("Downloaded", NotificationType.Success)
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(40, 38, 150, 1)
+                              Size: =11
+                              Text: ="ดาวน์โหลดสรุป"
+                              Width: =180
+                  - Tracking_BottomGap_679:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56

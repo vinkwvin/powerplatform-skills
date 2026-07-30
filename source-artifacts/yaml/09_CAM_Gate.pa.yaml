@@ -1,0 +1,2542 @@
+Screens:
+  CAM - Gate:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."));
+        ClearCollect(colFiles, {Name: "customer_documents.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:40"}, {Name: "eservice_transfer_proof.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:52"}, {Name: "da_wallet_statement.pdf", Dept: "Digital Assets", By: "Pranee K. · 28/06 11:08"}, {Name: "wallet_precheck_summary.pdf", Dept: "Middle", By: "Nattapong S. · 28/06 14:22"}, {Name: "algo_livex_precheck.pdf", Dept: "Product Op (EQ)", By: "Somchai P. · 28/06 13:05"})
+    Children:
+      - CAMGate_Root_781:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - CAMGate_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - CAMGate_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - CAMGate_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - CAMGate_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - CAMGate_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - CAMGate_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - CAMGate_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - CAMGate_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(59, 57, 194, 1)
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =38
+                        HoverColor: =RGBA(59, 57, 194, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(59, 57, 194, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - CAMGate_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - CAMGate_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - CAMGate_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - CAMGate_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - CAMGate_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - CAMGate_Main_780:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - CAMGate_TopBar_603:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_User_601:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - CAMGate_Icon_602:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - CAMGate_Header_625:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =190
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =190
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_HeadTop_610:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =90
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =90
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CAMGate_HeadLeft_607:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =90
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =90
+                                  Children:
+                                    - CAMGate_Eyebrow_604:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =16
+                                          Size: =9
+                                          Text: ="Client & Account Management · Gate"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - CAMGate_HTitle_605:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =30
+                                          Size: =20
+                                          Text: ="C&AM · Check iTrade & ตรวจ Lock บัญชี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - CAMGate_Sub_606:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =36
+                                          Size: =11
+                                          Text: |
+                                            ="จุดเริ่มงานของ C&AM (หลัง Head of Sales อนุมัติ): ตรวจ iTrade Flag และการ Lock บัญชี แล้ว Dispatch งานเข้าสู่ Settlement แบบขนานให้ทุกทีม"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - CAMGate_Pill_609:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(170, 237, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    LayoutMinWidth: =150
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =240
+                                  Children:
+                                    - CAMGate_PillTx_608:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="C&AM · Gate"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - CAMGate_MetaStrip_623:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =62
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =62
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CAMGate_MetaCell_613:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_MetaCap_611:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Request ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CAMGate_MetaV_612:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CAMGate_MetaCell_616:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_MetaCap_614:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CAMGate_MetaV_615:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CAMGate_MetaCell_619:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_MetaCap_617:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Customer Card ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CAMGate_MetaV_618:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - CAMGate_MetaCell_622:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_MetaCap_620:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="เหตุผลการปิดบัญชี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - CAMGate_MetaV_621:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="เจ้าของบัญชีเสียชีวิต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - CAMGate_Dyn_624:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - CAMGate_FilesCard_627:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(varVFCAMGate, 264, 44)
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =44
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_FilesBar_626:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Left
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(27, 27, 35, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =44
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: |
+                                =UpdateContext({varVFCAMGate: !varVFCAMGate})
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =12
+                              Text: ="📂  View Files · เอกสารแนบจากทุกฝ่าย (" & CountRows(colFiles) & ")      " & If(varVFCAMGate, "▲ ซ่อนไฟล์", "▼ แสดงไฟล์")
+                              Width: =Parent.Width - 56
+                        - CAMGate_Files_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =210
+                              Items: =colFiles
+                              LayoutMinHeight: =210
+                              TemplatePadding: =0
+                              TemplateSize: =40
+                              Visible: =varVFCAMGate
+                              Width: =Parent.Width - 56
+                            Children:
+                              - CAMGate_Files_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =36
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - CAMGate_Files_Icon:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          Height: =16
+                                          Icon: =Icon.Document
+                                          Width: =16
+                                    - CAMGate_Files_Name:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =6
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Name
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CAMGate_Files_Meta:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Dept & " · " & ThisItem.By
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - CAMGate_Files_View:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =16
+                                          Icon: =Icon.View
+                                          Width: =16
+                  - CAMGate_Card_651:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =480
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =480
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Title_649:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ข้อมูลลูกค้า & คำขอปิดบัญชี (Customer & Closure Request)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_Dyn_650:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_GridRow_638:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =86
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_CellA_634:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - CAMGate_Cap_632:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER NAME"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_628:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_633:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_CellA_637:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - CAMGate_Cap_635:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER CARD ID (13 หลัก)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_629:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_636:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - CAMGate_FCellA_642:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_Cap_640:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="สาเหตุการปิดบัญชี · REASON FOR CLOSURE"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_VBox_639:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เจ้าของบัญชีเสียชีวิต"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_Attr_641:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - CAMGate_FCellA_645:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_Cap_643:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="เจ้าหน้าที่การตลาด / ความเห็นบริษัท (AO OPINION)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_VBox_630:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เห็นควรให้ปิดบัญชีตามความประสงค์ผู้จัดการมรดก"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_Attr_644:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - CAMGate_FCellA_648:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_Cap_646:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="AO REMARK"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_VBox_631:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="ลูกค้าเสียชีวิต ผู้จัดการมรดกยื่นเอกสารครบ"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - CAMGate_Attr_647:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                  - CAMGate_Card_719:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =540
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =540
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Title_717:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="บัญชีทั้งหมดของลูกค้า (Account Inventory)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_Dyn_718:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_Note_715:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="บัญชีที่ทีมก่อนหน้ากรอกไว้ · ดูอย่างเดียว แก้ไขไม่ได้"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_InvRowA_693:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =266
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =266
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_GrpCol_662:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_652:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Equity + Bond + SN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_653:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Account"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_654:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1101234-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_655:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_656:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Balance / Prepaid"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_657:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1105555-0"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_658:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_659:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Credit Balance"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_660:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1109876-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_661:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_673:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_663:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="SBL"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_664:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_665:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200111-3"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_666:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_667:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_668:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200222-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_669:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_670:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing & Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_671:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200333-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_672:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_681:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =184
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =184
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_674:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="บัญชีซื้อขายหน่วยลงทุน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_675:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Mutual Fund ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_676:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="9300444-7"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_677:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_678:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ROBO ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_679:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="8300555-9"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_680:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_692:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_682:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Offshore"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_683:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Offshore ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_684:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="7400666-2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_685:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_686:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Global Trade (SAXO)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_687:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_688:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - CAMGate_Cap_689:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="GTN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_690:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="ไม่มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_691:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - CAMGate_InvRowB_714:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =102
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =102
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_GrpCol_698:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_694:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="TFEX"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_695:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="TFEX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_696:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="5500777-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_697:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_703:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_699:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="DA · Digital Assets"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_700:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="DA ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_701:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="6600888-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_702:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_708:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_704:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="LiVEx"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_705:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="LiveX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_706:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="4400999-6"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_707:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - CAMGate_GrpCol_713:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - CAMGate_GrpTitle_709:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Algo"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Cap_710:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Algo ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_VBox_711:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="3301010-8"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Attr_712:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - CAMGate_InvAttr_716:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =16
+                              Size: =9
+                              Text: |
+                                ="แก้ไขล่าสุด: Sales · Leo Messi · 28/06 16:41"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - CAMGate_Card_759:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =452
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =452
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Title_758:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ผล Pre-check (DA + Middle) · แนบไฟล์ + ยืนยันโอนทรัพย์สินออก"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_Dyn_757:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_PCRow_756:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =352
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =352
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_PCard_738:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(0, 104, 121, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =352
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =352
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_PCHead_723:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_Label_720:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(27, 27, 35, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =34
+                                                Size: =11
+                                                Text: ="Precheck Wallet App"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                          - CAMGate_Badge_722:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =10
+                                                RadiusBottomRight: =10
+                                                RadiusTopLeft: =10
+                                                RadiusTopRight: =10
+                                                Width: =130
+                                              Children:
+                                                - CAMGate_Label_721:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="จากทีม Middle"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width - 12
+                                    - CAMGate_Cap_724:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Total Balance"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_Label_725:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =15
+                                          Text: ="฿ 1,284,500.00"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_Cap_726:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ไฟล์แนบทั้งหมด (เลื่อนดู)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_PFGallery_731:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =72
+                                          Items: =colPCMiddle
+                                          LayoutMinHeight: =72
+                                          TemplatePadding: =0
+                                          TemplateSize: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_PFRow_727:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =Parent.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =6
+                                                LayoutMinHeight: =30
+                                                Width: =Parent.TemplateWidth
+                                              Children:
+                                                - CAMGate_PFIcon_728:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(186, 26, 26, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.Document
+                                                      Width: =13
+                                                - CAMGate_PFName_729:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =1
+                                                      Height: =Parent.Height
+                                                      Size: =10
+                                                      Text: =ThisItem.Name
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - CAMGate_PFView_730:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(59, 57, 194, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.View
+                                                      Width: =13
+                                    - CAMGate_Cap_732:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Remark"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_Label_733:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Normal
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="ยอดเงินตรงกับแอป · ไม่ติด suspend"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_CheckBox_734:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =44
+                                          Size: =10
+                                          Text: ="ลูกค้าโอนทรัพย์สินออกหมดแล้ว · Customer has transferred out all assets"
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_PCBy_737:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =16
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =16
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_Icon_735:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                Height: =14
+                                                Icon: =Icon.Clock
+                                                Width: =14
+                                          - CAMGate_Label_736:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                FillPortions: =1
+                                                Height: =16
+                                                Size: =9
+                                                Text: ="by Nattapong S. · 28/06/2026 14:22:05"
+                                                VerticalAlign: =VerticalAlign.Middle
+                              - CAMGate_PCard_755:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(59, 57, 194, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =296
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =296
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - CAMGate_PCHead_742:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_Label_739:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(27, 27, 35, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =34
+                                                Size: =11
+                                                Text: ="Precheck DA"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                          - CAMGate_Badge_741:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =10
+                                                RadiusBottomRight: =10
+                                                RadiusTopLeft: =10
+                                                RadiusTopRight: =10
+                                                Width: =130
+                                              Children:
+                                                - CAMGate_Label_740:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="จากทีม DA"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width - 12
+                                    - CAMGate_Cap_743:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ไฟล์แนบทั้งหมด (เลื่อนดู)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_PFGallery_748:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =72
+                                          Items: =colPCDA
+                                          LayoutMinHeight: =72
+                                          TemplatePadding: =0
+                                          TemplateSize: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_PFRow_744:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =Parent.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =6
+                                                LayoutMinHeight: =30
+                                                Width: =Parent.TemplateWidth
+                                              Children:
+                                                - CAMGate_PFIcon_745:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(186, 26, 26, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.Document
+                                                      Width: =13
+                                                - CAMGate_PFName_746:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =1
+                                                      Height: =Parent.Height
+                                                      Size: =10
+                                                      Text: =ThisItem.Name
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - CAMGate_PFView_747:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(59, 57, 194, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.View
+                                                      Width: =13
+                                    - CAMGate_Cap_749:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Remark"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_Label_750:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Normal
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="DA wallet เคลียร์แล้ว · เหรียญคงเหลือต่ำกว่าเกณฑ์ต้องโอน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_CheckBox_751:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =44
+                                          Size: =10
+                                          Text: ="ลูกค้าโอนทรัพย์สินออกหมดแล้ว · Customer has transferred out all assets"
+                                          Width: =Parent.Width - 24
+                                    - CAMGate_PCBy_754:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =16
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =16
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - CAMGate_Icon_752:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                Height: =14
+                                                Icon: =Icon.Clock
+                                                Width: =14
+                                          - CAMGate_Label_753:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                FillPortions: =1
+                                                Height: =16
+                                                Size: =9
+                                                Text: ="by Pranee K. · 28/06/2026 11:08:47"
+                                                VerticalAlign: =VerticalAlign.Middle
+                  - CAMGate_Card_771:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =264
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =264
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Title_770:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="Check iTrade & ตรวจ Lock บัญชี"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_GridRow_763:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =68
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =68
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_Cell_762:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =68
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =68
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - CAMGate_Cap_761:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="iTrade Flag"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - CAMGate_Radio_760:
+                                        Control: Classic/Radio@2.3.0
+                                        Properties:
+                                          Default: ="ไม่มี"
+                                          FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                          FocusedBorderThickness: =1
+                                          Height: =34
+                                          Items: =["มี", "ไม่มี"]
+                                          Items.Value: =Value
+                                          Layout: =Layout.Horizontal
+                                          RadioSize: =18
+                                          Size: =11
+                                          Width: =Parent.Width - 10
+                        - CAMGate_CapW_764:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =18
+                              Size: =9
+                              Text: ="บัญชีมีติด Lock · Account lock (ติด Lock = Reject ปิดบัญชีไม่ได้)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_Row_768:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =30
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =20
+                              LayoutMinHeight: =30
+                              Width: =Parent.Width - 40
+                            Children:
+                              - CAMGate_CheckBox_765:
+                                  Control: Classic/CheckBox@2.1.0
+                                  Properties:
+                                    Height: =30
+                                    Size: =11
+                                    Text: ="Lock Offshore"
+                                    Width: =180
+                              - CAMGate_CheckBox_766:
+                                  Control: Classic/CheckBox@2.1.0
+                                  Properties:
+                                    Height: =30
+                                    Size: =11
+                                    Text: ="Others Lock"
+                                    Width: =160
+                              - CAMGate_CheckBox_767:
+                                  Control: Classic/CheckBox@2.1.0
+                                  Properties:
+                                    Default: =true
+                                    Height: =30
+                                    Size: =11
+                                    Text: ="No Lock"
+                                    Width: =140
+                        - CAMGate_Note_769:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =38
+                              Size: =11
+                              Text: ="iTrade Flag = มี ต้องปิดก่อนบน SBA · ติด Lock = Reject ปิดบัญชีไม่ได้ · ไม่มี Pre-check Algo แล้ว (Sales ทำ backdoor ผ่าน Microsoft Teams)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - CAMGate_Card_774:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =154
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =154
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Title_773:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="หมายเหตุ (Remark)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - CAMGate_TextInput_772:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Default: =""
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =80
+                              HintText: ="หมายเหตุ (ต้องกรอกก่อนกด Reject เช่น พบการ Lock)…"
+                              HoverBorderColor: =RGBA(199, 196, 215, 1)
+                              HoverFill: =RGBA(247, 246, 252, 1)
+                              Mode: =TextMode.MultiLine
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - CAMGate_GateFoot_778:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =40
+                        Width: =Parent.Width - 56
+                      Children:
+                        - CAMGate_Button_775:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(70, 69, 84, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: =Navigate('Head of Sales - Approval')
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =11
+                              Text: ="กลับไปหน้า Head of Sales"
+                              Width: =220
+                        - CAMGate_Button_776:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(186, 26, 26, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(186, 26, 26, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(186, 26, 26, 1)
+                              HoverFill: =RGBA(255, 240, 238, 1)
+                              OnSelect: |
+                                =Set(gblStageIndex, 1);
+                                Set(gblStatus, "Rejected — ปิดบัญชีไม่ได้ (แจ้งลูกค้า)");
+                                UpdateIf(colTasks, Status <> "Done", {Status: "Rejected"});
+                                Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "CAM - Gate", Action: "Reject → ปิดบัญชีไม่ได้ · หยุดทุกงาน ส่งกลับ Sales"});
+                                Navigate('Sales - Initial Contact')
+                              PressedColor: =RGBA(186, 26, 26, 1)
+                              PressedFill: =RGBA(255, 224, 221, 1)
+                              Size: =11
+                              Text: ="Reject → ปิดบัญชีไม่ได้ (Sales)"
+                              Width: =250
+                        - CAMGate_Button_777:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              Fill: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(48, 46, 175, 1)
+                              OnSelect: |
+                                =ClearCollect(colTasks, {TaskID: "TFEX-1", Product: "TFEX", StepNo: 1, Dept: "Cash", Task: "เช็ค Position", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-2", Product: "TFEX", StepNo: 2, Dept: "CAM", Task: "Post ดอกเบี้ย (ถ้ามี)", Status: If(2=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-3", Product: "TFEX", StepNo: 3, Dept: "Cash", Task: "ถอน + โอนเงิน THB", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-4", Product: "TFEX", StepNo: 4, Dept: "CAM", Task: "ปิดบัญชี BSB", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "TFEX-5", Product: "TFEX", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-1", Product: "Offshore", StepNo: 1, Dept: "Offshore", Task: "เช็ค Position + Dividend", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-2", Product: "Offshore", StepNo: 2, Dept: "Offshore", Task: "เช็ค Accrued Interest USD", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-3", Product: "Offshore", StepNo: 3, Dept: "Offshore", Task: "ถอนเงิน + โอน FCD (optional · pass ได้)", Status: If(3=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-4", Product: "Offshore", StepNo: 4, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Offshore-5", Product: "Offshore", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS แล้วปิดบัญชี SAXO / GTN", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-1", Product: "Equity + Bond + SN", StepNo: 1, Dept: "EQ", Task: "เช็ค Position Bond + SN", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-2", Product: "Equity + Bond + SN", StepNo: 2, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Equity + Bond + SN-3", Product: "Equity + Bond + SN", StepNo: 3, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "บัญชีซื้อขายหน่วยลงทุน-1", Product: "บัญชีซื้อขายหน่วยลงทุน", StepNo: 1, Dept: "CAM", Task: "ปิดบัญชี FundConnext", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "บัญชีซื้อขายหน่วยลงทุน-2", Product: "บัญชีซื้อขายหน่วยลงทุน", StepNo: 2, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-1", Product: "DA Digital Assets", StepNo: 1, Dept: "DA", Task: "โอน Crypto (กรณีเสียชีวิตเท่านั้น)", Status: If(1=1, "Ready", "Locked"), Optional: true, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-2", Product: "DA Digital Assets", StepNo: 2, Dept: "DA", Task: "Suspend บัญชี DA", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-3", Product: "DA Digital Assets", StepNo: 3, Dept: "DA", Task: "ลง GL", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "DA Digital Assets-4", Product: "DA Digital Assets", StepNo: 4, Dept: "Cash", Task: "โอนเงิน THB", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-1", Product: "LiVEx", StepNo: 1, Dept: "EQ", Task: "เช็ค Position", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-2", Product: "LiVEx", StepNo: 2, Dept: "Cash", Task: "ถอน + โอนเงิน THB", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-3", Product: "LiVEx", StepNo: 3, Dept: "CAM", Task: "ปิดบัญชี LiveX", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "LiVEx-4", Product: "LiVEx", StepNo: 4, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-1", Product: "Algo", StepNo: 1, Dept: "CAM", Task: "Stop model ที่ Jaeger", Status: If(1=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-2", Product: "Algo", StepNo: 2, Dept: "EQ", Task: "เช็ค Position ที่ SBA (เจอ → Reject)", Status: If(2=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-3", Product: "Algo", StepNo: 3, Dept: "Cash", Task: "แจ้ง IT post รายการถอนเข้ามาที่ SBA", Status: If(3=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-4", Product: "Algo", StepNo: 4, Dept: "Cash", Task: "ถอน + โอนเงิน THB + ปิดบัญชี SBA", Status: If(4=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""}, {TaskID: "Algo-5", Product: "Algo", StepNo: 5, Dept: "CAM", Task: "ปิดบัญชี CIS", Status: If(5=1, "Ready", "Locked"), Optional: false, DoneBy: "", DoneAt: ""});
+                                Set(gblStageIndex, 6);
+                                Set(gblStatus, "Settlement");
+                                Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "CAM - Gate", Action: "Dispatch settlement · สร้างงานตาม product ที่ลูกค้ามี"});
+                                Navigate('Settlement - Overview')
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(40, 38, 150, 1)
+                              Size: =11
+                              Text: ="Dispatch → ส่งงานเข้า Settlement (ทุกทีมขนานกัน)"
+                              Width: =360
+                  - CAMGate_BottomGap_779:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56

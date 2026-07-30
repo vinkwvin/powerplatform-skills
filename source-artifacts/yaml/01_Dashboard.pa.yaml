@@ -1,0 +1,784 @@
+Screens:
+  Dashboard:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."));
+        If(IsEmpty(colRequests), ClearCollect(colRequests, {RequestId: "INVX888-1999", Customer: "Kunakorn Yeamngam", Sales: "Leo Messi", RDate: "22/06/2026", Status: "Pre-check · DA + Middle", Rejects: 1}, {RequestId: "INVX888-2001", Customer: "Somsri Jaidee", Sales: "Leo Messi", RDate: "25/06/2026", Status: "Head of Sales · รออนุมัติ", Rejects: 0}, {RequestId: "INVX888-2004", Customer: "Anan Prasert", Sales: "Mei Lin", RDate: "28/06/2026", Status: "Settlement · Cash Mgmt", Rejects: 0}, {RequestId: "INVX888-2007", Customer: "Wichai Thong", Sales: "Leo Messi", RDate: "01/07/2026", Status: "Sales · รวบรวมเอกสาร", Rejects: 2}, {RequestId: "INVX888-2010", Customer: "Nadia Rahman", Sales: "Mei Lin", RDate: "03/07/2026", Status: "C&AM · ปิดบัญชี", Rejects: 0}));
+        If(IsEmpty(colMyTasks), ClearCollect(colMyTasks, {RequestId: "INVX888-1999", Customer: "Kunakorn Yeamngam", Task: "Pre-check DA wallet", Due: "วันนี้"}, {RequestId: "INVX888-2007", Customer: "Wichai Thong", Task: "ขอเอกสารเพิ่มจากลูกค้า", Due: "เกินกำหนด"}, {RequestId: "INVX888-2010", Customer: "Nadia Rahman", Task: "ปิดบัญชี CIS", Due: "พรุ่งนี้"}))
+    Children:
+      - Dashboard_Root_628:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - Dashboard_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - Dashboard_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - Dashboard_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(59, 57, 194, 1)
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =38
+                        HoverColor: =RGBA(59, 57, 194, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(59, 57, 194, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - Dashboard_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - Dashboard_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - Dashboard_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - Dashboard_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - Dashboard_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - Dashboard_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - Dashboard_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - Dashboard_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - Dashboard_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - Dashboard_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - Dashboard_Main_627:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - Dashboard_TopBar_603:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Dashboard_User_601:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - Dashboard_Icon_602:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - Dashboard_DashTitle_606:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutMinHeight: =40
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Dashboard_Label_604:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Bold
+                              Height: =36
+                              Size: =22
+                              Text: ="Dashboard"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - Dashboard_Button_605:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              Fill: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(48, 46, 175, 1)
+                              OnSelect: =Navigate('Sales - Initial Contact')
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(40, 38, 150, 1)
+                              Size: =11
+                              Text: ="+ สร้างคำขอใหม่"
+                              Width: =200
+                  - Dashboard_Stats_616:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =90
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        LayoutMinHeight: =90
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Dashboard_KPI_609:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(255, 240, 238, 1)
+                              FillPortions: =1
+                              Height: =90
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =90
+                              PaddingBottom: =16
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              PaddingTop: =16
+                              RadiusBottomLeft: =10
+                              RadiusBottomRight: =10
+                              RadiusTopLeft: =10
+                              RadiusTopRight: =10
+                            Children:
+                              - Dashboard_Label_607:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =10
+                                    Text: ="งานของฉัน (MY TASKS)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                              - Dashboard_Label_608:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(186, 26, 26, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =38
+                                    Size: =26
+                                    Text: ="3"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                        - Dashboard_KPI_612:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(170, 237, 255, 1)
+                              FillPortions: =1
+                              Height: =90
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =90
+                              PaddingBottom: =16
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              PaddingTop: =16
+                              RadiusBottomLeft: =10
+                              RadiusBottomRight: =10
+                              RadiusTopLeft: =10
+                              RadiusTopRight: =10
+                            Children:
+                              - Dashboard_Label_610:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =10
+                                    Text: ="งานที่ค้างอยู่ (PENDING)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                              - Dashboard_Label_611:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(0, 104, 121, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =38
+                                    Size: =26
+                                    Text: ="5"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                        - Dashboard_KPI_615:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(204, 239, 140, 1)
+                              FillPortions: =1
+                              Height: =90
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =90
+                              PaddingBottom: =16
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              PaddingTop: =16
+                              RadiusBottomLeft: =10
+                              RadiusBottomRight: =10
+                              RadiusTopLeft: =10
+                              RadiusTopRight: =10
+                            Children:
+                              - Dashboard_Label_613:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =10
+                                    Text: ="เสร็จแล้ว (COMPLETED)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                              - Dashboard_Label_614:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(60, 87, 1, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =38
+                                    Size: =26
+                                    Text: ="12"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 32
+                  - Dashboard_Card_622:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =294
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =294
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Dashboard_Title_621:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="งานของฉัน (My Tasks) · ต้องจัดการด่วน"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Dashboard_Note_620:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =38
+                              Size: =11
+                              Text: ="งานที่มอบหมายให้คุณโดยตรง · กด ""ดู"" เพื่อเปิดหน้าติดตามสถานะ (Tracking)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Dashboard_MT_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =170
+                              Items: =colMyTasks
+                              LayoutMinHeight: =170
+                              TemplatePadding: =6
+                              TemplateSize: =58
+                              Width: =Parent.Width - 56
+                            Children:
+                              - Dashboard_MT_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(255, 200, 195, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 248, 247, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =50
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - Dashboard_Dot_617:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(186, 26, 26, 1)
+                                          FillPortions: =0
+                                          Height: =10
+                                          LayoutMinHeight: =10
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                          Width: =10
+                                    - Dashboard_MT_Cust:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =5
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Customer & "  ·  " & ThisItem.RequestId
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_MT_Task:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          Size: =10
+                                          Text: =ThisItem.Task
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_MT_Due:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =9
+                                          Text: =ThisItem.Due
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =90
+                                    - Dashboard_Button_618:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          Fill: =RGBA(59, 57, 194, 1)
+                                          FocusedBorderThickness: =1
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverColor: =RGBA(255, 255, 255, 1)
+                                          HoverFill: =RGBA(48, 46, 175, 1)
+                                          OnSelect: |
+                                            =Set(gblRequestID, ThisItem.RequestId);
+                                            Navigate('Tracking')
+                                          PressedColor: =RGBA(255, 255, 255, 1)
+                                          PressedFill: =RGBA(40, 38, 150, 1)
+                                          Size: =11
+                                          Text: ="ดู"
+                                          Width: =70
+                  - Dashboard_Card_625:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =390
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =390
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - Dashboard_Title_624:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="คำขอทั้งหมดที่ค้างอยู่ (All Requests · Pending)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Dashboard_Note_623:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="คำขอของทุกคนที่ยังไม่ปิด · กด ""ดู"" เพื่อเปิดหน้าติดตาม"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - Dashboard_AR_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =284
+                              Items: =colRequests
+                              LayoutMinHeight: =284
+                              TemplatePadding: =6
+                              TemplateSize: =54
+                              Width: =Parent.Width - 56
+                            Children:
+                              - Dashboard_AR_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =48
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - Dashboard_AR_Req:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =3
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =Parent.Height
+                                          Size: =10
+                                          Text: =ThisItem.RequestId
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_AR_Cust:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =4
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Customer
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_AR_Sales:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =4
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Sales & " · " & ThisItem.RDate
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_AR_Status:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =5
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Status
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Dashboard_AR_Rej:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =If(ThisItem.Rejects > 0, RGBA(186, 26, 26, 1), RGBA(120, 118, 134, 1))
+                                          FillPortions: =0
+                                          Height: =24
+                                          Size: =9
+                                          Text: ="Rej " & ThisItem.Rejects
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =64
+                                    - Dashboard_Button_619:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          Align: =Align.Center
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverColor: =RGBA(27, 27, 35, 1)
+                                          HoverFill: =RGBA(234, 230, 242, 1)
+                                          OnSelect: |
+                                            =Set(gblRequestID, ThisItem.RequestId);
+                                            Navigate('Tracking')
+                                          PressedColor: =RGBA(27, 27, 35, 1)
+                                          PressedFill: =RGBA(228, 225, 236, 1)
+                                          Size: =11
+                                          Text: ="ดู"
+                                          Width: =70
+                  - Dashboard_BottomGap_626:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56

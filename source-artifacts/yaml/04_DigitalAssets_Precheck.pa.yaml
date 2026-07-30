@@ -1,0 +1,2510 @@
+Screens:
+  Digital Assets - Precheck:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."));
+        ClearCollect(colFiles, {Name: "customer_documents.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:40"}, {Name: "eservice_transfer_proof.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:52"}, {Name: "da_wallet_statement.pdf", Dept: "Digital Assets", By: "Pranee K. · 28/06 11:08"}, {Name: "wallet_precheck_summary.pdf", Dept: "Middle", By: "Nattapong S. · 28/06 14:22"}, {Name: "algo_livex_precheck.pdf", Dept: "Product Op (EQ)", By: "Somchai P. · 28/06 13:05"})
+    Children:
+      - DAPrecheck_Root_770:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - DAPrecheck_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - DAPrecheck_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - DAPrecheck_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - DAPrecheck_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - DAPrecheck_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(59, 57, 194, 1)
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =38
+                        HoverColor: =RGBA(59, 57, 194, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(59, 57, 194, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - DAPrecheck_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - DAPrecheck_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - DAPrecheck_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - DAPrecheck_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - DAPrecheck_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - DAPrecheck_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - DAPrecheck_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - DAPrecheck_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - DAPrecheck_Main_769:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - DAPrecheck_TopBar_603:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_User_601:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - DAPrecheck_Icon_602:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - DAPrecheck_Header_630:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =216
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =216
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_HeadTop_610:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =74
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =74
+                              Width: =Parent.Width - 56
+                            Children:
+                              - DAPrecheck_HeadLeft_607:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =74
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =74
+                                  Children:
+                                    - DAPrecheck_Eyebrow_604:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =16
+                                          Size: =9
+                                          Text: ="Digital Assets · ขั้นตอนที่ 1 จาก 2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - DAPrecheck_HTitle_605:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =30
+                                          Size: =20
+                                          Text: ="Precheck DA"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - DAPrecheck_Sub_606:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="ตรวจ DA wallet แนบ statement เขียน remark · ทำพร้อม Middle และ Product Op (EQ)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - DAPrecheck_Pill_609:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(170, 237, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    LayoutMinWidth: =150
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =240
+                                  Children:
+                                    - DAPrecheck_PillTx_608:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Digital Assets · pre-check"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - DAPrecheck_StepRow_615:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =30
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =30
+                              Width: =Parent.Width - 56
+                            Children:
+                              - DAPrecheck_Step_612:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(59, 57, 194, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(59, 57, 194, 1)
+                                    FillPortions: =1
+                                    Height: =30
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =30
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                  Children:
+                                    - DAPrecheck_StepTx_611:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="1. Precheck DA"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - DAPrecheck_Step_614:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =1
+                                    Height: =30
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =30
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                  Children:
+                                    - DAPrecheck_StepTx_613:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="2. ตรวจซ้ำ / อัปเดต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                        - DAPrecheck_MetaStrip_628:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =62
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =62
+                              Width: =Parent.Width - 56
+                            Children:
+                              - DAPrecheck_MetaCell_618:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - DAPrecheck_MetaCap_616:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Request ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - DAPrecheck_MetaV_617:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - DAPrecheck_MetaCell_621:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - DAPrecheck_MetaCap_619:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - DAPrecheck_MetaV_620:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - DAPrecheck_MetaCell_624:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - DAPrecheck_MetaCap_622:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Customer Card ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - DAPrecheck_MetaV_623:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - DAPrecheck_MetaCell_627:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - DAPrecheck_MetaCap_625:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="เหตุผลการปิดบัญชี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - DAPrecheck_MetaV_626:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="เจ้าของบัญชีเสียชีวิต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - DAPrecheck_Dyn_629:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - DAPrecheck_PBanner_638:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        BorderColor: =RGBA(193, 193, 255, 1)
+                        BorderThickness: =1
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FillPortions: =0
+                        Height: =134
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =8
+                        LayoutMinHeight: =134
+                        PaddingBottom: =16
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =16
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Label_636:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =20
+                              Size: =12
+                              Text: ="Parallel pre-check — 2 ทีมทำพร้อมกัน (DA + Middle)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 32
+                        - DAPrecheck_Label_637:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =40
+                              Size: =10
+                              Text: ="หลัง Sales กด Submit ระบบส่งให้ Digital Assets และ Middle ตรวจพร้อมกัน · ถ้า Wallet App และ DA wallet ไม่มีเงิน/ทรัพย์สินคงเหลือทั้งคู่ → ส่งตรงให้ Head of Sales · ถ้ายังมี → ส่งกลับ Sales ให้ขอเอกสาร"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 32
+                        - DAPrecheck_PBchips_635:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =26
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutJustifyContent: =LayoutJustifyContent.Start
+                              LayoutMinHeight: =26
+                              Width: =Parent.Width - 32
+                            Children:
+                              - DAPrecheck_PBchip_631:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =200
+                                  Children:
+                                    - DAPrecheck_Label_632:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Digital Assets"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =180
+                              - DAPrecheck_PBchip_633:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =200
+                                  Children:
+                                    - DAPrecheck_Label_634:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Middle"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =180
+                  - DAPrecheck_FilesCard_640:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(varVFDAPrecheck, 264, 44)
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =44
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_FilesBar_639:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Left
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(27, 27, 35, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =44
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: |
+                                =UpdateContext({varVFDAPrecheck: !varVFDAPrecheck})
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =12
+                              Text: ="📂  View Files · เอกสารแนบจากทุกฝ่าย (" & CountRows(colFiles) & ")      " & If(varVFDAPrecheck, "▲ ซ่อนไฟล์", "▼ แสดงไฟล์")
+                              Width: =Parent.Width - 56
+                        - DAPrecheck_Files_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =210
+                              Items: =colFiles
+                              LayoutMinHeight: =210
+                              TemplatePadding: =0
+                              TemplateSize: =40
+                              Visible: =varVFDAPrecheck
+                              Width: =Parent.Width - 56
+                            Children:
+                              - DAPrecheck_Files_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =36
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - DAPrecheck_Files_Icon:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          Height: =16
+                                          Icon: =Icon.Document
+                                          Width: =16
+                                    - DAPrecheck_Files_Name:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =6
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Name
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - DAPrecheck_Files_Meta:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Dept & " · " & ThisItem.By
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - DAPrecheck_Files_View:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =16
+                                          Icon: =Icon.View
+                                          Width: =16
+                  - DAPrecheck_Card_664:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =480
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =480
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Title_662:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ข้อมูลลูกค้า & คำขอปิดบัญชี (Customer & Closure Request)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_Dyn_663:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_GridRow_651:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =86
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_CellA_647:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - DAPrecheck_Cap_645:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER NAME"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_641:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_646:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_CellA_650:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =86
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =86
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - DAPrecheck_Cap_648:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="CUSTOMER CARD ID (13 หลัก)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_642:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_649:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - DAPrecheck_FCellA_655:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_Cap_653:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="สาเหตุการปิดบัญชี · REASON FOR CLOSURE"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_VBox_652:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เจ้าของบัญชีเสียชีวิต"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_Attr_654:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - DAPrecheck_FCellA_658:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_Cap_656:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="เจ้าหน้าที่การตลาด / ความเห็นบริษัท (AO OPINION)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_VBox_643:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="เห็นควรให้ปิดบัญชีตามความประสงค์ผู้จัดการมรดก"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_Attr_657:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                        - DAPrecheck_FCellA_661:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =86
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =86
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_Cap_659:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="AO REMARK"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_VBox_644:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =32
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Size: =11
+                                    Text: ="ลูกค้าเสียชีวิต ผู้จัดการมรดกยื่นเอกสารครบ"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - DAPrecheck_Attr_660:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(120, 118, 134, 1)
+                                    FillPortions: =0
+                                    Height: =14
+                                    Size: =8
+                                    Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 8
+                  - DAPrecheck_Card_732:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =540
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =540
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Title_730:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="บัญชีทั้งหมดของลูกค้า (Account Inventory)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_Dyn_731:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_Note_728:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="บัญชีที่ทีมก่อนหน้ากรอกไว้ · ดูอย่างเดียว แก้ไขไม่ได้"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_InvRowA_706:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =266
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =266
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_GrpCol_675:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_665:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Equity + Bond + SN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_666:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Account"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_667:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1101234-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_668:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_669:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Balance / Prepaid"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_670:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1105555-0"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_671:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_672:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Credit Balance"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_673:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1109876-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_674:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_686:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_676:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="SBL"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_677:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_678:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200111-3"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_679:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_680:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_681:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200222-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_682:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_683:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing & Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_684:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200333-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_685:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_694:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =184
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =184
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_687:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="บัญชีซื้อขายหน่วยลงทุน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_688:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Mutual Fund ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_689:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="9300444-7"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_690:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_691:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ROBO ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_692:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="8300555-9"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_693:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_705:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_695:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Offshore"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_696:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Offshore ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_697:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="7400666-2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_698:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_699:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Global Trade (SAXO)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_700:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_701:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - DAPrecheck_Cap_702:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="GTN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_703:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="ไม่มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_704:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - DAPrecheck_InvRowB_727:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =102
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =102
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_GrpCol_711:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_707:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="TFEX"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_708:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="TFEX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_709:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="5500777-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_710:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_716:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_712:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="DA · Digital Assets"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_713:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="DA ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_714:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="6600888-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_715:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_721:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_717:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="LiVEx"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_718:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="LiveX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_719:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="4400999-6"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_720:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - DAPrecheck_GrpCol_726:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - DAPrecheck_GrpTitle_722:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Algo"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Cap_723:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Algo ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_724:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="3301010-8"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_Attr_725:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - DAPrecheck_InvAttr_729:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =16
+                              Size: =9
+                              Text: |
+                                ="แก้ไขล่าสุด: Sales · Leo Messi · 28/06 16:41"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - DAPrecheck_Card_746:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =266
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =266
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Title_745:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="Precheck DA"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_CapW_733:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =18
+                              Size: =9
+                              Text: ="ATTACHED FILE · แนบ DA wallet statement"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_UpWrap_737:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =84
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =84
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_UpZone_736:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderStyle: =BorderStyle.Dashed
+                                    BorderThickness: =2
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =84
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =84
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.Width
+                                  Children:
+                                    - DAPrecheck_Icon_734:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =26
+                                          Icon: =Icon.Publish
+                                          Width: =26
+                                    - DAPrecheck_UpHint_735:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =11
+                                          Text: ="แนบ DA wallet statement (PDF / JPG / PNG)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 80
+                        - DAPrecheck_GridRow_744:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =66
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =66
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_Cell_740:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =66
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =66
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - DAPrecheck_Cap_739:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="สถานะ wallet (auto)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_738:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: =gblDAWalletStatus
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                              - DAPrecheck_Cell_743:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =66
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =66
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - DAPrecheck_Cap_742:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ตรวจโดย (auto)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - DAPrecheck_VBox_741:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: =gblCheckedByDA
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                  - DAPrecheck_Card_758:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =346
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =346
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Title_757:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="Suspend DA Account (กรณีไม่เสียชีวิต · ไม่มีของ · ไม่มีเงิน)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_Note_756:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="ทำได้เลยที่หน้าแรกของ DA · แนบไฟล์อยู่ในกล่องนี้"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_DaBan_749:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(83, 112, 28, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(238, 246, 220, 1)
+                              FillPortions: =0
+                              Height: =64
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =2
+                              LayoutMinHeight: =64
+                              PaddingBottom: =12
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =12
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_Label_747:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
+                                    Size: =11
+                                    Text: ="กรณีไม่เสียชีวิต ไม่มีของ ไม่มีเงิน สามารถ suspend DA Account ได้เลยตั้งแต่ DA 1st screen"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 24
+                              - DAPrecheck_Label_748:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =10
+                                    Text: ="แนบหลักฐานการ suspend แล้วติ๊กยืนยันด้านล่าง"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 24
+                        - DAPrecheck_UpWrap_754:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =108
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =108
+                              Width: =Parent.Width - 40
+                            Children:
+                              - DAPrecheck_CapW_750:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="แนบไฟล์หลักฐานการ Suspend DA Account · Attach suspend evidence"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 40
+                              - DAPrecheck_UpZone_753:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderStyle: =BorderStyle.Dashed
+                                    BorderThickness: =2
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =0
+                                    Height: =84
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =84
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.Width
+                                  Children:
+                                    - DAPrecheck_Icon_751:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =26
+                                          Icon: =Icon.Publish
+                                          Width: =26
+                                    - DAPrecheck_UpHint_752:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =11
+                                          Text: ="คลิกเพื่อแนบไฟล์ (PDF / JPG / PNG) · แนบได้หลายไฟล์"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 80
+                        - DAPrecheck_CheckBox_755:
+                            Control: Classic/CheckBox@2.1.0
+                            Properties:
+                              Height: =44
+                              Size: =11
+                              Text: ="ยืนยันว่าเข้าเงื่อนไข (ไม่เสียชีวิต · ไม่มีของ · ไม่มีเงิน) และได้ suspend DA Account เรียบร้อยแล้ว"
+                              Width: =Parent.Width - 40
+                  - DAPrecheck_Card_761:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =154
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =154
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_Title_760:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="หมายเหตุ (Remark)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - DAPrecheck_TextInput_759:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Default: =""
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =80
+                              HintText: ="เขียนหมายเหตุถึงทีม Sales / Middle…"
+                              HoverBorderColor: =RGBA(199, 196, 215, 1)
+                              HoverFill: =RGBA(247, 246, 252, 1)
+                              Mode: =TextMode.MultiLine
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - DAPrecheck_ParFoot_767:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =82
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =82
+                        Width: =Parent.Width - 56
+                      Children:
+                        - DAPrecheck_PFInfo_762:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =32
+                              Size: =9
+                              Text: ="Reject (ปิดไม่ได้) ต้องกรอก Remark ก่อน · Return = ขอเอกสารเพิ่ม/ให้ลูกค้าโอนสินทรัพย์ออก · Submit ให้ Head of Sales เมื่อไม่มีสินทรัพย์ในบัญชีเหลือ"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 56
+                        - DAPrecheck_PFRow2_766:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              LayoutJustifyContent: =LayoutJustifyContent.End
+                              LayoutMinHeight: =40
+                              Width: =Parent.Width - 56
+                            Children:
+                              - DAPrecheck_Button_763:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(186, 26, 26, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(186, 26, 26, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =40
+                                    HoverColor: =RGBA(186, 26, 26, 1)
+                                    HoverFill: =RGBA(255, 240, 238, 1)
+                                    OnSelect: |
+                                      =Set(gblStageIndex, 1);
+                                      Set(gblStatus, "Sales - Initial Contact");
+                                      Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Digital Assets - Precheck", Action: "Rejected — ปิดไม่ได้"});
+                                      Navigate('Sales - Initial Contact')
+                                    PressedColor: =RGBA(186, 26, 26, 1)
+                                    PressedFill: =RGBA(255, 224, 221, 1)
+                                    Size: =11
+                                    Text: ="Reject ปิดไม่ได้ → Sales"
+                                    Width: =210
+                              - DAPrecheck_Button_764:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(59, 57, 194, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(59, 57, 194, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =40
+                                    HoverColor: =RGBA(59, 57, 194, 1)
+                                    HoverFill: =RGBA(238, 242, 255, 1)
+                                    OnSelect: |
+                                      =Set(gblStageIndex, 1);
+                                      Set(gblStatus, "Sales - Documents");
+                                      Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Digital Assets - Precheck", Action: "Returned — ขอเอกสารเพิ่ม/ให้ลูกค้าโอนออก"});
+                                      Navigate('Sales - Documents')
+                                    PressedColor: =RGBA(59, 57, 194, 1)
+                                    PressedFill: =RGBA(228, 225, 236, 1)
+                                    Size: =11
+                                    Text: ="ส่งกลับ Sales (ขอเอกสารเพิ่ม)"
+                                    Width: =250
+                              - DAPrecheck_Button_765:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Fill: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =40
+                                    HoverColor: =RGBA(255, 255, 255, 1)
+                                    HoverFill: =RGBA(48, 46, 175, 1)
+                                    OnSelect: |
+                                      =Set(gblStageIndex, 4);
+                                      Set(gblStatus, "Head of Sales - Approval");
+                                      Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Digital Assets - Precheck", Action: "Pre-check clear → Head of Sales"});
+                                      Navigate('Head of Sales - Approval')
+                                    PressedColor: =RGBA(255, 255, 255, 1)
+                                    PressedFill: =RGBA(40, 38, 150, 1)
+                                    Size: =11
+                                    Text: ="ส่งให้ Head of Sales (ไม่มีสินทรัพย์เหลือ)"
+                                    Width: =320
+                  - DAPrecheck_BottomGap_768:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56

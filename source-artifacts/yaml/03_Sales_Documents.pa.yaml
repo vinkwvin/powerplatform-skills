@@ -1,0 +1,3063 @@
+Screens:
+  Sales - Documents:
+    Properties:
+      Fill: =RGBA(252, 248, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblRequestID), Set(gblRequestID, "INVX888-1999"));
+        If(IsBlank(gblStageIndex), Set(gblStageIndex, 2));
+        If(IsBlank(gblStatus), Set(gblStatus, "Digital Assets - Precheck"));
+        If(IsEmpty(colLog), Collect(colLog, {At: "22/06 16:47", Who: "System", Stage: "Sales", Action: "Workflow triggered · INVX888-1999"}, {At: "28/06 09:02", Who: "System", Stage: "Sales", Action: "ส่งให้ DA, Middle & Product Op (EQ) ตรวจพร้อมกัน"}, {At: "28/06 09:15", Who: "Pranee K.", Stage: "Pre-check", Action: "DA pre-check confirmed"}));
+        If(IsEmpty(colPCMiddle), ClearCollect(colPCMiddle, {Name: "wallet_precheck_summary.pdf", By: "Nattapong S. · 28/06 14:22"}, {Name: "wallet_balance_detail.pdf", By: "Nattapong S. · 28/06 14:25"}));
+        If(IsEmpty(colPCDA), ClearCollect(colPCDA, {Name: "da_wallet_statement.pdf", By: "Pranee K. · 28/06 11:08"}, {Name: "da_coin_holdings.pdf", By: "Pranee K. · 28/06 11:10"}));
+        If(IsBlank(gblDAWalletStatus), Set(gblDAWalletStatus, "พบ DA wallet · รอลูกค้าเคลียร์"));
+        If(IsBlank(gblCheckedByDA), Set(gblCheckedByDA, "Pranee K. · 28/06 11:08"));
+        If(IsBlank(gblCheckedByMiddle), Set(gblCheckedByMiddle, "Nattapong S. · 28/06 14:22"));
+        If(IsBlank(gblCheckedByEQ), Set(gblCheckedByEQ, "Somchai P. · 28/06 13:05"));
+        If(IsBlank(gblIdentityCIS), Set(gblIdentityCIS, "Verified · Somchai P."));
+        ClearCollect(colMatrix, {Acct: "Cash Account", Pick: ""}, {Acct: "Credit Balance", Pick: ""}, {Acct: "Cash Balance / Prepaid", Pick: ""}, {Acct: "Mutual Fund ACC", Pick: ""}, {Acct: "ROBO ACC", Pick: ""}, {Acct: "TFEX ACC", Pick: ""}, {Acct: "LiveX ACC", Pick: ""}, {Acct: "Offshore ACC", Pick: ""});
+        ClearCollect(colFiles, {Name: "customer_documents.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:40"}, {Name: "eservice_transfer_proof.pdf", Dept: "Sales", By: "Leo Messi · 28/06 16:52"}, {Name: "da_wallet_statement.pdf", Dept: "Digital Assets", By: "Pranee K. · 28/06 11:08"}, {Name: "wallet_precheck_summary.pdf", Dept: "Middle", By: "Nattapong S. · 28/06 14:22"}, {Name: "algo_livex_precheck.pdf", Dept: "Product Op (EQ)", By: "Somchai P. · 28/06 13:05"})
+    Children:
+      - SalesDocs_Root_818:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Start
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - SalesDocs_Sidebar_13:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =208
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =16
+                  PaddingLeft: =16
+                  PaddingRight: =16
+                  PaddingTop: =16
+                  Width: =208
+                Children:
+                  - SalesDocs_Logo_1:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =RGBA(59, 57, 194, 1)
+                        FillPortions: =0
+                        FontWeight: =FontWeight.Bold
+                        Height: =44
+                        Size: =16
+                        Text: ="Account-Closure"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =176
+                  - SalesDocs_Nav_2:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Dashboard')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Dashboard"
+                        Width: =176
+                  - SalesDocs_Nav_3:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(59, 57, 194, 1)
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =38
+                        HoverColor: =RGBA(59, 57, 194, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Sales - Initial Contact')
+                        PressedColor: =RGBA(59, 57, 194, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Sales"
+                        Width: =176
+                  - SalesDocs_Nav_4:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Digital Assets - Precheck')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Digital Assets"
+                        Width: =176
+                  - SalesDocs_Nav_5:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Middle - Precheck Wallet')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Middle"
+                        Width: =176
+                  - SalesDocs_Nav_6:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Head of Sales - Approval')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Head of Sales"
+                        Width: =176
+                  - SalesDocs_Nav_7:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('CAM - Gate')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Client & Account Management"
+                        Width: =176
+                  - SalesDocs_Nav_8:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Settlement - Overview')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="Settlement"
+                        Width: =176
+                  - SalesDocs_Nav_9:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Cash Management')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Cash Management"
+                        Width: =176
+                  - SalesDocs_Nav_10:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op EQ - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · EQ"
+                        Width: =176
+                  - SalesDocs_Nav_11:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('Product Op Offshore')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› Product Operation · Offshore"
+                        Width: =176
+                  - SalesDocs_Nav_12:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        Align: =Align.Left
+                        BorderThickness: =0
+                        Color: =RGBA(70, 69, 84, 1)
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FocusedBorderThickness: =1
+                        FontWeight: =FontWeight.Normal
+                        Height: =38
+                        HoverColor: =RGBA(27, 27, 35, 1)
+                        HoverFill: =RGBA(234, 230, 242, 1)
+                        OnSelect: =Navigate('DA Team - Settlement')
+                        PressedColor: =RGBA(27, 27, 35, 1)
+                        PressedFill: =RGBA(228, 225, 236, 1)
+                        Size: =10
+                        Text: ="› DA Team"
+                        Width: =176
+            - SalesDocs_Main_817:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMinHeight: =700
+                  LayoutMinWidth: =720
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =28
+                  PaddingLeft: =28
+                  PaddingRight: =28
+                  PaddingTop: =20
+                Children:
+                  - SalesDocs_TopBar_603:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =24
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_User_601:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              Size: =11
+                              Text: ="Leo Messi · Sale Support"
+                              VerticalAlign: =VerticalAlign.Middle
+                        - SalesDocs_Icon_602:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =RGBA(119, 117, 134, 1)
+                              Height: =22
+                              Icon: =Icon.Person
+                              Width: =22
+                  - SalesDocs_Header_630:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =216
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =216
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_HeadTop_610:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =74
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =74
+                              Width: =Parent.Width - 56
+                            Children:
+                              - SalesDocs_HeadLeft_607:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =74
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =74
+                                  Children:
+                                    - SalesDocs_Eyebrow_604:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =16
+                                          Size: =9
+                                          Text: ="Sales · ขั้นตอนที่ 2 จาก 2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - SalesDocs_HTitle_605:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =30
+                                          Size: =20
+                                          Text: ="หลังขอเอกสารจากลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                                    - SalesDocs_Sub_606:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="ดูผล pre-check แนบเอกสาร ติ๊กเอกสารให้ครบ ก่อนส่งให้ทีม Middle ตรวจละเอียด"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - SalesDocs_Pill_609:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(170, 237, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    LayoutMinWidth: =150
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =240
+                                  Children:
+                                    - SalesDocs_PillTx_608:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(0, 104, 121, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Sales · รวบรวมเอกสาร"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - SalesDocs_StepRow_615:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =30
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =30
+                              Width: =Parent.Width - 56
+                            Children:
+                              - SalesDocs_Step_612:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(245, 242, 254, 1)
+                                    FillPortions: =1
+                                    Height: =30
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =30
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                  Children:
+                                    - SalesDocs_StepTx_611:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="1. ติดต่อลูกค้าครั้งแรก"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                              - SalesDocs_Step_614:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(59, 57, 194, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(59, 57, 194, 1)
+                                    FillPortions: =1
+                                    Height: =30
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =30
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =6
+                                    RadiusTopRight: =6
+                                  Children:
+                                    - SalesDocs_StepTx_613:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="2. หลังขอเอกสารจากลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width
+                        - SalesDocs_MetaStrip_628:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =62
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =62
+                              Width: =Parent.Width - 56
+                            Children:
+                              - SalesDocs_MetaCell_618:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_MetaCap_616:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Request ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - SalesDocs_MetaV_617:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="INVX888-1999"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - SalesDocs_MetaCell_621:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_MetaCap_619:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ลูกค้า"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - SalesDocs_MetaV_620:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="Kunakorn Yeamngam"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - SalesDocs_MetaCell_624:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_MetaCap_622:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Customer Card ID"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - SalesDocs_MetaV_623:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="66109010184"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                              - SalesDocs_MetaCell_627:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =62
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =2
+                                    LayoutMinHeight: =62
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_MetaCap_625:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="เหตุผลการปิดบัญชี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                                    - SalesDocs_MetaV_626:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =12
+                                          Text: ="เจ้าของบัญชีเสียชีวิต"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 20
+                        - SalesDocs_Dyn_629:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - SalesDocs_PBanner_638:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        BorderColor: =RGBA(193, 193, 255, 1)
+                        BorderThickness: =1
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(238, 242, 255, 1)
+                        FillPortions: =0
+                        Height: =134
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =8
+                        LayoutMinHeight: =134
+                        PaddingBottom: =16
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =16
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Label_636:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =20
+                              Size: =12
+                              Text: ="Parallel pre-check — 2 ทีมทำพร้อมกัน (DA + Middle)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 32
+                        - SalesDocs_Label_637:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =40
+                              Size: =10
+                              Text: ="หลัง Sales กด Submit ระบบส่งให้ Digital Assets และ Middle ตรวจพร้อมกัน · ถ้า Wallet App และ DA wallet ไม่มีเงิน/ทรัพย์สินคงเหลือทั้งคู่ → ส่งตรงให้ Head of Sales · ถ้ายังมี → ส่งกลับ Sales ให้ขอเอกสาร"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 32
+                        - SalesDocs_PBchips_635:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =26
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutJustifyContent: =LayoutJustifyContent.Start
+                              LayoutMinHeight: =26
+                              Width: =Parent.Width - 32
+                            Children:
+                              - SalesDocs_PBchip_631:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =200
+                                  Children:
+                                    - SalesDocs_Label_632:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Digital Assets"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =180
+                              - SalesDocs_PBchip_633:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =200
+                                  Children:
+                                    - SalesDocs_Label_634:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          Size: =9
+                                          Text: ="Middle"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =180
+                  - SalesDocs_FilesCard_640:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(varVFSalesDocs, 264, 44)
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =44
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_FilesBar_639:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Left
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(27, 27, 35, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =44
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: |
+                                =UpdateContext({varVFSalesDocs: !varVFSalesDocs})
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =12
+                              Text: ="📂  View Files · เอกสารแนบจากทุกฝ่าย (" & CountRows(colFiles) & ")      " & If(varVFSalesDocs, "▲ ซ่อนไฟล์", "▼ แสดงไฟล์")
+                              Width: =Parent.Width - 56
+                        - SalesDocs_Files_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =210
+                              Items: =colFiles
+                              LayoutMinHeight: =210
+                              TemplatePadding: =0
+                              TemplateSize: =40
+                              Visible: =varVFSalesDocs
+                              Width: =Parent.Width - 56
+                            Children:
+                              - SalesDocs_Files_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =36
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - SalesDocs_Files_Icon:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          Height: =16
+                                          Icon: =Icon.Document
+                                          Width: =16
+                                    - SalesDocs_Files_Name:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =6
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Name
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - SalesDocs_Files_Meta:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          Size: =9
+                                          Text: =ThisItem.Dept & " · " & ThisItem.By
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - SalesDocs_Files_View:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(59, 57, 194, 1)
+                                          Height: =16
+                                          Icon: =Icon.View
+                                          Width: =16
+                                    - SalesDocs_Files_Del:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          Height: =16
+                                          Icon: =Icon.Trash
+                                          OnSelect: =Remove(colFiles, ThisItem)
+                                          Width: =16
+                  - SalesDocs_Card_680:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =452
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =452
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_679:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ผล Pre-check (DA + Middle) · แนบไฟล์ + ยืนยันโอนทรัพย์สินออก"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Dyn_678:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_PCRow_677:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =352
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =12
+                              LayoutMinHeight: =352
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_PCard_659:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(0, 104, 121, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =352
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =352
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_PCHead_644:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_Label_641:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(27, 27, 35, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =34
+                                                Size: =11
+                                                Text: ="Precheck Wallet App"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                          - SalesDocs_Badge_643:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =10
+                                                RadiusBottomRight: =10
+                                                RadiusTopLeft: =10
+                                                RadiusTopRight: =10
+                                                Width: =130
+                                              Children:
+                                                - SalesDocs_Label_642:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="จากทีม Middle"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width - 12
+                                    - SalesDocs_Cap_645:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Total Balance"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_Label_646:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =15
+                                          Text: ="฿ 1,284,500.00"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_Cap_647:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ไฟล์แนบทั้งหมด (เลื่อนดู)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_PFGallery_652:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =72
+                                          Items: =colPCMiddle
+                                          LayoutMinHeight: =72
+                                          TemplatePadding: =0
+                                          TemplateSize: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_PFRow_648:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =Parent.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =6
+                                                LayoutMinHeight: =30
+                                                Width: =Parent.TemplateWidth
+                                              Children:
+                                                - SalesDocs_PFIcon_649:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(186, 26, 26, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.Document
+                                                      Width: =13
+                                                - SalesDocs_PFName_650:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =1
+                                                      Height: =Parent.Height
+                                                      Size: =10
+                                                      Text: =ThisItem.Name
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - SalesDocs_PFView_651:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(59, 57, 194, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.View
+                                                      Width: =13
+                                    - SalesDocs_Cap_653:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Remark"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_Label_654:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Normal
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="ยอดเงินตรงกับแอป · ไม่ติด suspend"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_655:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =44
+                                          Size: =10
+                                          Text: ="ลูกค้าโอนทรัพย์สินออกหมดแล้ว · Customer has transferred out all assets"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_PCBy_658:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =16
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =16
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_Icon_656:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                Height: =14
+                                                Icon: =Icon.Clock
+                                                Width: =14
+                                          - SalesDocs_Label_657:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                FillPortions: =1
+                                                Height: =16
+                                                Size: =9
+                                                Text: ="by Nattapong S. · 28/06/2026 14:22:05"
+                                                VerticalAlign: =VerticalAlign.Middle
+                              - SalesDocs_PCard_676:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(59, 57, 194, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =1
+                                    Height: =296
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =296
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_PCHead_663:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =34
+                                          LayoutAlignItems: =LayoutAlignItems.Start
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_Label_660:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(27, 27, 35, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =34
+                                                Size: =11
+                                                Text: ="Precheck DA"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                          - SalesDocs_Badge_662:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(204, 239, 140, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =20
+                                                PaddingLeft: =6
+                                                PaddingRight: =6
+                                                RadiusBottomLeft: =10
+                                                RadiusBottomRight: =10
+                                                RadiusTopLeft: =10
+                                                RadiusTopRight: =10
+                                                Width: =130
+                                              Children:
+                                                - SalesDocs_Label_661:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      Color: =RGBA(60, 87, 1, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =16
+                                                      Size: =8
+                                                      Text: ="จากทีม DA"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =Parent.Width - 12
+                                    - SalesDocs_Cap_664:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ไฟล์แนบทั้งหมด (เลื่อนดู)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_PFGallery_669:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =72
+                                          Items: =colPCDA
+                                          LayoutMinHeight: =72
+                                          TemplatePadding: =0
+                                          TemplateSize: =34
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_PFRow_665:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =Parent.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =6
+                                                LayoutMinHeight: =30
+                                                Width: =Parent.TemplateWidth
+                                              Children:
+                                                - SalesDocs_PFIcon_666:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(186, 26, 26, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.Document
+                                                      Width: =13
+                                                - SalesDocs_PFName_667:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(27, 27, 35, 1)
+                                                      FillPortions: =1
+                                                      Height: =Parent.Height
+                                                      Size: =10
+                                                      Text: =ThisItem.Name
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - SalesDocs_PFView_668:
+                                                    Control: Classic/Icon@2.5.0
+                                                    Properties:
+                                                      Color: =RGBA(59, 57, 194, 1)
+                                                      Height: =13
+                                                      Icon: =Icon.View
+                                                      Width: =13
+                                    - SalesDocs_Cap_670:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Remark"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_Label_671:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Normal
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="DA wallet เคลียร์แล้ว · เหรียญคงเหลือต่ำกว่าเกณฑ์ต้องโอน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_672:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =44
+                                          Size: =10
+                                          Text: ="ลูกค้าโอนทรัพย์สินออกหมดแล้ว · Customer has transferred out all assets"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_PCBy_675:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =16
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =6
+                                          LayoutMinHeight: =16
+                                          Width: =Parent.Width - 24
+                                        Children:
+                                          - SalesDocs_Icon_673:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                Height: =14
+                                                Icon: =Icon.Clock
+                                                Width: =14
+                                          - SalesDocs_Label_674:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(70, 69, 84, 1)
+                                                FillPortions: =1
+                                                Height: =16
+                                                Size: =9
+                                                Text: ="by Pranee K. · 28/06/2026 11:08:47"
+                                                VerticalAlign: =VerticalAlign.Middle
+                  - SalesDocs_Card_757:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =856
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =856
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_755:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="บัญชีทั้งหมดของลูกค้า (Account Inventory)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Dyn_756:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Note_744:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="บัญชีที่ทีมก่อนหน้ากรอกไว้ · ดูอย่างเดียว แก้ไขไม่ได้"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_CloseScopeCell_748:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =If(varCloseSomeSalesDocs, 96, 58)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =58
+                              PaddingLeft: =4
+                              PaddingRight: =4
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_Cap_746:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =9
+                                    Text: ="ขอบเขตการปิดบัญชี · เลือกปิดทุกประเภท หรือบางประเภท"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 10
+                              - SalesDocs_CloseScope_745:
+                                  Control: Classic/Radio@2.3.0
+                                  Properties:
+                                    Default: ="ปิดทุกประเภทบัญชี"
+                                    FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Height: =34
+                                    Items: =["ปิดทุกประเภทบัญชี", "ปิดบางประเภทบัญชี"]
+                                    Items.Value: =Value
+                                    Layout: =Layout.Horizontal
+                                    OnChange: |
+                                      =UpdateContext({varCloseSomeSalesDocs: Self.Selected.Value = "ปิดบางประเภทบัญชี"})
+                                    RadioSize: =18
+                                    Size: =11
+                                    Width: =Parent.Width - 8
+                              - SalesDocs_TextInput_747:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Default: =""
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Height: =32
+                                    HintText: ="ระบุบัญชีที่ต้องการปิด เช่น 1101234-5, 5500777-1"
+                                    HoverBorderColor: =RGBA(199, 196, 215, 1)
+                                    HoverFill: =RGBA(247, 246, 252, 1)
+                                    Size: =11
+                                    Visible: =varCloseSomeSalesDocs
+                                    Width: =Parent.Width - 8
+                        - SalesDocs_InvRowA_722:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =266
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =266
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_GrpCol_691:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_681:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Equity + Bond + SN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_682:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Account"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_683:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1101234-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_684:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_685:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Cash Balance / Prepaid"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_686:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1105555-0"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_687:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_688:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Credit Balance"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_689:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="1109876-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_690:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_702:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_692:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="SBL"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_693:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_694:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200111-3"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_695:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_696:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_697:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200222-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_698:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_699:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="SBL - Borrowing & Lending"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_700:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="2200333-5"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_701:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_710:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =184
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =184
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_703:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="บัญชีซื้อขายหน่วยลงทุน"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_704:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Mutual Fund ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_705:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="9300444-7"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_706:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_707:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="ROBO ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_708:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="8300555-9"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_709:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_721:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =266
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =266
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_711:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Offshore"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_712:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Offshore ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_713:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="7400666-2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_714:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_715:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Global Trade (SAXO)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_716:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_717:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                                    - SalesDocs_Cap_718:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="GTN"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_719:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="ไม่มี"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_720:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - SalesDocs_InvRowB_743:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =102
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =102
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_GrpCol_727:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_723:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="TFEX"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_724:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="TFEX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_725:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="5500777-1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_726:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_732:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_728:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="DA · Digital Assets"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_729:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="DA ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_730:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="6600888-4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_731:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_737:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_733:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="LiVEx"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_734:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="LiveX ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_735:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="4400999-6"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_736:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                              - SalesDocs_GrpCol_742:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =102
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinHeight: =102
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                  Children:
+                                    - SalesDocs_GrpTitle_738:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =11
+                                          Text: ="Algo"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Cap_739:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(70, 69, 84, 1)
+                                          FillPortions: =0
+                                          Height: =18
+                                          Size: =9
+                                          Text: ="Algo ACC"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_VBox_740:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          Fill: =RGBA(245, 242, 254, 1)
+                                          FillPortions: =0
+                                          Height: =32
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Size: =11
+                                          Text: ="3301010-8"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 10
+                                    - SalesDocs_Attr_741:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(120, 118, 134, 1)
+                                          FillPortions: =0
+                                          Height: =14
+                                          Size: =8
+                                          Text: ="⟲ Sales · Leo Messi · 28/06 16:41"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 8
+                        - SalesDocs_MFBoxC_753:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(245, 242, 254, 1)
+                              FillPortions: =0
+                              Height: =If(varMFSelSalesDocs = "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend เนื่องจากมี unit holder", 236, varMFSelSalesDocs = "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend หลายบัญชี เนื่องจากมี unit holder คงเหลือ", 248, 196)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =8
+                              LayoutMinHeight: =196
+                              PaddingBottom: =12
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =12
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_MFCap_749:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
+                                    Size: =11
+                                    Text: ="บัญชีซื้อขายหน่วยลงทุน — การปิดบัญชีกองทุน (unit holder) — เลือกได้เพียง 1 ข้อ"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 24
+                              - SalesDocs_MFRadio_750:
+                                  Control: Classic/Radio@2.3.0
+                                  Properties:
+                                    Default: ="ปิดบัญชี Mutual Fund ได้ ไม่มี unit holder คงเหลือ"
+                                    FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Height: =144
+                                    Items: =["ปิดบัญชี Mutual Fund ได้ ไม่มี unit holder คงเหลือ", "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend เนื่องจากมี unit holder", "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend หลายบัญชี เนื่องจากมี unit holder คงเหลือ", "ไม่สามารถปิดบัญชี Mutual Fund ได้ มี unit holder คงเหลือ"]
+                                    Items.Value: =Value
+                                    Layout: =Layout.Vertical
+                                    OnChange: |
+                                      =UpdateContext({varMFSelSalesDocs: Self.Selected.Value})
+                                    RadioSize: =16
+                                    Size: =11
+                                    Width: =Parent.Width - 24
+                              - SalesDocs_TextInput_751:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Default: =""
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Height: =32
+                                    HintText: ="ระบุเลขบัญชีที่ Suspend เช่น 9300444-8"
+                                    HoverBorderColor: =RGBA(199, 196, 215, 1)
+                                    HoverFill: =RGBA(247, 246, 252, 1)
+                                    Size: =11
+                                    Visible: =varMFSelSalesDocs = "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend เนื่องจากมี unit holder"
+                                    Width: =Parent.Width - 24
+                              - SalesDocs_TextInput_752:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Default: =""
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    Height: =44
+                                    HintText: ="ระบุเลขบัญชีที่ Suspend (หลายบัญชี) เช่น 8407263-4, 9407263-4"
+                                    HoverBorderColor: =RGBA(199, 196, 215, 1)
+                                    HoverFill: =RGBA(247, 246, 252, 1)
+                                    Mode: =TextMode.MultiLine
+                                    Size: =11
+                                    Visible: =varMFSelSalesDocs = "ปิดบัญชี Mutual Fund ได้ ไม่มี unit และ Suspend หลายบัญชี เนื่องจากมี unit holder คงเหลือ"
+                                    Width: =Parent.Width - 24
+                        - SalesDocs_InvAttr_754:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =16
+                              Size: =9
+                              Text: |
+                                ="แก้ไขล่าสุด: Sales · Leo Messi · 28/06 16:41"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                  - SalesDocs_Card_760:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =108
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =108
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_759:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ประสงค์สละสินทรัพย์ DA · Intent to relinquish DA assets"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Radio_758:
+                            Control: Classic/Radio@2.3.0
+                            Properties:
+                              Default: ="ยินยอม (Consent)"
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =34
+                              Items: =["ยินยอม (Consent)", "ไม่ยินยอม (Do not consent)"]
+                              Items.Value: =Value
+                              Layout: =Layout.Horizontal
+                              RadioSize: =18
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - SalesDocs_Card_767:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =232
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =232
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_766:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="เอกสารเพิ่มเติม (Document · eService)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Upload_765:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderStyle: =BorderStyle.Dashed
+                              BorderThickness: =2
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(245, 242, 254, 1)
+                              FillPortions: =0
+                              Height: =158
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =10
+                              LayoutMinHeight: =158
+                              PaddingBottom: =16
+                              PaddingLeft: =16
+                              PaddingRight: =16
+                              PaddingTop: =16
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_Icon_761:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    Color: =RGBA(59, 57, 194, 1)
+                                    Height: =28
+                                    Icon: =Icon.Publish
+                                    Width: =28
+                              - SalesDocs_UpHint_762:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    Height: =18
+                                    Size: =11
+                                    Text: ="แนบเอกสาร eService (หลักฐานลูกค้าโอนสินทรัพย์ออก)"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 80
+                              - SalesDocs_UpSub_763:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    Color: =RGBA(119, 117, 134, 1)
+                                    FillPortions: =0
+                                    Height: =16
+                                    Size: =9
+                                    Text: ="PDF, JPG หรือ PNG · แนบได้หลายไฟล์"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =Parent.Width - 80
+                              - SalesDocs_Button_764:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Fill: =RGBA(59, 57, 194, 1)
+                                    FocusedBorderThickness: =1
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =34
+                                    HoverColor: =RGBA(255, 255, 255, 1)
+                                    HoverFill: =RGBA(48, 46, 175, 1)
+                                    OnSelect: =Notify("File picker not wired yet", NotificationType.Information)
+                                    PressedColor: =RGBA(255, 255, 255, 1)
+                                    PressedFill: =RGBA(40, 38, 150, 1)
+                                    Size: =11
+                                    Text: ="Browse Files"
+                                    Width: =160
+                  - SalesDocs_Card_792:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =612
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =612
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_791:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="ตรวจเอกสาร (Check Document)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Note_790:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =20
+                              Size: =11
+                              Text: ="ตรวจโดย Sale & Middle · ติ๊กทุกเอกสารที่ได้รับ ตามกรณีของลูกค้า"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_DocRow_789:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =506
+                              LayoutAlignItems: =LayoutAlignItems.Start
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutMinHeight: =506
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_DocCol_781:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =506
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =506
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_DocHead_768:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(186, 26, 26, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =11
+                                          Text: ="กรณีเสียชีวิต · Deceased"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_769:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กรณีมีเงิน ใบถอน 1 ใบ ต่อ 1 บัญชี"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_770:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กรณีมีของ ใบคำขอโอนหลักทรัพย์ (โอนข้ามโบรกแนบสลิป 100/หุ้น)"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_771:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กองทุน - ใบคำสั่งขายกองทุน 1 ใบ / 1 กอง"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_772:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="หนังสือรับผิดรับใช้ขายหน่วยลงทุน"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_773:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="หนังสือรับผิดรับใช้โอนหลักทรัพย์ / DA"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_774:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="หนังสือรับผิดรับใช้ขายหลักทรัพย์ / DA"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_775:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาใบแต่งตั้งผู้จัดการมรดก"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_776:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาใบสำคัญคดีถึงที่สุด"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_777:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาใบมรณะบัตร"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_778:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาบัตรประชาชน ผู้จัดการมรดก"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_779:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาทะเบียนบ้าน ผู้จัดการมรดก"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_780:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาหน้าสมุดบัญชีธนาคารของผู้เสียชีวิต (ถ้ามี)"
+                                          Width: =Parent.Width - 24
+                              - SalesDocs_DocCol_788:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    Height: =238
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutMinHeight: =238
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - SalesDocs_DocHead_782:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =11
+                                          Text: ="กรณีไม่เสียชีวิต · Not deceased"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_783:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กรณีมีเงิน ใบถอน 1 ใบ ต่อ 1 บัญชี"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_784:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กรณีมีของ ใบคำขอโอนหลักทรัพย์ (โอนข้ามโบรกแนบสลิป 100/หุ้น)"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_785:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="กองทุน - ใบคำสั่งขายกองทุน 1 ใบ / 1 กอง"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_CheckBox_786:
+                                        Control: Classic/CheckBox@2.1.0
+                                        Properties:
+                                          Height: =34
+                                          Size: =11
+                                          Text: ="สำเนาบัตรประชาชน"
+                                          Width: =Parent.Width - 24
+                                    - SalesDocs_TextInput_787:
+                                        Control: Classic/TextInput@2.3.2
+                                        Properties:
+                                          BorderColor: =RGBA(199, 196, 215, 1)
+                                          BorderThickness: =1
+                                          Default: =""
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                                          FocusedBorderThickness: =1
+                                          Height: =32
+                                          HintText: ="ระบุเอกสารอื่นๆ เพิ่มเติม…"
+                                          HoverBorderColor: =RGBA(199, 196, 215, 1)
+                                          HoverFill: =RGBA(247, 246, 252, 1)
+                                          Size: =11
+                                          Width: =Parent.Width - 24
+                  - SalesDocs_Card_807:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =534
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =534
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_806:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="Check ทรัพย์สินและเงินลูกค้า"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Note_804:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =38
+                              Size: =11
+                              Text: ="แต่ละบัญชีเลือกได้เพียง 1 สถานะ · เลือกใหม่ ระบบจะยกเลิกอันเดิม · ปุ่ม Check-All กดสลับทั้งคอลัมน์ (กดซ้ำ = ล้าง)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Dyn_805:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(59, 57, 194, 1)
+                              FillPortions: =0
+                              Height: =14
+                              Size: =8
+                              Text: ="⬤ DYNAMIC — เชื่อมกับ variable / data source ภายหลัง (bind in Studio)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_CARow_803:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =32
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =32
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_Label_799:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    Size: =9
+                                    Text: ="CHECK ALL (สลับทั้งคอลัมน์):"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =170
+                              - SalesDocs_Button_800:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    HoverColor: =RGBA(27, 27, 35, 1)
+                                    HoverFill: =RGBA(234, 230, 242, 1)
+                                    OnSelect: |
+                                      =If(CountRows(Filter(colMatrix, Pick = "assets")) = CountRows(colMatrix), UpdateIf(colMatrix, true, {Pick: ""}), UpdateIf(colMatrix, true, {Pick: "assets"}))
+                                    PressedColor: =RGBA(27, 27, 35, 1)
+                                    PressedFill: =RGBA(228, 225, 236, 1)
+                                    Size: =11
+                                    Text: ="ไม่มีทรัพย์สินคงเหลือ"
+                                    Width: =200
+                              - SalesDocs_Button_801:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    HoverColor: =RGBA(27, 27, 35, 1)
+                                    HoverFill: =RGBA(234, 230, 242, 1)
+                                    OnSelect: |
+                                      =If(CountRows(Filter(colMatrix, Pick = "money")) = CountRows(colMatrix), UpdateIf(colMatrix, true, {Pick: ""}), UpdateIf(colMatrix, true, {Pick: "money"}))
+                                    PressedColor: =RGBA(27, 27, 35, 1)
+                                    PressedFill: =RGBA(228, 225, 236, 1)
+                                    Size: =11
+                                    Text: ="ไม่มีเงินคงเหลือ"
+                                    Width: =170
+                              - SalesDocs_Button_802:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Align: =Align.Center
+                                    BorderColor: =RGBA(199, 196, 215, 1)
+                                    BorderThickness: =1
+                                    Color: =RGBA(70, 69, 84, 1)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    HoverColor: =RGBA(27, 27, 35, 1)
+                                    HoverFill: =RGBA(234, 230, 242, 1)
+                                    OnSelect: |
+                                      =If(CountRows(Filter(colMatrix, Pick = "unknown")) = CountRows(colMatrix), UpdateIf(colMatrix, true, {Pick: ""}), UpdateIf(colMatrix, true, {Pick: "unknown"}))
+                                    PressedColor: =RGBA(27, 27, 35, 1)
+                                    PressedFill: =RGBA(228, 225, 236, 1)
+                                    Size: =11
+                                    Text: ="มีเงิน แต่ไม่ทราบยอด"
+                                    Width: =200
+                        - SalesDocs_Matrix_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =340
+                              Items: =colMatrix
+                              LayoutMinHeight: =340
+                              TemplatePadding: =0
+                              TemplateSize: =42
+                              Width: =Parent.Width - 40
+                            Children:
+                              - SalesDocs_Matrix_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =40
+                                    Width: =Parent.TemplateWidth
+                                  Children:
+                                    - SalesDocs_Matrix_Acct:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(27, 27, 35, 1)
+                                          FillPortions: =4
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =Parent.Height
+                                          Size: =11
+                                          Text: =ThisItem.Acct
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - SalesDocs_MCell_793:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =4
+                                          Height: =Parent.Height
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =40
+                                          LayoutMinWidth: =90
+                                        Children:
+                                          - SalesDocs_MChk_794:
+                                              Control: Classic/CheckBox@2.1.0
+                                              Properties:
+                                                Default: =(ThisItem.Pick = "assets")
+                                                OnCheck: |
+                                                  =Patch(colMatrix, ThisItem, {Pick: "assets"})
+                                                OnUncheck: |
+                                                  =If(ThisItem.Pick = "assets", Patch(colMatrix, ThisItem, {Pick: ""}))
+                                                Size: =10
+                                                Text: ="ไม่มีทรัพย์สินคงเหลือ"
+                                                Width: =Parent.Width
+                                    - SalesDocs_MCell_795:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =4
+                                          Height: =Parent.Height
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =40
+                                          LayoutMinWidth: =90
+                                        Children:
+                                          - SalesDocs_MChk_796:
+                                              Control: Classic/CheckBox@2.1.0
+                                              Properties:
+                                                Default: =(ThisItem.Pick = "money")
+                                                OnCheck: |
+                                                  =Patch(colMatrix, ThisItem, {Pick: "money"})
+                                                OnUncheck: |
+                                                  =If(ThisItem.Pick = "money", Patch(colMatrix, ThisItem, {Pick: ""}))
+                                                Size: =10
+                                                Text: ="ไม่มีเงินคงเหลือ"
+                                                Width: =Parent.Width
+                                    - SalesDocs_MCell_797:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =5
+                                          Height: =Parent.Height
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =40
+                                          LayoutMinWidth: =90
+                                        Children:
+                                          - SalesDocs_MChk_798:
+                                              Control: Classic/CheckBox@2.1.0
+                                              Properties:
+                                                Default: =(ThisItem.Pick = "unknown")
+                                                OnCheck: |
+                                                  =Patch(colMatrix, ThisItem, {Pick: "unknown"})
+                                                OnUncheck: |
+                                                  =If(ThisItem.Pick = "unknown", Patch(colMatrix, ThisItem, {Pick: ""}))
+                                                Size: =10
+                                                Text: ="มีเงิน แต่ไม่ทราบยอดสุทธิ"
+                                                Width: =Parent.Width
+                  - SalesDocs_Card_812:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =0
+                        Height: =186
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =186
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Title_811:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(27, 27, 35, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              Size: =13
+                              Text: ="อีเมลอัตโนมัติ · ผู้รับสำเนา (CC)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_Note_808:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =38
+                              Size: =11
+                              Text: ="เมื่อจบขั้นตอนนี้ ระบบจะส่งอีเมลแจ้งแผนกที่เกี่ยวข้องอัตโนมัติ · พิมพ์อีเมลผู้ที่ต้องการ CC เพิ่มได้ด้านล่าง"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_CapW_809:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =RGBA(70, 69, 84, 1)
+                              FillPortions: =0
+                              Height: =18
+                              Size: =9
+                              Text: ="CC RECIPIENTS · ผู้รับสำเนา (คั่นด้วย ,)"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =Parent.Width - 40
+                        - SalesDocs_TextInput_810:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Default: =""
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderColor: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =32
+                              HintText: ="name1@scb.co.th, name2@scb.co.th"
+                              HoverBorderColor: =RGBA(199, 196, 215, 1)
+                              HoverFill: =RGBA(247, 246, 252, 1)
+                              Size: =11
+                              Width: =Parent.Width - 40
+                  - SalesDocs_Footer_815:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =40
+                        Width: =Parent.Width - 56
+                      Children:
+                        - SalesDocs_Button_813:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              BorderColor: =RGBA(199, 196, 215, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(70, 69, 84, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(27, 27, 35, 1)
+                              HoverFill: =RGBA(234, 230, 242, 1)
+                              OnSelect: =Navigate('Sales - Initial Contact')
+                              PressedColor: =RGBA(27, 27, 35, 1)
+                              PressedFill: =RGBA(228, 225, 236, 1)
+                              Size: =11
+                              Text: ="ย้อนกลับ"
+                              Width: =170
+                        - SalesDocs_Button_814:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              Fill: =RGBA(59, 57, 194, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =40
+                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverFill: =RGBA(48, 46, 175, 1)
+                              OnSelect: |
+                                =Set(gblStageIndex, 3);
+                                Set(gblStatus, "Middle - Verify Docs");
+                                Collect(colLog, {At: Text(Now(), "dd/mm hh:mm"), Who: User().FullName, Stage: "Sales - Documents", Action: "Submitted — ส่งต่อ"});
+                                Navigate('Middle - Verify Docs')
+                              PressedColor: =RGBA(255, 255, 255, 1)
+                              PressedFill: =RGBA(40, 38, 150, 1)
+                              Size: =11
+                              Text: ="ส่งให้ Middle (ตรวจเอกสาร & พอร์ต)"
+                              Width: =320
+                  - SalesDocs_BottomGap_816:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =60
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =60
+                        Width: =Parent.Width - 56
