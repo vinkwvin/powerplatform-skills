@@ -1,0 +1,1151 @@
+# lists[] extracted from AccountClosure_SharePoint_Database.xlsx
+# Review every TODO before feeding this to a builder skill.
+# relations[] is NOT inferred — joins cannot be read off a workbook. Add them by
+# hand, and state the reason for each (validate_lists.py requires it).
+
+# ---- things that needed a guess ----
+#   sheet '📖 How to use': could not find a FIELD NAME row and a DATA TYPE row in the first column — skipped
+#   1. New_Request / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CustomerName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CustomerType: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CitizenID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / UID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / SourcePhone: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / DestinationPhone: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CallDate: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CallTime: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CustomerEmail: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / IsAlive: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / AccountNumberToClose: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseEquityAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CashAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CashBalanceAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CreditBalanceAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseTFEXAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / TFEXAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseSBLAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / SBLAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseEBizService: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseDigitalAssetAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / DigitalAssetAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ClosePrivateFundAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / PrivateFundAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseATSService: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ClosureReason: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ClosureReasonOther: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseScope: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CloseScopeAccounts: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / UnitHolderDecision: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / RelinquishDA: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / LitigationStatus: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / LitigationReason: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / AOOpinion: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / AORemark: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / RefundMethod: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ReceivingBankName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ReceivingBankBranch: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ReceivingBankAccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ReceivingBankAccountName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / TransferSecuritiesToAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / TransferSecuritiesToBroker: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / TotalBalance: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / IdentityCISVerified: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / AccruedInterestPosted: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / NetBalanceFinal: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / SalesRepresentative: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / InvestmentConsultantCode: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / Channel: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / RequestStatus: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CurrentStage: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CurrentAssignee: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / IsLocked: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / LockType: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / iTradeFlag: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / ApproverRemarks: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / CCRecipients: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / AlgoPrecheckStatus: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / TFEXOffshoreApplicable: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   1. New_Request / RejectCount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / GroupName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / AccountLabel: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / AccountNumber: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / Balance: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / HasNoAssets: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / HasNoMoney: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / HasMoneyUnknownAmount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / HasUnitHolder: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / UnitHolderAccounts: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / ToggleValue: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / EditedBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   2. Request_Accounts / EditedAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / AccountGroup: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / ResponsibleTeam: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / TaskName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / Status: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / IsExempt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / DoneBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   3. Request_Tasks / DoneAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / Team: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / WalletStatus: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / TotalBalance: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / AttachedFileRef: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / Remark: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / TransferredOutConfirmed: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / WalletCleared: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / DASuspendConfirmed: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / Result: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / CheckedBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   4. Request_Prechecks / CheckedAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / Name (file): no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / Department: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / FileKind: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / UploadedBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   5. Request_Files / UploadedAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / DocName: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / Category: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / Checked: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / CheckedBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   6. Request_DocChecklist / CheckedAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / RequestID: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / ActionTakenBy: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / ActionUserRole: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / ActionType: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / ActionComments: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   7. Approval_Logs / ActionDate: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   8. Role_Mapping / Title: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   8. Role_Mapping / EmployeeAccount: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   8. Role_Mapping / SystemRole: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   8. Role_Mapping / DataVisibilityScope: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   8. Role_Mapping / IsActiveUser: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   9. System_Config / Title (→ ConfigKey): no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   9. System_Config / ConfigValue: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   9. System_Config / ConfigDescription: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   9. System_Config / IsActiveConfig: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   10. Litigation_Register / Title (=CitizenID): no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   10. Litigation_Register / Status: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   10. Litigation_Register / Reason: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   10. Litigation_Register / Source: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   10. Litigation_Register / UpdatedAt: no 'Populated by' row — defaulted to 'user'. CONFIRM which columns a flow writes
+#   sheet '11. Power_Automate': could not find a FIELD NAME row and a DATA TYPE row in the first column — skipped
+#   sheet '12. Variables_Bindings': could not find a FIELD NAME row and a DATA TYPE row in the first column — skipped
+#   sheet '13. Screen_Data_Matrix': could not find a FIELD NAME row and a DATA TYPE row in the first column — skipped
+#   sheet '14. App_Field_Coverage': could not find a FIELD NAME row and a DATA TYPE row in the first column — skipped
+lists:
+- name: New_Request
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Customer Info
+    label_th: เลขที่คำขอ (RequestID)
+    description: Auto-generated request reference, e.g. INVX888-1999.
+    notes: Primary key; run number via Flow 1 + System_Config seed
+    populated_by: user
+  - name: CustomerName
+    type: text
+    section: Customer Info
+    label_th: ชื่อลูกค้า
+    description: Customer's full name.
+    populated_by: user
+  - name: CustomerType
+    type: choice
+    section: Customer Info
+    label_th: ประเภทลูกค้า
+    description: Individual or juristic person.
+    choices:
+    - บุคคลธรรมดา (Individual)
+    - นิติบุคคล (Juristic)
+    populated_by: user
+  - name: CitizenID
+    type: text
+    section: Customer Info
+    label_th: เลขบัตร/พาสปอร์ต
+    description: National ID, Passport, or Juristic ID (13 digits for Thai ID).
+    notes: 'Validated in-app: IsMatch ^\d{13}$ → varCardValid'
+    populated_by: user
+  - name: UID
+    type: text
+    section: Customer Info
+    label_th: รหัสลูกค้า (UID)
+    description: Unique customer identifier.
+    notes: Key for Core Banking lookups
+    populated_by: user
+  - name: SourcePhone
+    type: text
+    section: Customer Info
+    label_th: เบอร์โทร (ต้นทาง)
+    description: Source phone of the confirmation call.
+    populated_by: user
+  - name: DestinationPhone
+    type: text
+    section: Customer Info
+    label_th: เบอร์โทร (ปลายทาง)
+    description: Destination phone of the confirmation call.
+    populated_by: user
+  - name: CallDate
+    type: datetime
+    section: Customer Info
+    label_th: วันที่โทรยืนยัน
+    description: Date of the recorded closure-confirmation call.
+    notes: Sales-1 · Call recording box
+    populated_by: user
+  - name: CallTime
+    type: text
+    section: Customer Info
+    label_th: เวลาโทรยืนยัน
+    description: Time of the recorded call (hh:mm).
+    notes: Sales-1 · Call recording box
+    populated_by: user
+  - name: CustomerEmail
+    type: text
+    section: Customer Info
+    label_th: อีเมลลูกค้า
+    description: Customer e-mail.
+    populated_by: user
+  - name: IsAlive
+    type: bool
+    section: Customer Info
+    label_th: สถานะมีชีวิต
+    description: False = deceased case → deceased document checklist.
+    notes: Default = Yes
+    populated_by: user
+  - name: AccountNumberToClose
+    type: text
+    section: Account Details
+    label_th: เลขบัญชีที่ต้องการปิด
+    description: Main account number to close.
+    populated_by: user
+  - name: CloseEquityAccount
+    type: bool
+    section: Account Details
+    label_th: ปิดบัญชีหุ้น
+    description: Close the equity account?
+    populated_by: user
+  - name: CashAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี Cash
+    description: Cash account number.
+    populated_by: user
+  - name: CashBalanceAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี Cash Balance
+    description: Cash Balance / Prepaid account number.
+    populated_by: user
+  - name: CreditBalanceAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี Credit Balance
+    description: Credit Balance account number.
+    populated_by: user
+  - name: CloseTFEXAccount
+    type: bool
+    section: Account Details
+    label_th: ปิดบัญชี TFEX
+    description: Close the TFEX account?
+    populated_by: user
+  - name: TFEXAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี TFEX
+    description: TFEX account number.
+    populated_by: user
+  - name: CloseSBLAccount
+    type: bool
+    section: Account Details
+    label_th: ปิดบัญชี SBL
+    description: Close the SBL account?
+    populated_by: user
+  - name: SBLAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี SBL
+    description: SBL account number.
+    populated_by: user
+  - name: CloseEBizService
+    type: bool
+    section: Account Details
+    label_th: ปิดบริการ eBiz
+    description: Close the eBiz service?
+    populated_by: user
+  - name: CloseDigitalAssetAccount
+    type: bool
+    section: Account Details
+    label_th: ปิดบัญชี DA
+    description: Close the Digital Asset account?
+    populated_by: user
+  - name: DigitalAssetAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี DA
+    description: Digital Asset account number.
+    populated_by: user
+  - name: ClosePrivateFundAccount
+    type: bool
+    section: Account Details
+    label_th: ปิดบัญชี Private Fund
+    description: Close the private fund account?
+    populated_by: user
+  - name: PrivateFundAccountNumber
+    type: text
+    section: Account Details
+    label_th: เลขบัญชี Private Fund
+    description: Private fund account number.
+    populated_by: user
+  - name: CloseATSService
+    type: bool
+    section: Account Details
+    label_th: ปิดบริการ ATS
+    description: Close the ATS service?
+    populated_by: user
+  - name: ClosureReason
+    type: choice
+    section: Account Details
+    label_th: สาเหตุการปิดบัญชี
+    description: Why the account is being closed.
+    choices:
+    - เจ้าของบัญชีเสียชีวิต
+    - ลูกค้าแจ้งความประสงค์
+    - อื่นๆ โปรดระบุ
+    populated_by: user
+  - name: ClosureReasonOther
+    type: text
+    section: Account Details
+    label_th: สาเหตุอื่น (ระบุ)
+    description: Free text when reason = other.
+    notes: Shown by varReasonOther (dropdown OnChange)
+    populated_by: user
+  - name: CloseScope
+    type: choice
+    section: Closure Decision
+    label_th: ขอบเขตการปิด
+    description: Close ALL account types or only SOME.
+    choices:
+    - ปิดทุกประเภทบัญชี
+    - ปิดบางประเภทบัญชี
+    populated_by: user
+  - name: CloseScopeAccounts
+    type: text
+    section: Closure Decision
+    label_th: บัญชีที่เลือกปิด
+    description: Accounts to close when scope = Some (comma-separated).
+    notes: Shown by varCloseSome…
+    populated_by: user
+  - name: UnitHolderDecision
+    type: choice
+    section: Closure Decision
+    label_th: การปิดบัญชีกองทุน (unit holder)
+    description: Mutual-fund closing decision — pick exactly one.
+    choices:
+    - 4 ตัวเลือก (ปิดได้/ปิดได้+Suspend/ปิดได้+Suspend หลายบัญชี/ปิดไม่ได้)
+    populated_by: user
+  - name: RelinquishDA
+    type: choice
+    section: Closure Decision
+    label_th: ประสงค์สละสินทรัพย์ DA
+    description: Customer's intent to relinquish DA assets.
+    choices:
+    - ยินยอม (Consent)
+    - ไม่ยินยอม (Decline)
+    populated_by: user
+  - name: LitigationStatus
+    type: choice
+    section: Closure Decision
+    label_th: ผลตรวจการฟ้องร้อง
+    description: Auto litigation check result (written by Flow 2).
+    choices:
+    - Pending
+    - Clean
+    - Found
+    populated_by: user
+  - name: LitigationReason
+    type: multiline
+    section: Closure Decision
+    label_th: สาเหตุการฟ้องร้อง
+    description: Reason behind the litigation (when Found).
+    populated_by: user
+  - name: AOOpinion
+    type: multiline
+    section: Closure Decision
+    label_th: ความเห็นเจ้าหน้าที่/บริษัท
+    description: Marketing officer / company recommendation.
+    notes: Sales-1 AO OPINION box
+    populated_by: user
+  - name: AORemark
+    type: multiline
+    section: Closure Decision
+    label_th: AO Remark
+    description: Free-text remark from the AO.
+    notes: Sales-1 AO REMARK box
+    populated_by: user
+  - name: RefundMethod
+    type: choice
+    section: Transfer Info
+    label_th: วิธีคืนเงิน
+    description: How remaining money is refunded.
+    choices:
+    - โอนเข้าบัญชีธนาคาร
+    - เช็ค
+    - อื่นๆ
+    populated_by: user
+  - name: ReceivingBankName
+    type: choice
+    section: Transfer Info
+    label_th: ธนาคารผู้รับ
+    description: Receiving bank.
+    choices:
+    - รายชื่อธนาคาร
+    populated_by: user
+  - name: ReceivingBankBranch
+    type: text
+    section: Transfer Info
+    label_th: สาขา
+    description: Receiving bank branch.
+    populated_by: user
+  - name: ReceivingBankAccountNumber
+    type: text
+    section: Transfer Info
+    label_th: เลขบัญชีผู้รับ
+    description: Receiving bank account number.
+    populated_by: user
+  - name: ReceivingBankAccountName
+    type: text
+    section: Transfer Info
+    label_th: ชื่อบัญชีผู้รับ
+    description: Receiving account name.
+    populated_by: user
+  - name: TransferSecuritiesToAccount
+    type: text
+    section: Transfer Info
+    label_th: โอนหลักทรัพย์ไปบัญชี
+    description: Target account for securities transfer.
+    populated_by: user
+  - name: TransferSecuritiesToBroker
+    type: text
+    section: Transfer Info
+    label_th: โอนไปโบรกเกอร์
+    description: Target broker for securities transfer.
+    notes: 'B2B: broker fees deducted from FCY first'
+    populated_by: user
+  - name: TotalBalance
+    type: currency
+    section: Balances
+    label_th: ยอดเงินรวม (Wallet App)
+    description: Total balance keyed by Middle in Precheck Wallet App.
+    notes: Middle-1 → shown on the Wallet precheck card
+    populated_by: user
+  - name: IdentityCISVerified
+    type: text
+    section: Balances
+    label_th: ยืนยันตัวตน CIS (auto)
+    description: Auto-collected identity-verification status shown read-only (→ var gblIdentityCIS).
+    notes: CAM-2 · read-only label
+    populated_by: user
+  - name: AccruedInterestPosted
+    type: currency
+    section: Balances
+    label_th: ดอกเบี้ยค้างรับที่ Post
+    description: Accrued interest posted by C&AM.
+    notes: CAM-2
+    populated_by: user
+  - name: NetBalanceFinal
+    type: currency
+    section: Balances
+    label_th: ยอดเงินสุทธิสุดท้าย
+    description: Final net balance before closing.
+    notes: CAM-3
+    populated_by: user
+  - name: SalesRepresentative
+    type: person
+    section: Tracking & Workflow
+    label_th: เจ้าหน้าที่ Sales
+    description: Sales owner of the request.
+    populated_by: user
+  - name: InvestmentConsultantCode
+    type: text
+    section: Tracking & Workflow
+    label_th: รหัส IC
+    description: Investment consultant code.
+    populated_by: user
+  - name: Channel
+    type: choice
+    section: Tracking & Workflow
+    label_th: ช่องทาง
+    description: Where the request came from.
+    choices:
+    - Branch
+    - eBiz
+    populated_by: user
+  - name: RequestStatus
+    type: choice
+    section: Tracking & Workflow
+    label_th: สถานะคำขอ
+    description: Workflow status.
+    choices:
+    - Draft
+    - PrecheckInProgress
+    - PendingDocuments
+    - PendingApproval
+    - Approved
+    - InSettlement
+    - InCashMgmt
+    - Closing
+    - Completed
+    - Rejected
+    populated_by: user
+  - name: CurrentStage
+    type: choice
+    section: Tracking & Workflow
+    label_th: ขั้นตอนปัจจุบัน
+    description: Stage on the tracking rail (1–8).
+    choices:
+    - Sales
+    - Precheck
+    - MiddleVerify
+    - HeadOfSales
+    - CAM
+    - Settlement
+    - Cash
+    - Completed
+    populated_by: user
+  - name: CurrentAssignee
+    type: person
+    section: Tracking & Workflow
+    label_th: ผู้รับผิดชอบปัจจุบัน
+    description: Who must act next.
+    populated_by: user
+  - name: IsLocked
+    type: bool
+    section: Tracking & Workflow
+    label_th: บัญชีติด Lock
+    description: Any account lock found by C&AM?
+    notes: ติด Lock → Reject กลับ Middle
+    populated_by: user
+  - name: LockType
+    type: choice
+    section: Tracking & Workflow
+    label_th: ประเภท Lock
+    description: Which lock.
+    choices:
+    - Lock Offshore
+    - Others Lock
+    - No Lock
+    populated_by: user
+  - name: iTradeFlag
+    type: bool
+    section: Tracking & Workflow
+    label_th: iTrade Flag
+    description: iTrade flag found by Product Op EQ.
+    notes: มี = ต้องปิดก่อนบน SBA
+    populated_by: user
+  - name: ApproverRemarks
+    type: multiline
+    section: Tracking & Workflow
+    label_th: ความเห็นผู้อนุมัติ
+    description: Remarks from approval stages.
+    populated_by: user
+  - name: CCRecipients
+    type: text
+    section: Tracking & Workflow
+    label_th: ผู้รับสำเนา (CC)
+    description: Extra CC e-mails for the stage-completion mail (comma-separated).
+    notes: อีเมลอัตโนมัติ box (Sales-1/2, Middle-2) → Flow 6
+    populated_by: user
+  - name: AlgoPrecheckStatus
+    type: choice
+    section: Tracking & Workflow
+    label_th: Pre-check Algo
+    description: Stop model ที่ Jaeger — done or not.
+    choices:
+    - ดำเนินการแล้ว
+    - ยังไม่ดำเนินการ
+    - CAM-1
+    populated_by: user
+  - name: TFEXOffshoreApplicable
+    type: bool
+    section: Tracking & Workflow
+    label_th: มี TFEX / Offshore
+    description: Forced-order rule applies (TFEX withdraw-first / Offshore transfer-first).
+    notes: Settlement screen
+    populated_by: user
+  - name: RejectCount
+    type: number
+    section: Tracking & Workflow
+    label_th: จำนวนครั้งที่ถูก Reject
+    description: Denormalized reject counter shown on the Dashboard list.
+    notes: Flow 3 increments on Reject — avoids counting Approval_Logs per row (fast, delegable)
+    populated_by: user
+- name: Request_Accounts
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Request_Accounts
+    label_th: AccountID
+    description: Auto number / key.
+    notes: Primary key
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Request_Accounts
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text, not Lookup → delegable + fast; INDEX this column
+    populated_by: user
+  - name: GroupName
+    type: choice
+    section: Request_Accounts
+    label_th: กลุ่มบัญชี
+    description: Inventory group.
+    choices:
+    - Equity+Bond+SN
+    - SBL
+    - บัญชีซื้อขายหน่วยลงทุน
+    - Offshore
+    - TFEX
+    - DA
+    - LiVEx
+    - Algo
+    populated_by: user
+  - name: AccountLabel
+    type: text
+    section: Request_Accounts
+    label_th: ชื่อบัญชี
+    description: e.g. Cash Account, Mutual Fund ACC.
+    populated_by: user
+  - name: AccountNumber
+    type: text
+    section: Request_Accounts
+    label_th: เลขที่บัญชี
+    description: Account number (Sales keys; Middle can correct).
+    populated_by: user
+  - name: Balance
+    type: currency
+    section: Request_Accounts
+    label_th: ยอดเงินคงเหลือ
+    description: Balance per account (Middle fills).
+    populated_by: user
+  - name: HasNoAssets
+    type: bool
+    section: Request_Accounts
+    label_th: ไม่มีทรัพย์สินคงเหลือ
+    description: Matrix column 1.
+    notes: วาดจาก varColAssets / ติ๊กรายบัญชี
+    populated_by: user
+  - name: HasNoMoney
+    type: bool
+    section: Request_Accounts
+    label_th: ไม่มีเงินคงเหลือ
+    description: Matrix column 2.
+    populated_by: user
+  - name: HasMoneyUnknownAmount
+    type: bool
+    section: Request_Accounts
+    label_th: มีเงิน แต่ไม่ทราบยอดสุทธิ
+    description: Matrix column 3.
+    populated_by: user
+  - name: HasUnitHolder
+    type: bool
+    section: Request_Accounts
+    label_th: มี unit holder account
+    description: The unit-holder checkbox in the fund group.
+    populated_by: user
+  - name: UnitHolderAccounts
+    type: text
+    section: Request_Accounts
+    label_th: บัญชี unit holder
+    description: Comma-separated unit-holder accounts (fund group).
+    populated_by: user
+  - name: ToggleValue
+    type: text
+    section: Request_Accounts
+    label_th: ค่า มี/ไม่มี
+    description: SAXO / GTN toggle value.
+    notes: มี, ไม่มี
+    populated_by: user
+  - name: EditedBy
+    type: person
+    section: Request_Accounts
+    label_th: แก้ไขโดย
+    description: Last editor (the ⟲ attribution line).
+    populated_by: user
+  - name: EditedAt
+    type: datetime
+    section: Request_Accounts
+    label_th: แก้ไขเมื่อ
+    description: Last edit timestamp.
+    populated_by: user
+- name: Request_Tasks
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Request_Tasks
+    label_th: TaskID
+    description: Auto number / key.
+    notes: Primary key
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Request_Tasks
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text; INDEX this column
+    populated_by: user
+  - name: AccountGroup
+    type: text
+    section: Request_Tasks
+    label_th: กลุ่มบัญชี
+    description: TFEX / Offshore / Equity+Bond+SN / …
+    notes: Group header rows in the table
+    populated_by: user
+  - name: ResponsibleTeam
+    type: choice
+    section: Request_Tasks
+    label_th: ทีมที่รับผิดชอบ
+    description: Owner team of the task.
+    choices:
+    - Cash Management
+    - Client & Account Mgmt
+    - product operation - EQ
+    - product operation - Offshore
+    - DA Team
+    populated_by: user
+  - name: TaskName
+    type: text
+    section: Request_Tasks
+    label_th: งานที่ต้องทำ
+    description: e.g. เช็ค Position, ถอน+โอนเงิน THB.
+    populated_by: user
+  - name: Status
+    type: choice
+    section: Request_Tasks
+    label_th: สถานะ
+    description: Task status pill.
+    choices:
+    - รอทำ
+    - เสร็จแล้ว
+    populated_by: user
+  - name: IsExempt
+    type: bool
+    section: Request_Tasks
+    label_th: ไม่บังคับ
+    description: Optional rows (withdrawals; DA non-suspend).
+    notes: Default = No
+    populated_by: user
+  - name: DoneBy
+    type: person
+    section: Request_Tasks
+    label_th: ทำโดย
+    description: Who completed it (ทำโดย column).
+    populated_by: user
+  - name: DoneAt
+    type: datetime
+    section: Request_Tasks
+    label_th: ทำเมื่อ
+    description: Completion timestamp.
+    populated_by: user
+- name: Request_Prechecks
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Request_Prechecks
+    label_th: PrecheckID
+    description: Auto number / key.
+    notes: Primary key
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Request_Prechecks
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text; INDEX this column
+    populated_by: user
+  - name: Team
+    type: choice
+    section: Request_Prechecks
+    label_th: ทีม
+    description: Which parallel team.
+    choices:
+    - DigitalAssets
+    - Middle
+    - ProductOpEQ
+    populated_by: user
+  - name: WalletStatus
+    type: text
+    section: Request_Prechecks
+    label_th: สถานะ wallet (auto)
+    description: Auto-collected status shown read-only in the app (→ var gblDAWalletStatus).
+    notes: DA row · read-only label in Power Apps
+    populated_by: user
+  - name: TotalBalance
+    type: currency
+    section: Request_Prechecks
+    label_th: ยอดเงินรวม
+    description: Middle's Wallet App balance (Middle row only).
+    populated_by: user
+  - name: AttachedFileRef
+    type: text
+    section: Request_Prechecks
+    label_th: ไฟล์แนบ (อ้างอิง)
+    description: Link/name of the attached statement in Request_Files.
+    populated_by: user
+  - name: Remark
+    type: multiline
+    section: Request_Prechecks
+    label_th: หมายเหตุ
+    description: Card remark to the next team.
+    populated_by: user
+  - name: TransferredOutConfirmed
+    type: bool
+    section: Request_Prechecks
+    label_th: ลูกค้าโอนทรัพย์สินออกหมดแล้ว
+    description: The confirmation checkbox on each card.
+    populated_by: user
+  - name: WalletCleared
+    type: choice
+    section: Request_Prechecks
+    label_th: DA wallet เคลียร์แล้ว?
+    description: DA re-check result (DA-2).
+    choices:
+    - Cleared
+    - NotCleared
+    populated_by: user
+  - name: DASuspendConfirmed
+    type: bool
+    section: Request_Prechecks
+    label_th: ยืนยัน Suspend DA แล้ว
+    description: DA-1 early-suspend confirmation checkbox.
+    notes: non-deceased · no assets · no money case
+    populated_by: user
+  - name: Result
+    type: choice
+    section: Request_Prechecks
+    label_th: ผลตรวจ
+    description: Gate value for Flow 4.
+    choices:
+    - Pending
+    - Clear
+    - Reject
+    populated_by: user
+  - name: CheckedBy
+    type: person
+    section: Request_Prechecks
+    label_th: ตรวจโดย
+    description: The by-line on the card.
+    populated_by: user
+  - name: CheckedAt
+    type: datetime
+    section: Request_Prechecks
+    label_th: ตรวจเมื่อ
+    description: Timestamp on the card.
+    populated_by: user
+- name: Request_Files
+  kind: library
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Name (file)
+    type: file
+    section: Request_Files
+    label_th: ไฟล์
+    description: The document itself.
+    notes: Library, not a list
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Request_Files
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text; INDEX this column
+    populated_by: user
+  - name: Department
+    type: choice
+    section: Request_Files
+    label_th: ฝ่ายที่แนบ
+    description: Uploader's department chip in View Files.
+    choices:
+    - Sales
+    - Digital Assets
+    - Middle
+    - Product Op (EQ)
+    - Product Op (Offshore)
+    - C&AM
+    - Cash
+    - Settlement
+    populated_by: user
+  - name: FileKind
+    type: choice
+    section: Request_Files
+    label_th: ประเภทไฟล์
+    description: What the file is.
+    choices:
+    - CustomerDoc
+    - eService
+    - DAStatement
+    - WalletPrecheck
+    - AlgoLiveX
+    - SuspendEvidence
+    - Summary
+    populated_by: user
+  - name: UploadedBy
+    type: person
+    section: Request_Files
+    label_th: แนบโดย
+    description: Uploader (shown in View Files).
+    notes: Modified By works too
+    populated_by: user
+  - name: UploadedAt
+    type: datetime
+    section: Request_Files
+    label_th: แนบเมื่อ
+    description: Upload timestamp.
+    notes: Modified works too
+    populated_by: user
+- name: Request_DocChecklist
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Request_DocChecklist
+    label_th: DocItemID
+    description: Auto number / key.
+    notes: Primary key
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Request_DocChecklist
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text; INDEX this column
+    populated_by: user
+  - name: DocName
+    type: text
+    section: Request_DocChecklist
+    label_th: ชื่อเอกสาร
+    description: e.g. สำเนาใบมรณะบัตร.
+    notes: 12 deceased + 4 not-deceased + custom
+    populated_by: user
+  - name: Category
+    type: choice
+    section: Request_DocChecklist
+    label_th: กรณี
+    description: Which checklist column.
+    choices:
+    - Deceased
+    - NotDeceased
+    - Custom
+    populated_by: user
+  - name: Checked
+    type: bool
+    section: Request_DocChecklist
+    label_th: ติ๊กแล้ว
+    description: Received / verified.
+    populated_by: user
+  - name: CheckedBy
+    type: person
+    section: Request_DocChecklist
+    label_th: ติ๊กโดย
+    description: Who ticked.
+    populated_by: user
+  - name: CheckedAt
+    type: datetime
+    section: Request_DocChecklist
+    label_th: ติ๊กเมื่อ
+    description: When ticked.
+    populated_by: user
+- name: Approval_Logs
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Approval_Logs
+    label_th: รหัสรายการ Log
+    description: Auto-generated log reference.
+    notes: Primary key
+    populated_by: user
+  - name: RequestID
+    type: text
+    section: Approval_Logs
+    label_th: เลขที่คำขอ (อ้างอิง)
+    description: Reference to New_Request.Title.
+    notes: Text (ไม่ใช้ Lookup) เพื่อความเร็ว; INDEX
+    populated_by: user
+  - name: ActionTakenBy
+    type: person
+    section: Approval_Logs
+    label_th: ผู้ดำเนินการ
+    description: Who performed the action.
+    populated_by: user
+  - name: ActionUserRole
+    type: choice
+    section: Approval_Logs
+    label_th: บทบาทผู้ดำเนินการ
+    description: Role at action time.
+    choices:
+    - Sales
+    - Head_Of_Sales
+    - Middle_Team
+    - Risk_Team
+    - DA_Team
+    - Operation_Team
+    populated_by: user
+  - name: ActionType
+    type: choice
+    section: Approval_Logs
+    label_th: ประเภทการดำเนินการ
+    description: What happened.
+    choices:
+    - Submitted
+    - Approved
+    - Rejected
+    - Returned
+    - Completed
+    populated_by: user
+  - name: ActionComments
+    type: multiline
+    section: Approval_Logs
+    label_th: ความคิดเห็น/เหตุผล
+    description: Reason / remark (required on Reject).
+    populated_by: user
+  - name: ActionDate
+    type: datetime
+    section: Approval_Logs
+    label_th: วันที่ดำเนินการ
+    description: When.
+    populated_by: user
+- name: Role_Mapping
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title
+    type: text
+    section: Role_Mapping
+    label_th: คำอธิบาย
+    description: Employee ID or brief description.
+    notes: Rename Title → 'คำอธิบาย'
+    populated_by: user
+  - name: EmployeeAccount
+    type: person
+    section: Role_Mapping
+    label_th: บัญชีพนักงาน
+    description: Employee account (email).
+    notes: Single selection only
+    populated_by: user
+  - name: SystemRole
+    type: choice
+    section: Role_Mapping
+    label_th: บทบาทในระบบ
+    description: Workflow role.
+    choices:
+    - Sales
+    - Head_Of_Sales
+    - Middle_Team
+    - Risk_Team
+    - DA_Team
+    - Operation_Team
+    - System_Admin
+    populated_by: user
+  - name: DataVisibilityScope
+    type: choice
+    section: Role_Mapping
+    label_th: ขอบเขตเข้าถึงข้อมูล
+    description: Data access level.
+    choices:
+    - All_Data
+    - Department_Only
+    - My_Clients_Only
+    populated_by: user
+  - name: IsActiveUser
+    type: bool
+    section: Role_Mapping
+    label_th: สถานะใช้งาน
+    description: Active user?
+    notes: Default = Yes
+    populated_by: user
+- name: System_Config
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title (→ ConfigKey)
+    type: text
+    section: System_Config
+    label_th: ConfigKey
+    description: Unique key, e.g. SLA_MiddleTeam, RequestNumberSeed, CC_Sales.
+    notes: Rename Title → ConfigKey
+    populated_by: user
+  - name: ConfigValue
+    type: multiline
+    section: System_Config
+    label_th: ค่าที่ตั้ง
+    description: Value, e.g. '3' or 'a@b.com;c@d.com'.
+    populated_by: user
+  - name: ConfigDescription
+    type: text
+    section: System_Config
+    label_th: คำอธิบายการตั้งค่า
+    description: What this setting controls.
+    populated_by: user
+  - name: IsActiveConfig
+    type: bool
+    section: System_Config
+    label_th: สถานะใช้งาน
+    description: Active?
+    notes: Default = Yes
+    populated_by: user
+- name: Litigation_Register
+  kind: list
+  purpose: TODO — describe what one row represents
+  fields:
+  - name: Title (=CitizenID)
+    type: text
+    section: Litigation_Register
+    label_th: เลขบัตรประชาชน
+    description: Citizen ID being screened.
+    notes: Primary key; INDEX
+    populated_by: user
+  - name: Status
+    type: choice
+    section: Litigation_Register
+    label_th: ผล
+    description: Screening result.
+    choices:
+    - Clean
+    - Found
+    populated_by: user
+  - name: Reason
+    type: multiline
+    section: Litigation_Register
+    label_th: สาเหตุ
+    description: Reason behind the litigation.
+    populated_by: user
+  - name: Source
+    type: text
+    section: Litigation_Register
+    label_th: แหล่งข้อมูล
+    description: Where the result came from.
+    notes: Manual, API cache
+    populated_by: user
+  - name: UpdatedAt
+    type: datetime
+    section: Litigation_Register
+    label_th: อัปเดตเมื่อ
+    description: Last refresh.
+    populated_by: user

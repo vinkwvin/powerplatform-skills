@@ -1,0 +1,25 @@
+{
+  "id": "bsl-01-spec-to-workbook",
+  "skill": "building-sharepoint-lists",
+  "query": "Build the SharePoint lists from this spec.",
+  "input_files": ["evals/building-sharepoint-lists/fixtures/account-closure-lists.yaml"],
+  "notes": "Regression fixture, extracted from a real provisioning workbook: 10 lists, 131 fields, New_Request at 61 fields, Request_Files a document library. Round-trip through generate_workbook.py then xlsx_to_spec.py must preserve all 131 fields.",
+  "expected_behavior": [
+    "Runs validate_lists.py and reports it clean BEFORE generating anything",
+    "Generates a workbook with 10 sheets plus a How-to-use sheet",
+    "New_Request has 61 columns",
+    "Request_Files is identified as a document library, not a list, because its first field is type file",
+    "States that libraries must be created as libraries and cannot be converted from a list",
+    "Marks automation-populated columns and says to remove them from the default form",
+    "Marks join-key columns and states the delegation reason next to them",
+    "Reports list count, per-list field count, and anything it had to assume",
+    "Notes that relations[] cannot be inferred from a workbook and must be supplied by hand"
+  ],
+  "fail_if": [
+    "Generates any Lookup column",
+    "Treats Request_Files as an ordinary list",
+    "Presents output before running the validator",
+    "Silently defaults populated_by instead of flagging it",
+    "Puts non-ASCII text in a column name rather than in the label row"
+  ]
+}

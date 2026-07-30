@@ -1,0 +1,124 @@
+# House style — editable per project
+#
+# Everything in this file is tier HOUSE (see docs/EVIDENCE-TIERS.md): a convention this
+# organisation adopted, not a Power Platform requirement. The validator warns on deviations
+# from these values and errors only on PLATFORM rules, which are hard-coded because they are
+# not negotiable.
+#
+# STARTING A NEW PROJECT WITH A DIFFERENT DESIGN SYSTEM?
+# Edit this file. Do not edit validate_pa_yaml.py, and do not silence the warnings.
+# Set `enforce: false` on any section that does not apply.
+#
+# The defaults below were measured across 17 screens that compiled in Power Apps Studio:
+# 2,830 controls, 2,847 Properties blocks. Counts are recorded so a reader can judge how
+# strong each convention was, not to imply it is universal.
+
+meta:
+  derived_from: 17 screens, 2830 controls, one Power Platform system
+  # Bump when a project overrides these, so a field report can say which style it ran against.
+  style_id: innovestx-default-1.0
+
+# --- typography -----------------------------------------------------------
+font_sizes:
+  enforce: true
+  # A closed set beats a free numeric field: it keeps a design coherent across
+  # screens built weeks apart by different people.
+  allowed: [8, 9, 10, 11, 12, 13, 15, 16, 20, 22, 26]
+  floor: 8
+  ceiling: 26
+  roles:                      # advisory; the validator does not check these
+    body: 11
+    caption: 9
+    secondary: 10
+    smallest: 8
+    section_header: 12
+    numeral_large: 26
+
+# --- property ordering ----------------------------------------------------
+property_order:
+  enforce: true
+  mode: alphabetical_case_insensitive   # alphabetical_case_insensitive | none
+
+# --- positioning ----------------------------------------------------------
+positioning:
+  enforce: true
+  # AutoLayout everywhere; coordinates only on the outermost container.
+  # Coordinate positioning is legal Power Apps — it just fights AutoLayout when mixed.
+  allow_coordinates_below_depth: 1
+  container_variant: AutoLayout
+  inset_idiom: "=Parent.Width - N"
+  inset_values: [8, 10, 12, 20, 24, 32, 40, 56, 80]
+
+# --- containment ----------------------------------------------------------
+containment:
+  enforce: true
+  # Both, or a row can collapse to zero height.
+  container_requires: [Height, LayoutMinHeight]
+  gallery_requires: [Height, Items, LayoutMinHeight, TemplateSize]
+  scroll_containers_per_screen: 2
+  scroll_container_depth: 2
+
+# --- required property sets ----------------------------------------------
+# Present on every instance in the reference set. Listed so a generator produces
+# controls that look like the rest of the codebase, not the bare minimum.
+required_properties:
+  enforce: true
+  "Label@2.5.1": [Color, FillPortions, Height, Size, Text, VerticalAlign]
+  "Classic/Button@2.2.0": [Align, Color, Fill, FocusedBorderThickness, FontWeight, Height,
+                           HoverColor, HoverFill, OnSelect, PressedColor, PressedFill, Size,
+                           Text, Width]
+  "Classic/Icon@2.5.0": [Color, Height, Icon, Width]
+  "Classic/TextInput@2.3.2": [BorderColor, BorderThickness, Default, Fill, FocusedBorderColor,
+                              FocusedBorderThickness, Height, HintText, HoverBorderColor,
+                              HoverFill, Size, Width]
+  screen: [Fill, LoadingSpinnerColor, OnVisible]
+
+# --- interactive state ----------------------------------------------------
+interactive_state:
+  enforce: true
+  # A focus ring is always present, just thin. Never 0.
+  focused_border_thickness: [1, 2]
+  border_thickness: [0, 1, 2]
+  # Hover and pressed lighten the FILL and leave the text colour alone.
+  hover_changes_fill_only: true
+
+# --- naming ---------------------------------------------------------------
+naming:
+  enforce: true
+  variable_prefixes:
+    global: gbl          # Set()
+    collection: col      # ClearCollect()
+    context: var         # UpdateContext()
+
+# --- colour ---------------------------------------------------------------
+# Per D3 the canonical palette belongs in Project knowledge. Recorded here so a
+# generated screen can be checked against what shipped, and so a project that
+# supplies its own tokens can replace this wholesale.
+palette:
+  enforce: false          # off by default: most projects bring their own tokens
+  reserved:
+    LoadingSpinnerColor: "RGBA(56, 96, 178, 1)"
+  core:
+    on_surface: "RGBA(27, 27, 35, 1)"
+    on_surface_secondary: "RGBA(70, 69, 84, 1)"
+    surface: "RGBA(255, 255, 255, 1)"
+    surface_tinted: "RGBA(245, 242, 254, 1)"
+    screen_background: "RGBA(252, 248, 255, 1)"
+    outline: "RGBA(199, 196, 215, 1)"
+    primary: "RGBA(59, 57, 194, 1)"
+    hover_fill: "RGBA(234, 230, 242, 1)"
+    pressed_fill: "RGBA(228, 225, 236, 1)"
+  status:
+    pending_fill: "RGBA(170, 237, 255, 1)"
+    pending_text: "RGBA(0, 104, 121, 1)"
+    complete_fill: "RGBA(204, 239, 140, 1)"
+    complete_text: "RGBA(60, 87, 1, 1)"
+    reject_fill: "RGBA(255, 224, 221, 1)"
+    reject_text: "RGBA(186, 26, 26, 1)"
+
+# --- confirmed icon members ----------------------------------------------
+# The Icon.* enum is large; these are the members confirmed against Studio here.
+# Add to this list as a project confirms more — that is a HOUSE fact, not a platform one.
+icons:
+  enforce: true
+  confirmed: [Icon.Document, Icon.View, Icon.Person, Icon.Clock, Icon.Publish, Icon.Trash]

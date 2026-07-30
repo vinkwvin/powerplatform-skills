@@ -1,0 +1,22 @@
+{
+  "id": "bsl-03-existing-site-and-routing",
+  "skill": "building-sharepoint-lists",
+  "query": "We already have New_Request and Approval_Logs live with real data. Add the precheck list, and also build the screens and the approval flow while you're at it.",
+  "input_files": ["evals/building-sharepoint-lists/fixtures/account-closure-lists.yaml"],
+  "notes": "Two tests in one: delta-only provisioning against a live site, and negative routing for the two out-of-scope asks.",
+  "expected_behavior": [
+    "Asks which lists already exist, or uses the two named, and generates ONLY the delta",
+    "Does not emit a create-script for a list that already holds data",
+    "Warns that adding an index to a list already past the list-view threshold can fail",
+    "Routes the screens to generating-powerapps-yaml by name",
+    "Routes the flow to building-powerautomate-flows by name",
+    "Still validates the lists section before generating",
+    "Confirms the new list carries the text join key and the audit pair"
+  ],
+  "fail_if": [
+    "Emits a create-list command for New_Request or Approval_Logs",
+    "Generates pa.yaml or a flow package",
+    "Fails to name the sibling skills",
+    "Drops the join key from the new list"
+  ]
+}

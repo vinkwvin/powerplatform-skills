@@ -1,0 +1,54 @@
+# House style for SharePoint data structure — editable per project.
+#
+# Everything here is tier HOUSE (docs/EVIDENCE-TIERS.md): a convention this organisation
+# adopted, not a SharePoint requirement. validate_lists.py warns on deviations and errors
+# only on PLATFORM rules, which are hard-coded because they are not negotiable.
+#
+# Derived from one system: 10 lists, 131 fields. Counts are recorded so a reader can judge
+# how strong each convention was — not to imply it is universal.
+#
+# STARTING A PROJECT WITH DIFFERENT CONVENTIONS?
+# Edit this file. Do not edit validate_lists.py, and do not ignore the warnings.
+# Set `enforce: false` on any section that does not apply.
+
+meta:
+  derived_from: 10 lists, 131 fields, one Power Platform system
+  style_id: innovestx-lists-1.0
+
+naming:
+  enforce: true
+  list_case: PascalCase_With_Underscores     # New_Request, Request_DocChecklist
+  field_case: PascalCase                     # CustomerName, AccruedInterestPosted
+  child_list_prefix: null                    # e.g. "Request_"; null to not require one
+  # A boolean should read as a statement or an action, so a form reads like a sentence.
+  boolean_prefixes: [Is, Has, Close, Open, Allow, Require, Enable, Include, Can]
+  # The localised label is a sibling value, never part of the column name.
+  localised_label_field: label_th
+
+audit_trail:
+  enforce: true
+  # Every child list records who last acted and when.
+  require_on_child_lists: true
+  actor_suffix: By          # CheckedBy, DoneBy, UploadedBy
+  time_suffix: At           # CheckedAt, DoneAt, UploadedAt
+  actor_type: person
+  time_type: datetime
+
+keys:
+  enforce: true
+  # Title is indexed by default, so the natural key goes there rather than in a
+  # parallel column that would need its own index.
+  prefer_title_as_natural_key: true
+  join_field_type: text
+
+forms:
+  enforce: true
+  # A user typing into a column a flow overwrites is a support ticket waiting to happen.
+  omit_automation_columns_from_user_forms: true
+
+# Advisory only — the validator does not check these.
+type_preferences:
+  money: currency
+  counts: number
+  long_text: multiline
+  people: person

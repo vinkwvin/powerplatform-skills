@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-"""Validate a Power Apps Canvas .pa.yaml against conventions measured from 17 screens
-that compiled in Studio.
+"""Validate a Power Apps Canvas .pa.yaml before it is pasted into Studio.
 
-Every rule here is backed by a count over those screens, recorded in
-ledger/01-observed-conventions.md. Rules with no measurement behind them are not enforced.
+Two classes of rule, and the difference matters (see docs/EVIDENCE-TIERS.md):
 
-ERROR   will break the paste, or contradicts all 17 working screens
-WARN    departs from the working set; usually wrong, occasionally deliberate
+  PLATFORM  a fact about Power Apps. Violating it produces a failure the platform itself
+            generates. Hard-coded here, reported as ERROR, never overridable.
+  HOUSE     a convention this organisation adopted. Reported as WARN, and every number
+            lives in assets/house-style.yaml so a project with a different design system
+            edits one file instead of this script.
 
-Exit codes:  0 = no errors   1 = at least one ERROR   2 = usage or parse failure
+Exit codes:  0 = no PLATFORM errors   1 = at least one ERROR   2 = usage or parse failure
 
-Usage:  python3 scripts/validate_pa_yaml.py Screen.pa.yaml [more.pa.yaml ...]
+Usage:
+    python3 scripts/validate_pa_yaml.py Screen.pa.yaml [more.pa.yaml ...]
+    python3 scripts/validate_pa_yaml.py --style path/to/house-style.yaml Screen.pa.yaml
+    python3 scripts/validate_pa_yaml.py --platform-only Screen.pa.yaml
 """
 import re
 import sys
@@ -18,48 +22,57 @@ import pathlib
 
 import yaml
 
-# ---- the confirmed catalog: 9 types, exact versions, 2,830 controls, no others ----
+# ============================ PLATFORM ============================
+# Power Apps facts. Not configurable.
+
 CATALOG = {
     "Label@2.5.1", "GroupContainer@1.5.0", "Classic/Button@2.2.0",
     "Classic/CheckBox@2.1.0", "Classic/Icon@2.5.0", "Classic/TextInput@2.3.2",
     "Gallery@2.15.0", "Classic/Radio@2.3.0", "Classic/DropDown@2.3.1",
 }
-BARE_ONLY = {"Label", "Gallery", "GroupContainer"}   # never take a Classic/ prefix
-SCREEN_PROPS = {"Fill", "LoadingSpinnerColor", "OnVisible"}          # 17/17 screens
-LABEL_REQUIRED = {"Color", "FillPortions", "Height", "Size", "Text", "VerticalAlign"}
-BUTTON_REQUIRED = {"Align", "Color", "Fill", "FocusedBorderThickness", "FontWeight",
-                   "Height", "HoverColor", "HoverFill", "OnSelect", "PressedColor",
-                   "PressedFill", "Size", "Text", "Width"}
-SIZE_SET = {8, 9, 10, 11, 12, 13, 15, 16, 20, 22, 26}               # 1,829 uses
+BARE_TYPES = {"Label", "Gallery", "GroupContainer"}
 ITEMS_PAIR = {"Classic/DropDown@2.3.1", "Classic/Radio@2.3.0"}
-ICON_ENUM = {"Icon.Document", "Icon.View", "Icon.Person",
-             "Icon.Clock", "Icon.Publish", "Icon.Trash"}
+NONEXISTENT = {"DropShadow.Light": "DropShadow.Light does not exist — use DropShadow.None, "
+                                   "or omit DropShadow entirely on elevated white cards"}
+
+DEFAULT_STYLE = pathlib.Path(__file__).resolve().parent.parent / "assets" / "house-style.yaml"
 NUM_RE = re.compile(r"^=(\d+)$")
 
 errors, warns = [], []
+STYLE = {}
+PLATFORM_ONLY = False
 
 
 def err(loc, msg):
-    errors.append(f"ERROR  {loc}: {msg}")
+    errors.append(f"ERROR  [PLATFORM] {loc}: {msg}")
 
 
-def warn(loc, msg):
-    warns.append(f"WARN   {loc}: {msg}")
+def warn(loc, msg, section=None):
+    """HOUSE warning. Suppressed when the relevant style section is disabled."""
+    if PLATFORM_ONLY:
+        return
+    if section and not STYLE.get(section, {}).get("enforce", True):
+        return
+    warns.append(f"WARN   [HOUSE]    {loc}: {msg}")
+
+
+def sect(name, key, default=None):
+    return STYLE.get(name, {}).get(key, default)
 
 
 def items(node):
-    """(key, value_node) pairs of a MappingNode, in document order."""
     return [(k.value, v) for k, v in node.value]
 
 
 def block_needed(text):
-    """Does this scalar value require a | block scalar? 119/119 real ones did."""
+    """PLATFORM: YAML itself requires a block scalar for these."""
     return ("\n" in text.strip()) or (": " in text) or (" #" in text)
 
 
+# ============================ checks ============================
+
 def check_properties(loc, ctrl, node, is_screen=False):
-    keys, seen = [], set()
-    props = {}
+    keys, seen, props = [], set(), {}
     for key, vnode in items(node):
         if key in seen:
             err(f"{loc}.Properties", f"duplicate key {key!r}")
@@ -69,120 +82,147 @@ def check_properties(loc, ctrl, node, is_screen=False):
 
         if isinstance(vnode, yaml.MappingNode):
             err(f"{loc}.Properties.{key}",
-                "flow-style mapping — commas inside RGBA(...) break flow style; "
-                "use block style")
+                "flow-style mapping — commas inside RGBA(...) break flow-style parsing. "
+                "Use block style")
             continue
         if not isinstance(vnode, yaml.ScalarNode):
             continue
         val = vnode.value
 
-        if val and not val.lstrip().startswith("="):
-            warn(f"{loc}.Properties.{key}", f"value does not start with '=' ({val[:30]!r})")
-        if vnode.style == "|":
-            if not block_needed(val):
-                warn(f"{loc}.Properties.{key}",
-                     "block scalar with no ': ', newline or ' #' — 0 of 119 real block "
-                     "scalars were decorative")
-        elif block_needed(val):
+        # -- PLATFORM --
+        if vnode.style != "|" and block_needed(val):
             why = "': '" if ": " in val else ("' #'" if " #" in val else "a newline")
             err(f"{loc}.Properties.{key}",
-                f"value contains {why} but is not a | block scalar — YAML will mis-parse "
-                f"this and the paste breaks")
-        if "DropShadow.Light" in val:
+                f"value contains {why} but is not a | block scalar. YAML will mis-parse it "
+                f"and the paste breaks")
+        for bad, msg in NONEXISTENT.items():
+            if bad in val:
+                err(f"{loc}.Properties.{key}", msg)
+        if val and not val.lstrip().startswith("="):
             err(f"{loc}.Properties.{key}",
-                "DropShadow.Light does not exist — use DropShadow.None or omit DropShadow")
+                f"property value must start with '=' (found {val[:30]!r})")
+
+        # -- HOUSE --
+        if vnode.style == "|" and not block_needed(val):
+            warn(f"{loc}.Properties.{key}",
+                 "block scalar with no ': ', newline or ' #' — reference set never used | "
+                 "decoratively")
         if key == "Size":
             m = NUM_RE.match(val.strip())
-            if m and int(m.group(1)) not in SIZE_SET:
+            allowed = sect("font_sizes", "allowed", [])
+            if m and allowed and int(m.group(1)) not in allowed:
                 warn(f"{loc}.Properties.Size",
-                     f"{val} is outside the measured set {sorted(SIZE_SET)} "
-                     f"(floor 8, ceiling 26)")
-        if key == "FocusedBorderThickness" and val.strip() == "=0":
-            warn(f"{loc}.Properties.FocusedBorderThickness",
-                 "never 0 in 289 real interactive controls — always 1, occasionally 2")
-        if key == "Icon" and val.strip().lstrip("=").strip() not in ICON_ENUM:
-            warn(f"{loc}.Properties.Icon",
-                 f"{val} is not one of the six confirmed members {sorted(ICON_ENUM)} — "
-                 f"mark UNVERIFIED and ask before shipping")
+                     f"{val} outside the house set {allowed} "
+                     f"(floor {sect('font_sizes','floor')}, ceiling {sect('font_sizes','ceiling')})",
+                     "font_sizes")
+        if key == "FocusedBorderThickness":
+            m = NUM_RE.match(val.strip())
+            ok = sect("interactive_state", "focused_border_thickness", [])
+            if m and ok and int(m.group(1)) not in ok:
+                warn(f"{loc}.Properties.FocusedBorderThickness",
+                     f"{val} — house style uses {ok}; a focus ring is always present, just thin",
+                     "interactive_state")
+        if key == "Icon":
+            confirmed = sect("icons", "confirmed", [])
+            v = val.strip().lstrip("=").strip()
+            if confirmed and v not in confirmed:
+                warn(f"{loc}.Properties.Icon",
+                     f"{v} is not in the confirmed member list {confirmed}. The Icon.* enum is "
+                     f"larger than this — mark '# UNVERIFIED' and paste-test it alone, then add "
+                     f"it to house-style.yaml once Studio accepts it",
+                     "icons")
 
-    lowered = [k.lower() for k in keys]
-    if lowered != sorted(lowered):
-        bad = next((f"{keys[i]!r} before {keys[i+1]!r}"
-                    for i in range(len(lowered) - 1) if lowered[i] > lowered[i + 1]), "?")
-        err(f"{loc}.Properties",
-            f"properties not alphabetised ({bad}) — 2,847/2,847 real blocks are sorted")
+    # -- HOUSE: ordering --
+    if sect("property_order", "mode", "alphabetical_case_insensitive") == \
+            "alphabetical_case_insensitive":
+        lowered = [k.lower() for k in keys]
+        if lowered != sorted(lowered):
+            bad = next((f"{keys[i]!r} before {keys[i+1]!r}"
+                        for i in range(len(lowered) - 1) if lowered[i] > lowered[i + 1]), "?")
+            warn(f"{loc}.Properties", f"properties not alphabetised ({bad})", "property_order")
 
     if is_screen:
-        missing = SCREEN_PROPS - set(keys)
-        for m in sorted(missing):
-            err(f"{loc}.Properties", f"screen is missing {m} — present on 17/17 screens")
-        for extra in sorted(set(keys) - SCREEN_PROPS):
-            warn(f"{loc}.Properties", f"{extra} — no real screen carries a fourth property")
+        req = sect("required_properties", "screen", [])
+        for m in sorted(set(req) - set(keys)):
+            warn(f"{loc}.Properties", f"screen missing {m}", "required_properties")
     return props
 
 
 def check_control(loc, name, body, depth):
     fields = dict(items(body))
     if "Control" not in fields:
-        err(f"{loc}", "control has no Control: key")
+        err(loc, "control has no Control: key")
         return
     ctrl = fields["Control"].value.strip()
+    base = ctrl.split("@")[0]
 
+    # -- PLATFORM: catalog and bare-vs-Classic --
     if ctrl not in CATALOG:
-        base = ctrl.split("@")[0]
-        if base in BARE_ONLY or f"Classic/{base}" in {c.split('@')[0] for c in CATALOG}:
+        if base.startswith("Classic/") and base.split("/", 1)[1] in BARE_TYPES:
             err(f"{loc}({name})",
-                f"{ctrl} is not in the confirmed catalog. Bare Label/Gallery/GroupContainer, "
-                f"Classic/ on everything interactive, exact versions: {sorted(CATALOG)}")
+                f"{ctrl} — {base.split('/',1)[1]} is a bare control and must not carry the "
+                f"Classic/ prefix")
+        elif base in BARE_TYPES or f"Classic/{base}" in {c.split('@')[0] for c in CATALOG}:
+            err(f"{loc}({name})",
+                f"{ctrl} is not a confirmed type or version. Confirmed: {sorted(CATALOG)}")
         else:
             err(f"{loc}({name})",
-                f"{ctrl} is not a confirmed control type. Mark it '# UNVERIFIED' and ask "
-                f"before shipping — an invented control type is the top cause of paste failure")
+                f"{ctrl} is not in the confirmed catalog. It may well exist — the Power Apps "
+                f"control set is larger than this list — but it is unverified here. Mark it "
+                f"'# UNVERIFIED', paste-test it alone, and add it to the catalog once Studio "
+                f"accepts it. Never ship an unverified type inside a full screen unflagged")
 
-    if ctrl == "GroupContainer@1.5.0":
-        variant = fields.get("Variant")
-        if variant is None or variant.value.strip() != "AutoLayout":
-            err(f"{loc}({name})",
-                "GroupContainer needs 'Variant: AutoLayout' — 887/887 real containers have it")
-    if ctrl == "Gallery@2.15.0":
-        variant = fields.get("Variant")
-        if variant is None or variant.value.strip() != "Vertical":
-            warn(f"{loc}({name})", "Gallery Variant is 'Vertical' on 36/36 real galleries")
-
-    props = {}
-    if "Properties" in fields and isinstance(fields["Properties"], yaml.MappingNode):
-        props = check_properties(f"{loc}({name})", ctrl, fields["Properties"])
-
-    pk = set(props)
-    if depth > 1:
-        for coord in ("X", "Y"):
-            if coord in pk:
-                err(f"{loc}({name}).Properties.{coord}",
-                    f"{coord} appears only on the depth-1 root container in the real screens "
-                    f"(0 of 2,813 nested controls declare it). Position with AutoLayout")
     if ctrl in ITEMS_PAIR:
+        pk = set()
+        if isinstance(fields.get("Properties"), yaml.MappingNode):
+            pk = {k for k, _ in items(fields["Properties"])}
         for req in ("Items", "Items.Value"):
             if req not in pk:
                 err(f"{loc}({name}).Properties",
-                    f"{ctrl} needs both Items and Items.Value — missing {req}. "
-                    f"Omitting Items.Value is a silent failure")
-    if ctrl == "Label@2.5.1":
-        for m in sorted(LABEL_REQUIRED - pk):
-            warn(f"{loc}({name}).Properties", f"Label missing {m} — 1,370/1,370 carry it")
-    if ctrl == "Classic/Button@2.2.0":
-        for m in sorted(BUTTON_REQUIRED - pk):
-            warn(f"{loc}({name}).Properties", f"Button missing {m} — 268/268 carry it")
+                    f"{base} requires both Items and Items.Value — missing {req}. Omitting "
+                    f"Items.Value renders an empty control with no error message")
+
+    # -- HOUSE: variant --
+    want_variant = sect("positioning", "container_variant")
+    if ctrl == "GroupContainer@1.5.0" and want_variant:
+        v = fields.get("Variant")
+        if v is None or v.value.strip() != want_variant:
+            warn(f"{loc}({name})", f"GroupContainer without 'Variant: {want_variant}'",
+                 "positioning")
+
+    props = {}
+    if isinstance(fields.get("Properties"), yaml.MappingNode):
+        props = check_properties(f"{loc}({name})", ctrl, fields["Properties"])
+    pk = set(props)
+
+    # -- HOUSE: coordinates --
+    max_depth = sect("positioning", "allow_coordinates_below_depth", 1)
+    if max_depth is not None and depth > max_depth:
+        for coord in ("X", "Y"):
+            if coord in pk:
+                warn(f"{loc}({name}).Properties.{coord}",
+                     f"{coord} below depth {max_depth}. House style positions with AutoLayout; "
+                     f"coordinates mixed into an AutoLayout tree fight their siblings. Use "
+                     f"Padding*, LayoutGap, or {sect('positioning','inset_idiom')}",
+                     "positioning")
+
+    # -- HOUSE: required property sets --
+    for m in sorted(set(sect("required_properties", ctrl, [])) - pk):
+        warn(f"{loc}({name}).Properties", f"{base} missing {m}", "required_properties")
+
+    # -- HOUSE: containment --
     if ctrl == "GroupContainer@1.5.0":
-        for m in ("Height", "LayoutMinHeight"):
+        for m in sect("containment", "container_requires", []):
             if m not in pk:
                 warn(f"{loc}({name}).Properties",
-                     f"container missing {m} — 887/887 carry both, or rows collapse")
+                     f"container missing {m} — without both, a row can collapse to zero height",
+                     "containment")
     if ctrl == "Gallery@2.15.0":
-        for m in ("Height", "Items", "LayoutMinHeight", "TemplateSize"):
+        for m in sect("containment", "gallery_requires", []):
             if m not in pk:
-                warn(f"{loc}({name}).Properties", f"Gallery missing {m} — 36/36 carry it")
+                warn(f"{loc}({name}).Properties", f"Gallery missing {m}", "containment")
 
-    if "Children" in fields and isinstance(fields["Children"], yaml.SequenceNode):
+    if isinstance(fields.get("Children"), yaml.SequenceNode):
         walk_children(f"{loc}({name})", fields["Children"], depth + 1)
 
 
@@ -200,12 +240,9 @@ def walk_children(loc, seq, depth):
 
 def validate(path):
     raw = path.read_text(encoding="utf-8")
-
     for n, line in enumerate(raw.splitlines(), 1):
-        indent = line[: len(line) - len(line.lstrip())]
-        if "\t" in indent:
+        if "\t" in line[: len(line) - len(line.lstrip())]:
             err(f"{path.name}:{n}", "tab in leading whitespace — breaks the paste. Spaces only")
-
     try:
         yaml.safe_load(raw)
     except yaml.YAMLError as e:
@@ -217,39 +254,74 @@ def validate(path):
         return
     top = dict(items(root))
     if "Screens" not in top:
-        err(path.name, "no top-level 'Screens:' key — Studio needs the full schema, "
+        err(path.name, "no top-level 'Screens:' key — Studio needs the full source schema, "
                        "not a bare control list")
         return
+    scroll_want = sect("containment", "scroll_containers_per_screen")
     for sname, screen in items(top["Screens"]):
         loc = f"{path.name}[{sname}]"
         sf = dict(items(screen))
-        if "Properties" in sf and isinstance(sf["Properties"], yaml.MappingNode):
+        if isinstance(sf.get("Properties"), yaml.MappingNode):
             check_properties(loc, None, sf["Properties"], is_screen=True)
         else:
             err(loc, "screen has no Properties block")
-        if "Children" in sf and isinstance(sf["Children"], yaml.SequenceNode):
+        if isinstance(sf.get("Children"), yaml.SequenceNode):
             walk_children(loc, sf["Children"], 1)
         else:
             err(loc, "screen has no Children block")
+        if scroll_want:
+            n = raw.count("LayoutOverflowY")
+            if n != scroll_want:
+                warn(loc, f"{n} LayoutOverflowY container(s); house style uses {scroll_want} "
+                          f"per screen (content region plus the card inside it)", "containment")
+
+
+def load_style(path):
+    try:
+        return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError) as e:
+        print(f"WARN   could not read house style {path}: {e}. "
+              f"PLATFORM rules still apply.", file=sys.stderr)
+        return {}
 
 
 def main():
-    paths = [pathlib.Path(a) for a in sys.argv[1:]]
-    if not paths:
-        print(__doc__.strip().splitlines()[-1], file=sys.stderr)
+    global STYLE, PLATFORM_ONLY
+    args = sys.argv[1:]
+    style_path = DEFAULT_STYLE
+    files = []
+    i = 0
+    while i < len(args):
+        if args[i] == "--style":
+            i += 1
+            style_path = pathlib.Path(args[i])
+        elif args[i] == "--platform-only":
+            PLATFORM_ONLY = True
+        else:
+            files.append(pathlib.Path(args[i]))
+        i += 1
+    if not files:
+        print(__doc__.strip(), file=sys.stderr)
         return 2
-    for p in paths:
+    STYLE = {} if PLATFORM_ONLY else load_style(style_path)
+    if STYLE.get("meta", {}).get("style_id"):
+        print(f"house style: {STYLE['meta']['style_id']}\n")
+    for p in files:
         if not p.is_file():
             print(f"No such file: {p}", file=sys.stderr)
             return 2
         validate(p)
     for line in errors + warns:
         print(line)
-    print(f"\n{len(errors)} error(s), {len(warns)} warning(s).")
+    print(f"\n{len(errors)} error(s) [PLATFORM], {len(warns)} warning(s) [HOUSE].")
     if errors:
-        print("Do not paste this into Studio. Fix every ERROR and re-run.")
+        print("Do not paste this into Studio. Every ERROR is a platform rule — fix and re-run.")
         return 1
-    print("Clean. Safe to paste into Power Apps Studio.")
+    if warns:
+        print("No platform errors. Review the HOUSE warnings: fix them, or if this project has "
+              "different conventions, change assets/house-style.yaml rather than ignoring them.")
+    else:
+        print("Clean. Safe to paste into Power Apps Studio.")
     return 0
 
 

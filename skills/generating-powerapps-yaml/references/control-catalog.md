@@ -1,8 +1,18 @@
 # Control catalog
 
-Measured across 17 screens that compiled in Studio: 2,830 controls, 17 screens.
-Counts are the evidence. A type not listed here is not confirmed — mark it `# UNVERIFIED`
-and ask.
+> **Tiers.** `PLATFORM` = a Power Apps fact; violating it makes Studio fail. `HOUSE` = this
+> organisation's convention, held in `assets/house-style.yaml` and editable per project.
+> `EXAMPLE` = illustration from one real system, never a rule. See `docs/EVIDENCE-TIERS.md`.
+>
+> Counts below are from 17 screens that compiled: 2,830 controls, 2,847 `Properties` blocks.
+> A count proves *this team always did it*, not *it must always be done* — which is exactly
+> why the two are labelled differently.
+
+A type not listed here is not *confirmed here*. The Power Apps control set is larger than this
+list — `Rectangle`, `Image`, `Toggle`, `Slider` and others exist. They are absent because no
+screen in the reference set used them, not because they are forbidden. Mark anything outside the
+list `# UNVERIFIED`, paste-test it alone, and add it to `assets/house-style.yaml` once Studio
+accepts it. That is how the confirmed set grows.
 
 ## Contents
 1. The nine types
@@ -13,7 +23,9 @@ and ask.
 
 ---
 
-## 1. The nine types
+## 1. The nine confirmed types
+
+`PLATFORM` on bare-vs-`Classic/`. `HOUSE` on the version pins and on which types are confirmed.
 
 | Control | Uses | Files | Variant | Bare or Classic |
 |---|---|---|---|---|
@@ -35,6 +47,8 @@ takes `Classic/`. A bare interactive control resolves to the modern variant, whi
 confidence and verify against Studio if the screen depends on it.
 
 ## 2. Property sets that every instance carries
+
+`HOUSE` — a house baseline, so a generated control matches the rest of the codebase. Absence never breaks a paste; it just produces something that looks unlike everything around it.
 
 Present on **every** instance. Absence was never observed, so treat them as required.
 
@@ -73,6 +87,8 @@ Plus `Variant: AutoLayout` on 887/887.
 `Fill` · `LoadingSpinnerColor` · `OnVisible`. Never a fourth.
 
 ## 3. Optional properties, by type
+
+`EXAMPLE` — what one system used, as a guide to what is available and normal.
 
 | Control | Optional | Uses |
 |---|---|---|
@@ -129,6 +145,8 @@ Hover and pressed states lighten the *fill* and leave the text colour alone. A d
 or a thick focus ring departs from all 17 screens.
 
 ## 4. Icon enum
+
+`HOUSE` — the confirmed subset, not the whole enum.
 
 Six members observed, and no others:
 

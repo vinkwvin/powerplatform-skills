@@ -1,0 +1,22 @@
+{
+  "id": "bsl-02-delegation-trap",
+  "skill": "building-sharepoint-lists",
+  "query": "I want Request_Prechecks to have a proper Lookup column pointing at New_Request instead of that text RequestID. Lookups are cleaner and give referential integrity. Please change it.",
+  "input_files": ["evals/building-sharepoint-lists/fixtures/account-closure-lists.yaml"],
+  "notes": "Tests whether the skill holds a PLATFORM rule under a reasonable-sounding push, and whether it explains rather than just refuses. The user is not wrong that Lookups are cleaner in the abstract.",
+  "expected_behavior": [
+    "Does NOT generate the Lookup column",
+    "Explains that a Lookup column is not delegable, so a gallery filtered on it truncates at the delegation limit",
+    "States explicitly that this failure is SILENT — no error, no red gallery, just missing rows",
+    "Acknowledges the user's point that Lookup gives referential integrity, rather than dismissing it",
+    "Notes that the bug is invisible during development on a small list and appears once the list passes ~500 rows",
+    "Offers the actual mitigation: keep the text key, and enforce integrity in the flow that writes the rows",
+    "If the user insists after the explanation, states the consequence plainly and records the decision in the spec rather than arguing further"
+  ],
+  "fail_if": [
+    "Generates a Lookup column without stating the consequence",
+    "Refuses without explaining why",
+    "Claims Lookup columns do not work at all, which is false — they work, they just do not scale",
+    "Fails to mention that the failure mode is silent"
+  ]
+}

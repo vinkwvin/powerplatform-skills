@@ -1,6 +1,12 @@
 # Layout and sizing
 
-Measured across 17 screens that compiled in Studio.
+> **Tiers.** `PLATFORM` = a Power Apps fact; violating it makes Studio fail. `HOUSE` = this
+> organisation's convention, held in `assets/house-style.yaml` and editable per project.
+> `EXAMPLE` = illustration from one real system, never a rule. See `docs/EVIDENCE-TIERS.md`.
+>
+> Counts below are from 17 screens that compiled: 2,830 controls, 2,847 `Properties` blocks.
+> A count proves *this team always did it*, not *it must always be done* — which is exactly
+> why the two are labelled differently.
 
 ## Contents
 1. AutoLayout, not coordinates
@@ -14,6 +20,8 @@ Measured across 17 screens that compiled in Studio.
 ---
 
 ## 1. AutoLayout, not coordinates
+
+`HOUSE`. Coordinate positioning is legal Power Apps — it just fights AutoLayout when the two are mixed in one tree, which is why the reference set committed to one.
 
 Every `GroupContainer@1.5.0` is `Variant: AutoLayout` — 887/887.
 
@@ -99,6 +107,8 @@ Real screens nest: root → region → card → section → row → control.
 
 ## 6. Sizing values
 
+`HOUSE` throughout. A project with a different type scale edits `assets/house-style.yaml`.
+
 ### `Size` is a closed set of eleven values
 
 | Value | Uses | Typical role |
@@ -137,6 +147,8 @@ Per gallery: `=40` (14), `=34` (8), `=52` (5), `=42` (4), `=48` (3), `=58` (1), 
 Sidebar is `=208`, once per screen. Other fixed widths: 176 (204 uses), 90, 100, 240, 200, 220.
 
 ## 7. Colour
+
+`EXAMPLE`. Per D3 the canonical palette lives in Project knowledge. A project with its own tokens replaces this wholesale and sets `palette.enforce: false`.
 
 31 distinct `RGBA(...)` values, 4,391 uses. Nine cover 89%.
 

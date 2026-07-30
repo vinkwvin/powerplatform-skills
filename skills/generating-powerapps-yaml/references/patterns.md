@@ -2,6 +2,17 @@
 
 HTML/CSS/JS → Power Apps controls. Carried forward from the retired `powerapps-yaml` playbook,
 with values corrected against the 17 screens that compiled.
+> **Tiers.** `PLATFORM` = a Power Apps fact; violating it makes Studio fail. `HOUSE` = this
+> organisation's convention, held in `assets/house-style.yaml` and editable per project.
+> `EXAMPLE` = illustration from one real system, never a rule. See `docs/EVIDENCE-TIERS.md`.
+>
+> Counts below are from 17 screens that compiled: 2,830 controls, 2,847 `Properties` blocks.
+> A count proves *this team always did it*, not *it must always be done* — which is exactly
+> why the two are labelled differently.
+
+The mapping table is `PLATFORM` — which control an HTML element becomes is a property of the
+platform. The specific colours, sizes and paddings in the examples are `EXAMPLE`: replace them
+with the project's tokens.
 
 ## Contents
 1. Element → control mapping
