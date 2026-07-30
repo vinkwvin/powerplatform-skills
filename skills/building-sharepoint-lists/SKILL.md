@@ -6,7 +6,7 @@ description: >-
   CLI. Use whenever SharePoint data structure is being built, changed, or reviewed — triggers:
   "create the SharePoint lists", "make the list schema", "provisioning workbook", "column
   script", "what columns do I need", "add a field to the list", "why is my gallery only showing
-  500 rows", "delegation warning", or modelling data for a Power Platform app. Do NOT use for
+  500 rows", "delegation warning". Do NOT use for
   Power Apps screens or .pa.yaml — use generating-powerapps-yaml. Do NOT use for Power Automate
   flows or .zip packages — use building-powerautomate-flows. Do NOT use to gather requirements
   or write the spec itself — use planning-powerplatform-solutions. Do NOT use for user or admin
