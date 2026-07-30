@@ -1,0 +1,23 @@
+{
+  "id": "gpy-02-fix-failed-paste",
+  "skill": "generating-powerapps-yaml",
+  "query": "My paste into Power Apps Studio failed with PA2108 and the dropdown on the screen renders empty. Here's the file.",
+  "input_files": ["<a corrupted copy of source-artifacts/yaml/09_CAM_Gate.pa.yaml with: DropShadow.Light on one container, Items without Items.Value on a Classic/DropDown, and one unsorted Properties block>"],
+  "notes": "Diagnostic path, not generation. Tests whether the skill triages instead of regenerating.",
+  "expected_behavior": [
+    "Skill triggers on a Studio error report, without the user naming the skill",
+    "Classifies PA2108 as blocking before proposing anything",
+    "Identifies DropShadow.Light as the PA2108 cause and states that the value does not exist",
+    "Identifies the missing Items.Value as the cause of the empty dropdown, and names it as a SILENT failure with no error message",
+    "Identifies the unsorted Properties block",
+    "Fixes only what is broken — does not regenerate the whole file",
+    "Runs the validator and reports it clean before presenting the fix",
+    "Explains that the empty dropdown produced no error, which is why the validator matters"
+  ],
+  "fail_if": [
+    "Regenerates the entire screen from scratch",
+    "Treats a non-blocking version warning as urgent",
+    "Misses the missing Items.Value because there was no error message for it",
+    "Presents a fix without running the validator"
+  ]
+}

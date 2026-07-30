@@ -1,0 +1,24 @@
+{
+  "id": "gpy-03-spec-driven-and-routing",
+  "skill": "generating-powerapps-yaml",
+  "query": "Here's our solution-spec.yaml. Build the whole system — the SharePoint lists, the flows, and the screens.",
+  "input_files": ["spec/solution-spec.schema.yaml"],
+  "notes": "Tests negative routing. The request spans four skills; only the screens belong here.",
+  "expected_behavior": [
+    "Reads only screens[], variables[] and bindings[] from the spec",
+    "Generates pa.yaml for the screens and nothing else",
+    "Explicitly routes the SharePoint lists to building-sharepoint-lists and the flows to building-powerautomate-flows, by name",
+    "Uses bindings[].control and bindings[].control_type to name and type each control",
+    "Uses variables[] naming — gbl globals, col collections, var context variables — and seeds them in the screen OnVisible",
+    "Treats bindings[] rows with direction: ui as controls with no backing column",
+    "Ignores screens[].purpose and screens[].roles, which are manual-only fields",
+    "Runs the validator before presenting anything"
+  ],
+  "fail_if": [
+    "Attempts to generate a SharePoint provisioning workbook or column script",
+    "Attempts to generate a flow definition.json or .zip",
+    "Attempts to write a user manual",
+    "Invents control names instead of using bindings[].control",
+    "Fails to name the sibling skills the other work belongs to"
+  ]
+}

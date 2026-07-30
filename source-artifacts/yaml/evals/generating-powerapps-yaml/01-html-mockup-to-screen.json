@@ -1,0 +1,37 @@
+{
+  "id": "gpy-01-html-mockup-to-screen",
+  "skill": "generating-powerapps-yaml",
+  "query": "Turn this page into a Power Apps screen: /workspace/invx-account-closure/pages/sales-screen-1.html (tokens in assets/tailwind-config.js, styles in assets/app.css)",
+  "input_files": [
+    "source-artifacts/existing-skills/../../../../workspace/invx-account-closure/pages/sales-screen-1.html",
+    "source-artifacts/yaml/02_Sales_InitialContact.pa.yaml"
+  ],
+  "notes": "Regression fixture. 02_Sales_InitialContact.pa.yaml is the screen that actually compiled from this page. Compare the generated output against it structurally, not line by line.",
+  "expected_behavior": [
+    "Skill triggers without the user naming pa.yaml or the skill",
+    "Reads assets/tailwind-config.js and assets/app.css, not just the markup, and says so",
+    "Uses only the nine catalog control types with exact version strings",
+    "Label, Gallery and GroupContainer are bare; Button, TextInput, DropDown, Radio, CheckBox, Icon carry the Classic/ prefix",
+    "Every GroupContainer has Variant: AutoLayout",
+    "No X or Y on any control below the depth-1 root container",
+    "Child insets expressed as Width: =Parent.Width - N, not coordinates",
+    "Screen carries exactly Fill, LoadingSpinnerColor and OnVisible; OnVisible seeds globals and collections with IsBlank/IsEmpty guards",
+    "Properties alphabetised in every Properties block",
+    "Block scalar used on any value containing ': ', a newline or ' #' — and not used anywhere else",
+    "Every container and gallery carries both Height and LayoutMinHeight",
+    "Two LayoutOverflowY: =LayoutOverflow.Scroll containers, at nesting depth 2",
+    "Size values drawn from the closed set (floor 8, ceiling 26)",
+    "Runs scripts/validate_pa_yaml.py and reports it exiting clean BEFORE presenting the YAML",
+    "Anything outside the catalog is marked '# UNVERIFIED' with reasoning, and a one-control test snippet is offered separately",
+    "Does NOT invent a control type or property to satisfy a visual detail"
+  ],
+  "fail_if": [
+    "Any X or Y appears on a nested control",
+    "A control type outside the catalog appears without an UNVERIFIED marker",
+    "Properties are not alphabetised",
+    "YAML is presented before the validator is run",
+    "DropShadow.Light appears",
+    "Size: =32 or Size: =18 appears",
+    "Icon.Home, Icon.Table, Icon.Money or Icon.Shop appears unmarked"
+  ]
+}
