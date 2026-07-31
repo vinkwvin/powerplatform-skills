@@ -1,0 +1,23 @@
+{
+  "id": "pps-01-glossary-collision",
+  "skill": "planning-powerplatform-solutions",
+  "query": "We need an app for our equipment loans. Operations track a 'booking' from request to return. Finance track a 'reservation' — they need to know what's committed so they can forecast. Two teams, one process, can you plan it?",
+  "input_files": [],
+  "notes": "The core methodological test. 'Booking' and 'reservation' are almost certainly one thing under two names. A planner that records both produces duplicate lists and a migration later.",
+  "expected_behavior": [
+    "Builds the glossary BEFORE scoping, data, or screens",
+    "Asks the disambiguating question with both terms in one sentence — 'is a booking the same thing as a reservation?'",
+    "Does NOT create separate booking and reservation lists without resolving the question first",
+    "If the answer is fuzzy, uses a lifecycle or existence follow-up ('if the booking is cancelled, is the reservation cancelled?', 'can one exist without the other?')",
+    "Asks to see where each one lives today, since an existing artifact settles it faster than recollection",
+    "If genuinely two things, records distinct_from with the actual difference, and notes the implied relation",
+    "If genuinely unsure after asking, marks the term unresolved rather than silently merging or splitting",
+    "States the asymmetry when explaining why it is asking: two names for one thing costs a migration, one name for two things costs a rename"
+  ],
+  "fail_if": [
+    "Creates both Bookings and Reservations lists without asking",
+    "Silently merges them without confirming",
+    "Leaves the glossary until the end",
+    "Asks 'what do you mean by booking?' in isolation instead of putting both terms in contact"
+  ]
+}

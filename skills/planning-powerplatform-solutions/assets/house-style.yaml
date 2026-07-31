@@ -1,0 +1,44 @@
+# House style for planning — editable per project.
+#
+# Tier HOUSE throughout (docs/EVIDENCE-TIERS.md): conventions this organisation adopted,
+# not Power Platform requirements. Nothing here is enforced by a validator; these are
+# defaults the skill follows and states when it does.
+
+meta:
+  style_id: innovestx-planning-1.0
+
+interview:
+  # An interview with no end condition is this skill's main failure mode.
+  stop_when: spec_validates_and_glossary_confirmed
+  # Draft the spec in front of the user rather than asking abstract questions.
+  draft_visibly: true
+  # One pass at a time; do not send the whole question set at once.
+  one_pass_at_a_time: true
+  # Record what you did not learn instead of inventing it.
+  unknowns_become: todo_in_spec_and_open_question
+
+glossary:
+  # The disambiguating question, asked with both terms in one sentence.
+  disambiguating_question: "Is a {a} the same thing as a {b}?"
+  # When still unsure after asking, prefer recording as possibly-one over silently splitting:
+  # two names for one thing costs a migration, one name for two things costs a rename.
+  bias_when_unsure: record_as_unresolved
+  require_owner_role_on_disputed_terms: true
+
+overview:
+  # Section order lives in assets/pdf-outline.md.
+  format: print_ready_html          # the team saves as PDF from the browser
+  glossary_position: front          # §2, not an appendix — it is a contract, not a reference
+  open_questions_numbered: true     # so a reader can answer "Q3"
+
+mockup:
+  max_screens_before_asking: 4      # representative shapes beat exhaustive coverage
+  sample_data: realistic            # never lorem ipsum — wrong-looking data gets corrected
+  interactive: false                # not a prototype: no routing, no state, no validation
+  tokens_source: project_knowledge  # ask if absent; never invent a palette silently
+
+spec_defaults:
+  # Applied when the user has no preference, and stated when applied.
+  meta_status: draft
+  languages: [en]
+  heading_language_order: th_first  # only relevant on bilingual projects

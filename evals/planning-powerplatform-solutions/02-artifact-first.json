@@ -1,0 +1,28 @@
+{
+  "id": "pps-02-artifact-first",
+  "skill": "planning-powerplatform-solutions",
+  "query": "Here's the spreadsheet we use today and the process flowchart IT drew last year. Can you turn this into a plan?",
+  "input_files": [
+    "source-artifacts/sharepoint/AccountClosure_SharePoint_Database.xlsx",
+    "workspace/invx-account-closure/WORKFLOW.md"
+  ],
+  "notes": "Tests reading before asking, and handling two inputs that disagree. The spreadsheet is in current use; the flowchart is a year old.",
+  "expected_behavior": [
+    "Reads BOTH inputs fully before asking any question",
+    "Extracts lists and fields from the spreadsheet rather than asking the user to describe them",
+    "Mentions xlsx_to_spec.py or otherwise avoids retyping the schema by hand",
+    "Reads the DATA, not just headers — notices columns that are mostly empty, or a text column holding a fixed set of values",
+    "Extracts stages, roles and exit conditions from the flowchart",
+    "Presents a DRAFT for correction rather than an open question list: 'I read this as N stages, what did I get wrong?'",
+    "Where the two disagree, flags it explicitly rather than reconciling silently",
+    "Ranks the in-use spreadsheet above the year-old flowchart, and says why",
+    "Asks specifically about rejection and exception paths, which flowcharts routinely omit",
+    "Translates any foreign key into a text-key relation and states the delegation reason at the moment of translating"
+  ],
+  "fail_if": [
+    "Asks the user to describe data that is already in the spreadsheet",
+    "Silently reconciles a disagreement between the two inputs",
+    "Produces a Lookup relation from an ER-style foreign key",
+    "Opens with a generic requirements questionnaire"
+  ]
+}

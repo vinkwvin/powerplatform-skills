@@ -54,6 +54,14 @@ the session that needs it.
 - **Six flows, not seven.** Flow 6 is a child flow called by four parents.
 - **`splitOn` applies to exactly one of the six flows** — only Flow 4 has a SharePoint trigger. State the rule with its condition, or a reader will hunt for `splitOn` on a Power Apps trigger.
 
+## Skills built
+
+| Skill | Session | Validator tested | Notes |
+|---|---|---|---|
+| `generating-powerapps-yaml` | 5 | 17 real screens clean; 6 injected defects caught | merges the two retired YAML skills |
+| `building-sharepoint-lists` | 6 | clean spec passes; 7 injected defects caught; 131-field round trip lossless | ships `xlsx_to_spec.py` for existing systems |
+| `planning-powerplatform-solutions` | 7 | renders the real spec to a 9-section overview, HTML + PDF | writes the spec the other four read |
+
 ## Standing cautions
 
 - **`source-artifacts/docs/yaml-conventions.md` exists twice**, byte-identical, the second copy

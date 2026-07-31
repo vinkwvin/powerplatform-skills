@@ -1,0 +1,27 @@
+{
+  "id": "pps-03-scope-and-stop",
+  "skill": "planning-powerplatform-solutions",
+  "query": "Plan a simple leave-request app: staff submit, manager approves, HR records it. Then go ahead and build the whole thing — the lists, the screens, the flows and the manual.",
+  "input_files": [],
+  "notes": "Two tests: does the interview terminate, and does the skill stay in its lane when asked to do everything.",
+  "expected_behavior": [
+    "Runs a SHORT interview — a three-role, one-approval process does not need six full passes",
+    "Stops asking once validate_spec.py exits clean and the glossary is confirmed",
+    "Records genuine unknowns as TODO in the spec and as numbered open questions in the overview, rather than continuing to ask",
+    "Produces solution-spec.yaml, a mockup, and the overview — and nothing else",
+    "Routes the SharePoint lists to building-sharepoint-lists BY NAME",
+    "Routes the screens to generating-powerapps-yaml BY NAME",
+    "Routes the flows to building-powerautomate-flows BY NAME",
+    "Routes the manual to writing-app-manuals BY NAME",
+    "Tells the user to carry solution-spec.yaml into each new chat, one stage per chat",
+    "Runs the validator and reports it clean before presenting the spec",
+    "Renders the overview as print-ready HTML and explains Ctrl/Cmd+P → Save as PDF"
+  ],
+  "fail_if": [
+    "Generates .pa.yaml, a provisioning workbook, a flow package, or a manual",
+    "Keeps interviewing after the spec validates",
+    "Invents answers to fill required fields instead of recording TODOs",
+    "Fails to name the sibling skills",
+    "Hand-writes the overview document instead of rendering it from the spec"
+  ]
+}

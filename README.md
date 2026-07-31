@@ -47,7 +47,7 @@ expensive to re-read, and cannot be validated — so it is never the source of t
 | 4 | The spec contract → `spec/` | done |
 | 5 | `generating-powerapps-yaml` | done |
 | 6 | `building-sharepoint-lists` | done |
-| 7 | `planning-powerplatform-solutions` | not started |
+| 7 | `planning-powerplatform-solutions` | done |
 | 8 | `building-powerautomate-flows` | not started |
 | 9 | `writing-app-manuals` | not started |
 | 10 | Lint and package → `dist/*.zip` | not started |
