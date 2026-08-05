@@ -34,9 +34,28 @@ A record with no artifact is still worth filing, but it cannot promote a rule on
 3. That is all. No triage, no judgement about whether it matters. Intake is cheap; deciding is
    the reviewing session's job.
 
+## Where this folder sits now
+
+This is the repository's copy. **The team's copy is a shared folder** — SharePoint or Teams —
+laid out the same way, because they have no checkout and no maintainer to send files to.
+
+| | Here | The team |
+|---|---|---|
+| Where records land | `feedback/<skill>/` | `บันทึก/<skill>/` in the shared folder |
+| Who reads them | whoever runs an intake session | whoever runs the improvement round — anyone |
+| What they run | `scripts/triage_feedback.py`, then edit by hand | `prompts/improve-the-skill.md`, pasted with the zip attached |
+| Proof the fix is safe | `evals/`, run deliberately | `scripts/self_check.py`, bundled in the zip and run by the chat |
+
+Everything below still describes the method. It is now executed by
+[`prompts/improve-the-skill.md`](../prompts/improve-the-skill.md) rather than by a person with a
+clone — so if you change the method, change that prompt too, or the two will drift and the prompt
+is the one that is actually running.
+
+`2026-08-05-chopchop.md` is the worked example. Read it before writing a first record.
+
 ## What happens to it
 
-A recurring intake session (Session 11) reads everything new here and:
+An improvement round reads everything new here and:
 
 - **Validator gaps first.** Any `caught_by: studio` entry is something the validator let through
   to a real paste. Those become validator checks before anything else is considered.
@@ -46,15 +65,29 @@ A recurring intake session (Session 11) reads everything new here and:
   them longer*, which is the only sustainable direction.
 - **Corroboration across reports.** The same `element` appearing in reports from two different
   teammates on two different projects is stronger evidence than one report at `times: 5`.
-- **Every confirmed fix becomes an eval.** Added to `evals/<skill>/` using the corrected artifact
-  as the fixture, so the failure cannot come back silently.
-- **Version bump and changelog**, then a re-packaged `.zip` in `/dist/`.
+- **Every confirmed fix becomes a probe.** A small file under the skill's `tests/probes/` that
+  produces the error the new rule is meant to produce, with its counts recorded in
+  `tests/expected.json`, so the failure cannot come back silently. In this repo it also becomes an
+  eval under `evals/<skill>/`.
+- **Version bump and changelog**, then a re-packaged `.zip`.
+
+## The check that cannot be talked around
+
+Before any change ships, `scripts/self_check.py` runs the validator over the 17 screens that
+compiled in Studio. **If a new rule makes one of them warn, the rule is wrong.** Those screens
+shipped; a plausible inference does not outrank them. This has already caught one reasonable-looking
+rule that fired on 20 working buttons.
+
+The numbers live in `tests/expected.json`. Changing one to make a failure go away is the same as
+deleting the check, and the only thing stopping that is whoever is reading the round's output.
 
 ## The thing that will break this
 
-Skills on claude.ai are per-account and do not sync (D5). An improved skill sitting in `/dist/`
-helps nobody until every teammate downloads and re-uploads it. So an intake round is not finished
-when the skill is fixed — it is finished when the team is told to re-install, with a one-line
-changelog saying what changed and why they should care.
+Skills on claude.ai are per-account and do not sync (D5). An improved skill sitting in a shared
+folder helps nobody until every teammate downloads and re-uploads it. So a round is not finished
+when the skill is fixed — it is finished when the team has been told to re-install, with a
+one-line changelog saying what changed and whether they should care.
 
-Keep `dist/CHANGELOG.md` current for exactly this reason.
+The other thing that breaks it: filing a report and seeing nothing happen. Every round has to say
+what it did **and what it did not act on, with the reason**. A teammate who files twice into
+silence stops filing, and that input is gone permanently.

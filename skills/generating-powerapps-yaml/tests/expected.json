@@ -1,0 +1,39 @@
+{
+  "_read_me": [
+    "Baseline for scripts/self_check.py. These numbers are a contract, not a log.",
+    "Changing one is allowed and sometimes correct — but it is a decision, so say why in the",
+    "'why' field and in the CHANGELOG entry. A number quietly edited to make a check pass is",
+    "the same as deleting the check.",
+    "",
+    "reference/ are 17 screens that compiled in Power Apps Studio. They must stay at 0/0",
+    "forever. A new rule that fires on them is a wrong rule — those screens shipped."
+  ],
+
+  "reference": {
+    "files": 17,
+    "errors": 0,
+    "warnings": 0,
+    "why": "2,830 controls across 17 screens, all of which compiled and shipped. Nothing here may warn."
+  },
+
+  "field": {
+    "LiveTracking.pa.yaml": {
+      "errors": 0,
+      "warnings": 1,
+      "why": "Real output from the ChopChop project. The warning is Navigate() to a screen defined in another file — correct behaviour, since it only fails on paste ORDER."
+    },
+    "FlightDeck.pa.yaml": {
+      "errors": 0,
+      "warnings": 3,
+      "why": "Same project. Three cross-file Navigate() targets. Studio named Btn_StartOrder.OnSelect in the field report, and this check is what catches it now."
+    }
+  },
+
+  "probes": {
+    "template-scope-probe.pa.yaml": {
+      "errors": 1,
+      "warnings": 1,
+      "why": "Holds both sides of the Parent.Template* scope rule in one file: the gallery's DIRECT child must pass, its grandchild must error. Exactly one error means the rule is still precise rather than merely loud. Built from the verbatim Studio error: \"Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width\""
+    }
+  }
+}

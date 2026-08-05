@@ -26,21 +26,34 @@ Power Platform Skill Suite — เริ่มตรงนี้
 =======================================
 
 1. เปิดไฟล์ PDF ก่อน  ->  Power-Platform-Skill-Suite-Handoff-TH.pdf
-   หน้า 2 บอกทุกอย่างที่ต้องทำ ใช้เวลาอ่าน 2 นาที
+   16 หน้า มีสารบัญอยู่หน้า 2 ถ้ามีเวลาแค่ 2 นาที อ่านกล่อง "ถ้ามีเวลาแค่ 2 นาที" หน้า 2
 
 2. อัปโหลด skill ทั้ง 5 อันในโฟลเดอร์ skills/
    claude.ai  ->  Settings  ->  Capabilities  ->  Skills  ->  Upload skill
    อัปโหลดทีละอัน ทำครั้งเดียวจบ
 
-3. ก่อนปิดแชทที่ใช้ทำงานจริง วาง prompt ในไฟล์
-   prompts/team-quick-feedback.md  แล้วส่งไฟล์ที่ได้กลับมาให้ N'Vin
+3. ตั้งโฟลเดอร์กลางของทีม ตามโครงสร้างในหน้า 10 ของ PDF
+   แล้วตกลงกันว่าใครเป็นผู้ดูแลเวอร์ชัน (ต้องมี 1 คน)
 
-โฟลเดอร์อื่น
-------------
-prompts/project-style-override.md   ใช้ตอนโปรเจกต์นี้ใช้สี/ขนาดคนละชุดกับที่ skill วัดมา
-CHANGELOG.md                        ผมแก้อะไรไปบ้าง และรอบไหนต้องโหลดใหม่
 
-ติดขัดตรงไหน ทักมาได้เลยครับ  — N'Vin
+ทีมดูแล skill เหล่านี้เองทั้งหมด ไม่มีคนกลางคอยแก้ให้
+--------------------------------------------------
+วงจรมี 2 ขั้นตอน อธิบายไว้ในส่วนที่ 7 ของ PDF
+
+  ขั้นที่ 1  ทุกคน · 2 นาที · ทุกครั้งที่ทำงานจริงเสร็จ
+            วาง prompt จาก prompts/team-quick-feedback.md ท้ายแชท
+            แล้วเซฟไฟล์ที่ได้ลงโฟลเดอร์กลาง
+
+  ขั้นที่ 2  ใครก็ได้ 1 คน · 30-45 นาที · เมื่อสะสมบันทึกได้ 3-5 อัน
+            เปิดแชทใหม่ แนบ .zip ของ skill กับบันทึกทั้งหมด
+            แล้ววาง prompt จาก prompts/improve-the-skill.md
+            จะได้ .zip เวอร์ชันใหม่กลับมา
+
+
+ไฟล์อื่นในโฟลเดอร์นี้
+--------------------
+prompts/project-style-override.md   ใช้ตอนโปรเจกต์นั้นใช้สี/ขนาดคนละชุดกับที่ skill วัดมา
+CHANGELOG.md                        ประวัติการแก้ไข ต่อท้ายทุกครั้งที่ปล่อยเวอร์ชันใหม่
 """
 
 
@@ -49,6 +62,7 @@ def main():
     items = [(DIST / f"{s}.zip", f"skills/{s}.zip") for s in SKILLS]
     items += [
         (ROOT / "prompts" / "team-quick-feedback.md", "prompts/team-quick-feedback.md"),
+        (ROOT / "prompts" / "improve-the-skill.md", "prompts/improve-the-skill.md"),
         (ROOT / "prompts" / "project-style-override.md", "prompts/project-style-override.md"),
         (DIST / "CHANGELOG.md", "CHANGELOG.md"),
     ]

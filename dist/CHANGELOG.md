@@ -8,6 +8,52 @@ your two minutes.
 
 ---
 
+## The team now owns these skills — improvement runs in a chat, not through a person
+
+**Re-install: yes, all five.** No rules changed. What changed is that the skills carry their own
+regression harness now, and improvement no longer routes through a maintainer.
+
+**What is different.** There is no longer anyone collecting field reports and publishing new
+versions. The loop is two steps, both run by the team in claude.ai:
+
+| Step | Who | When | What |
+|---|---|---|---|
+| 1 | anyone, 2 min | end of a real working chat | paste `prompts/team-quick-feedback.md`, save the record to the shared folder |
+| 2 | any one person, 30–45 min | after 3–5 records | paste `prompts/improve-the-skill.md` with the zip attached — get an edited, self-checked zip back |
+
+Then a named **version owner** — exactly one person — publishes it to the shared folder and says
+whether to re-download. Step 3 is the one that gets skipped, and skipping it wastes the round:
+skills do not sync, so a new zip nobody downloads is the same as no change at all.
+
+**The part that makes step 2 trustworthy.** A model editing its own instructions with nobody
+reviewing the diff needs something that can say no. Two things do:
+
+- **`scripts/self_check.py`, bundled in every zip.** It runs the validator over the 17 reference
+  screens that compiled in Studio, the ChopChop field output, and the probe fixtures, and compares
+  against recorded baselines in `tests/expected.json`. **A new rule that fires on the reference
+  screens fails the check** — those screens shipped, so the rule is wrong, not the screens. That
+  exact mistake has been made here once: a plausible warning about buttons with no
+  `BorderThickness` fired on 20 reference buttons that worked fine.
+- **The methodology is inside the prompt.** Triage order, `rule_status` → action,
+  check-before-rule, a 200-line cap on `SKILL.md`, and seven rules that cannot be broken —
+  including *every rule needs a count or a verbatim platform error*, and *never edit the validator
+  to make a warning go away*.
+
+Packaging enforces it: `package_skills.py` copies the ground truth into `tests/` and then runs the
+self-check **inside the extracted zip**, cut off from the repository. If the evidence does not
+travel, the package does not build. `generating-powerapps-yaml.zip` is 208 KB now, up from 31 KB;
+that is the corpus, and it is the reason the skill can be maintained by whoever has the file.
+
+**The handoff document is rewritten** — 16 pages, numbered sections, contents page, running heads,
+and a one-page checklist to print. Section 7 is the whole maintenance story. Section 9.3 is the
+only thing anyone has to remember day to day.
+
+Also new: `prompts/project-style-override.md` for a project with a different design system, and an
+overflow detector in the PDF builder that measures every page against its own bottom padding —
+it caught two silently clipped pages that a page-by-page visual review had missed.
+
+---
+
 ## Team handoff — one zip, and a way to send corrections back without GitHub
 
 **Re-install: no.** No skill changed. This is about how you receive them and how you improve them.

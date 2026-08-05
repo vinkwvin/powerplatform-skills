@@ -169,23 +169,39 @@ privately and the skills never get better.
 
 So there is a loop, and it takes about two minutes of your time per project.
 
-### Three lanes, and none of them require a repository
+### There is no maintainer. The team owns this.
 
-Most people using these skills do not use GitHub and should never need to. What reaches them is
-one zip on Teams; what comes back is one file the same way.
+The loop below is not a description of what someone else does — it is what the team does, in
+claude.ai, with no repository, no checkout, and no command line.
 
-| Lane | Who | When | What |
+| Step | Who | When | What |
 |---|---|---|---|
-| 1 | anyone | end of every real project, 2 min | paste [`prompts/team-quick-feedback.md`](prompts/team-quick-feedback.md), send the record back |
-| 2 | anyone | immediately, no waiting | a different palette or type scale is `HOUSE` — settle it per project with [`prompts/project-style-override.md`](prompts/project-style-override.md) |
-| 3 | maintainer | roughly monthly | triage, fix, bump, re-zip, and say what was *not* acted on and why |
+| 1 | anyone | end of a real working chat, 2 min | paste [`prompts/team-quick-feedback.md`](prompts/team-quick-feedback.md), save the record to the shared folder |
+| 2 | any one person | after 3–5 records, 30–45 min | paste [`prompts/improve-the-skill.md`](prompts/improve-the-skill.md) with the zip attached; get an edited, self-checked zip back |
+| 3 | the version owner | after step 2 is tested | publish to the shared folder and say whether to re-download |
 
-Lane 1 versus lane 2 is the `PLATFORM`/`HOUSE` split with the theory removed: **did the platform
-refuse it, or did it work and simply not match us?** The first is everyone's problem and belongs
-upstream. The second is this project's preference and belongs in a config, today, without asking
-anyone.
+A fourth path never enters that loop: a different palette or type scale is a `HOUSE` difference,
+not a finding, and [`prompts/project-style-override.md`](prompts/project-style-override.md)
+settles it inside one chat. **Did the platform refuse it, or did it work and simply not match us?**
+The first goes into step 1. The second is settled today, by the person who hit it.
 
-The team-facing version of all of this is [`handoff/`](handoff/) — an eleven-page PDF in Thai plus
+### What makes step 2 safe to hand over
+
+Step 2 is a model editing its own instructions with nobody reviewing the diff. Two things carry
+the weight:
+
+- **The evidence ships inside the zip.** `package_skills.py` copies the 17 reference screens, the
+  field output and the probes into `tests/` at package time;
+  `skills/<name>/scripts/self_check.py` checks them against baselines in `tests/expected.json`.
+  A new rule that fires on the reference screens fails — those screens compiled in Studio.
+  Packaging runs the self-check *inside the extracted zip*, cut off from this repo, so a zip whose
+  ground truth did not travel never gets built.
+- **The methodology is in the prompt.** `improve-the-skill.md` is
+  [`docs/IMPROVING-SKILLS.md`](docs/IMPROVING-SKILLS.md) rewritten as something a chat can
+  execute: triage order, `rule_status` → action, check-before-rule, the 200-line cap, and seven
+  rules that cannot be broken.
+
+The team-facing version of all of this is [`handoff/`](handoff/) — a sixteen-page PDF in Thai plus
 a single starter zip. `python3 scripts/build_starter_pack.py` assembles it.
 
 ### What the capture step collects
@@ -230,14 +246,15 @@ skills/<name>/
   references/*.md         one level deep, TOC on anything over 100 lines
   scripts/*.py            validators and generators
 prompts/
-  team-quick-feedback.md      paste at the END of a working chat — the everyday one
-  feedback-session.md         the long form, for a project that fought back
-  followup-record-only.md     when the artifact came back and the record did not
+  team-quick-feedback.md      step 1 — paste at the END of a working chat
+  improve-the-skill.md        step 2 — the improvement round, run from the zip alone
   project-style-override.md   a project with a different design system
+  feedback-session.md         the long capture form, for a project that fought back
+  followup-record-only.md     when the artifact came back and the record did not
   harvest-buildchat.md        one-off: recover rules from a long past conversation
 handoff/
   handoff.html            the team handoff, Thai — source of the PDF, no markdown twin
-  README.md               how to rebuild it, and the three lanes
+  README.md               how to rebuild it, and why step 2 can be trusted
 evals/<skill>/            three per skill, with real artifacts as regression fixtures
 feedback/<skill>/         field reports land here
 ledger/                   how every rule was derived, with counts and confidence

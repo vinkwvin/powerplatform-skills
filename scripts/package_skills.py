@@ -13,6 +13,7 @@ import argparse
 import pathlib
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -22,6 +23,37 @@ import yaml
 EXCLUDE_DIRS = {"__pycache__", ".pytest_cache", ".ipynb_checkpoints", ".git"}
 EXCLUDE_SUFFIX = {".pyc", ".pyo", ".DS_Store"}
 RESERVED = {"anthropic", "claude", "skill", "skills", "system", "assistant"}
+
+# Ground truth that has to travel with the skill.
+#
+# Nobody maintains these centrally any more. Whoever edits a skill does it in a chat, from the
+# zip alone, with no checkout — so the evidence a change is safe has to be inside the zip or it
+# does not exist. Sources stay where they are and are copied at package time, because two
+# tracked copies of the same corpus drift and then nobody knows which one is ground truth.
+BUNDLE = {
+    "generating-powerapps-yaml": [
+        ("source-artifacts/yaml", "tests/reference", "*.pa.yaml"),
+        ("evals/generating-powerapps-yaml/fixtures", "tests/field", "LiveTracking.pa.yaml"),
+        ("evals/generating-powerapps-yaml/fixtures", "tests/field", "FlightDeck.pa.yaml"),
+        ("evals/generating-powerapps-yaml/fixtures", "tests/probes", "template-scope-probe.pa.yaml"),
+    ],
+    "building-sharepoint-lists": [
+        ("evals/building-sharepoint-lists/fixtures", "tests/reference", "*.yaml"),
+    ],
+}
+
+
+def bundled(root, name):
+    """(source path, archive path) for every ground-truth file copied in at package time."""
+    pairs = []
+    for src_dir, dest_dir, pattern in BUNDLE.get(name, []):
+        base = root / src_dir
+        if not base.is_dir():
+            continue
+        for p in sorted(base.glob(pattern)):
+            if p.is_file():
+                pairs.append((p, f"{name}/{dest_dir}/{p.name}"))
+    return pairs
 
 
 def keep(p):
@@ -88,6 +120,19 @@ def verify(zpath, name):
                 compile(py.read_text(encoding="utf-8"), str(py), "exec")
             except SyntaxError as e:
                 problems.append(f"scripts/{py.name} does not compile: line {e.lineno}")
+
+        # The point of bundling ground truth is that the regression check runs from the zip
+        # alone, with no repository anywhere. Running it here — in the extracted copy, cut off
+        # from source-artifacts/ — is the only way to know that is actually true.
+        selfcheck = root / "scripts" / "self_check.py"
+        if selfcheck.is_file():
+            proc = subprocess.run([sys.executable, str(selfcheck)],
+                                  capture_output=True, text=True, cwd=root)
+            if proc.returncode != 0:
+                tail = (proc.stdout + proc.stderr).strip().splitlines()
+                problems.append("self_check.py fails inside the packaged zip — the ground "
+                                "truth it needs did not travel with it:\n        "
+                                + "\n        ".join(tail[-6:]))
     return problems
 
 
@@ -113,18 +158,24 @@ def main():
         name = d.name
         zpath = out / f"{name}.zip"
         files = sorted(p for p in d.rglob("*") if p.is_file() and keep(p))
+        extra = bundled(src.parent, name)
         with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
             for p in files:
                 z.write(p, (pathlib.Path(name) / p.relative_to(d)).as_posix())
+            for p, arc in extra:
+                z.write(p, arc)
 
         problems = verify(zpath, name)
         size = zpath.stat().st_size
         status = "OK" if not problems else "FAILED"
         print(f"\n{name}")
-        print(f"  {zpath}  ({size:,} bytes, {len(files)} files)  [{status}]")
+        print(f"  {zpath}  ({size:,} bytes, {len(files) + len(extra)} files)  [{status}]")
         parts = {}
         for p in files:
             top = p.relative_to(d).parts[0] if len(p.relative_to(d).parts) > 1 else "(root)"
+            parts[top] = parts.get(top, 0) + 1
+        for _, arc in extra:
+            top = arc.split("/")[1]
             parts[top] = parts.get(top, 0) + 1
         print("  " + "  ".join(f"{k}:{v}" for k, v in sorted(parts.items())))
         for prob in problems:

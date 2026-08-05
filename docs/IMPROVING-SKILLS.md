@@ -49,24 +49,37 @@ Two roles. **Anyone using a skill** does Stage 1 and 2 — two minutes, no judge
 **Whoever runs an intake round** does 3 through 7, in a fresh Claude Code session on this repo,
 opening with *"Read PROJECT-BRIEF.md. We're on Session 11."*
 
-### Stage 1 and 2 must work without this repository
+### There is no maintainer, and this repository is not in the loop
 
-Most people running these skills do not use GitHub and should never have to. The loop above is
-what the *maintainer* sees; what a teammate sees is one zip in and one file out.
+The stages above describe a maintainer with a checkout. That role no longer exists. The team runs
+the whole loop in claude.ai, and this document is now the *specification* for a prompt rather than
+a set of instructions anyone follows directly.
 
-- **In** — `python3 scripts/build_starter_pack.py` builds the single attachment: five skill zips,
-  the Thai handoff PDF, and the two prompts. See [`handoff/README.md`](../handoff/README.md).
-- **Out** — they paste [`team-quick-feedback.md`](../prompts/team-quick-feedback.md), save what
-  Claude writes, and send it back on Teams. The maintainer drops it into `feedback/<skill>/`.
+That prompt is [`prompts/improve-the-skill.md`](../prompts/improve-the-skill.md). It carries
+Stages 3 through 7 — the ranking table, `rule_status` → action, validator-gaps-first, the length
+budget, the regression proof, the version bump, and the changelog including *what was not acted
+on*. Read this document to understand the method; edit that prompt to change it.
 
-There is also a lane that does not come back here at all. A project with a different palette or
-type scale is a `HOUSE` difference, not a finding, and
-[`project-style-override.md`](../prompts/project-style-override.md) settles it inside that one
-chat. Routing style differences upstream is how a house convention gets mistaken for a platform
-law — see the anti-pattern in §9.
+| | Here | In the team's hands |
+|---|---|---|
+| Capture | Stage 1–2 | [`team-quick-feedback.md`](../prompts/team-quick-feedback.md), saved to a shared folder |
+| Triage and fix | Stage 3–5, `triage_feedback.py` | [`improve-the-skill.md`](../prompts/improve-the-skill.md), pasted with the zip attached |
+| Regression proof | `evals/`, run by a person | `scripts/self_check.py`, bundled into the zip and run by the chat |
+| Release | Stage 6, re-zip from `skills/` | the chat rebuilds the zip; a named **version owner** publishes it |
 
-Keep the two entry points honest: if filing requires a repo, a checkout, or a command line, the
-people whose corrections are most worth having will not file.
+**The regression proof is what made this handover possible.** Stage 5 used to mean "add an eval
+and remember to run it". That does not survive the loss of a maintainer, so the evidence now
+travels inside the zip: `package_skills.py` copies the reference corpus into `tests/`, and
+packaging fails unless `self_check.py` passes *inside the extracted zip*, cut off from this repo.
+A rule that fires on the 17 screens that shipped fails the check. The anti-pattern in §9 about
+treating HOUSE as PLATFORM is now enforced rather than merely warned about.
+
+One path never enters the loop at all. A project with a different palette or type scale is a
+`HOUSE` difference, and [`project-style-override.md`](../prompts/project-style-override.md)
+settles it inside that one chat.
+
+Keep the entry points honest: if capturing a finding requires a repo, a checkout, or a command
+line, the people whose corrections are most worth having will not capture anything.
 
 ## 2. Stage 1 — Capture
 
