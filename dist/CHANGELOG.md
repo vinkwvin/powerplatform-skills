@@ -8,6 +8,42 @@ your two minutes.
 
 ---
 
+## Team handoff — one zip, and a way to send corrections back without GitHub
+
+**Re-install: no.** No skill changed. This is about how you receive them and how you improve them.
+
+Everything now arrives as a single attachment — `dist/handoff/team-starter-pack.zip`: the five
+skill zips, an eleven-page handoff in Thai, and the two prompts. `READ-ME-FIRST.txt` is three
+steps for someone who has just downloaded it and does not know what to open.
+
+**Improving a skill no longer touches this repository.** Three lanes:
+
+| Lane | Who | What |
+|---|---|---|
+| 1 | anyone, 2 min | paste `prompts/team-quick-feedback.md` at the **end** of a working chat, send the record back |
+| 2 | anyone, now | a different palette or type scale — settle it per project with `prompts/project-style-override.md` |
+| 3 | maintainer | triage, fix, re-zip, and say what was *not* acted on and why |
+
+Lane 1 versus lane 2 is `PLATFORM`/`HOUSE` with the theory removed: **did the platform refuse it,
+or did it work and simply not match us?** The first is everyone's problem. The second is this
+project's preference, and routing it upstream is how a house convention gets mistaken for a
+platform law.
+
+`team-quick-feedback.md` is the short form of `feedback-session.md` — same schema, roughly a third
+the length, built to be pasted every time rather than admired once. It keeps the two fields the
+first field report proved were worth the most: the **verbatim** platform error string, and the
+free-text *what would have saved the most round trips?*
+
+**Two triage fixes came out of filing that first report properly.** `triage_feedback.py` was
+dropping both of those fields on the floor — the verbatim errors and the free text now get their
+own sections. And it only recognised `present-and-ignored` with hyphens, while real reports come
+back with underscores, so the single highest-value finding in the first report sorted *below*
+every routine gap. Both fixed. The report itself is now filed at
+`feedback/generating-powerapps-yaml/2026-08-05-chopchop.md` — read it before writing your first
+one.
+
+---
+
 ## generating-powerapps-yaml v1.3.0 — the validator stops overclaiming
 
 **Re-install: yes.** This is the most important release so far, and it is mostly one sentence.

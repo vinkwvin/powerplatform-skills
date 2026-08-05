@@ -49,6 +49,25 @@ Two roles. **Anyone using a skill** does Stage 1 and 2 — two minutes, no judge
 **Whoever runs an intake round** does 3 through 7, in a fresh Claude Code session on this repo,
 opening with *"Read PROJECT-BRIEF.md. We're on Session 11."*
 
+### Stage 1 and 2 must work without this repository
+
+Most people running these skills do not use GitHub and should never have to. The loop above is
+what the *maintainer* sees; what a teammate sees is one zip in and one file out.
+
+- **In** — `python3 scripts/build_starter_pack.py` builds the single attachment: five skill zips,
+  the Thai handoff PDF, and the two prompts. See [`handoff/README.md`](../handoff/README.md).
+- **Out** — they paste [`team-quick-feedback.md`](../prompts/team-quick-feedback.md), save what
+  Claude writes, and send it back on Teams. The maintainer drops it into `feedback/<skill>/`.
+
+There is also a lane that does not come back here at all. A project with a different palette or
+type scale is a `HOUSE` difference, not a finding, and
+[`project-style-override.md`](../prompts/project-style-override.md) settles it inside that one
+chat. Routing style differences upstream is how a house convention gets mistaken for a platform
+law — see the anti-pattern in §9.
+
+Keep the two entry points honest: if filing requires a repo, a checkout, or a command line, the
+people whose corrections are most worth having will not file.
+
 ## 2. Stage 1 — Capture
 
 **When:** at the end of a chat where you used a skill to build something real. Before you close it.

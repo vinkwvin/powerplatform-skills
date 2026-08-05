@@ -83,6 +83,12 @@ def load_reports(root, only_skill=None):
             continue
         artifact = next((p for p in path.parent.iterdir()
                          if p.stem == path.stem and p.suffix != ".md"), None)
+        # An artifact good enough to promote straight to a regression fixture lives in evals/,
+        # not here — and copying it back would just create two files that drift. A record may
+        # name where it went instead, so doing the better thing is not scored as filing nothing.
+        if artifact is None and parsed.get("artifact_at"):
+            named = (root.parent / str(parsed["artifact_at"])).resolve()
+            artifact = named if named.exists() else None
         parsed["_path"] = path
         parsed["_skill"] = skill
         parsed["_artifact"] = artifact
@@ -112,12 +118,22 @@ def load_reports(root, only_skill=None):
     return reports
 
 
+def rule_status(fix):
+    """`present_and_ignored` and `present-and-ignored` are the same verdict.
+
+    Underscores are what field reports actually come back with, and an unrecognised status
+    ranks last — so the highest-value finding in the first real report, a `present_and_ignored`,
+    sorted below every routine gap. Normalise instead of asking people to spell it our way.
+    """
+    return str(fix.get("rule_status") or "").strip().lower().replace("_", "-")
+
+
 def priority(fix, reporters_for_element):
     if fix.get("caught_by") == "studio":
         return 1, "reached a real paste — validator gap"
     if reporters_for_element > 1:
         return 2, f"reported independently by {reporters_for_element} sources"
-    status = fix.get("rule_status")
+    status = rule_status(fix)
     if status == "present-and-ignored":
         return 3, "rule exists and did not land — fix placement or wording, not length"
     try:
@@ -195,6 +211,20 @@ def main():
     if args.metrics:
         return 0
 
+    # ---- verbatim platform errors ----
+    # Ranked first because each one is a candidate static check, and a check outranks a rule:
+    # a rule tells a model what to do, a check stops the artifact regardless of what it read.
+    # Both errors in the first field report became checks; nothing else in that report did.
+    errs = [(r["_skill"], e) for r in reports for e in (r.get("studio_errors_verbatim") or [])]
+    if errs:
+        print("\n" + "=" * 78)
+        print(f"VERBATIM PLATFORM ERRORS — {len(errs)}, each a candidate validator check")
+        print("=" * 78)
+        for skill, e in errs:
+            print(f"\n  [{skill}] {e}")
+        print("\n  Can a static check catch this before the paste? If yes, write it before")
+        print("  touching any rule text.")
+
     # ---- corroboration across reports ----
     element_reporters = defaultdict(set)
     for r in reports:
@@ -228,7 +258,7 @@ def main():
         if p != last_p:
             print(f"\n--- priority {p} ---")
             last_p = p
-        status = f.get("rule_status", "?")
+        status = rule_status(f) or "?"
         print(f"\n[{r['_skill']}] {f.get('element', '?')}")
         print(f"   why here: {why}")
         print(f"   tier: {f.get('tier','unclear')}   status: {status}   "
@@ -252,6 +282,24 @@ def main():
             print(f"  + {c}")
         print("  Add these to the relevant catalog or house-style.yaml. This is how the")
         print("  confirmed set grows without anyone guessing.")
+
+    # ---- the free-text answer ----
+    # Read this even when the ranked list above is empty. The first field report filed
+    # `repeated_corrections: []` and every fix held first time, so every structured metric here
+    # scored it clean — while the actual defect was the validator's success message claiming a
+    # clean run meant a correct screen. One blind spot presenting three times, not one mistake
+    # repeated. No structured field would have surfaced it; this one did.
+    misses = [(r["_skill"], r["_path"].name, str(r[k]).strip())
+              for r in reports for k in ("biggest_miss", "biggest_single_miss")
+              if r.get(k)]
+    if misses:
+        print("\n" + "=" * 78)
+        print("BIGGEST MISS — free text. Read every one, including on a quiet round.")
+        print("=" * 78)
+        for skill, src, text in misses:
+            print(f"\n  [{skill}] {src}")
+            for line in text.splitlines():
+                print(f"    {line}")
 
     print("\n" + "=" * 78)
     print("Reminders: validator gaps before rule edits · every confirmed fix gets an eval ·")

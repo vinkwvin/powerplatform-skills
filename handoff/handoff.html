@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>Power Platform Skill Suite — ส่งต่อให้ทีม</title>
+<!-- v1.0.0 — source of truth for dist/handoff/*.pdf. Rebuild: bash scripts/build_handoff.sh -->
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1B1B23;
+    --ink-2:      #464554;
+    --ink-3:      #6E6C7E;
+    --line:       #C7C4D7;
+    --line-soft:  #E4E1EC;
+    --brand:      #3B39C2;
+    --tint:       #F5F2FE;
+    --page-bg:    #FCF8FF;
+    --ok:         #3C5701;
+    --ok-bg:      #CCEF8C;
+    --warn:       #BA1A1A;
+    --warn-bg:    #FFE0DD;
+    --mono: 'DejaVu Sans Mono', monospace;
+  }
+
+  /* Thai falls back to Loma, whose glyphs run optically small next to DejaVu's Latin — and
+     almost every line here is mixed script. size-adjust evens them out; without it the Thai,
+     which is the part being read, is the part that looks like fine print. */
+  @font-face { font-family: 'LomaAdj'; src: local('Loma');      size-adjust: 112%; font-weight: 400; }
+  @font-face { font-family: 'LomaAdj'; src: local('Loma Bold'); size-adjust: 112%; font-weight: 700; }
+
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: 'DejaVu Sans', 'LomaAdj', 'Loma', sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.62;
+  }
+
+  .page {
+    width: 210mm; height: 297mm;
+    padding: 17mm 16mm 13mm;
+    position: relative;
+    page-break-after: always;
+    overflow: hidden;
+    background: #fff;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  .foot {
+    position: absolute; left: 16mm; right: 16mm; bottom: 8mm;
+    display: flex; justify-content: space-between;
+    font-size: 7.6pt; color: var(--ink-3);
+    border-top: 1px solid var(--line-soft); padding-top: 2.5mm;
+  }
+
+  h1 { font-size: 30pt; line-height: 1.16; letter-spacing: -0.4pt; font-weight: 700; }
+  h2 { font-size: 18pt; line-height: 1.3; font-weight: 700; margin-bottom: 2.5mm; }
+  h3 { font-size: 11.5pt; font-weight: 700; margin-bottom: 1.2mm; }
+  p  { margin-bottom: 2.6mm; }
+  p:last-child { margin-bottom: 0; }
+
+  .eyebrow {
+    font-size: 8.2pt; letter-spacing: 1.6pt; text-transform: uppercase;
+    color: var(--brand); font-weight: 700; margin-bottom: 4mm;
+  }
+  .rule { height: 3px; width: 26mm; background: var(--brand); margin: 3mm 0 6mm; }
+  .lead { font-size: 11.6pt; color: var(--ink-2); line-height: 1.66; }
+  .dim  { color: var(--ink-3); }
+  .sm   { font-size: 8.8pt; line-height: 1.55; }
+  .b    { font-weight: 700; }
+  .en   { font-family: var(--mono); font-size: 0.92em; }
+  code  { font-family: var(--mono); font-size: 0.88em; background: var(--tint);
+          padding: 0.3mm 1.1mm; border-radius: 1.5mm; }
+
+  /* ---------- cover ---------- */
+  .cover { background: var(--page-bg); display: flex; flex-direction: column; }
+  .cover-mark {
+    font-family: var(--mono); font-size: 8pt; letter-spacing: 1.2pt;
+    color: var(--brand); font-weight: 700;
+  }
+  .cover h1 { margin-top: 15mm; }
+  .cover .lead { margin-top: 5mm; max-width: 150mm; }
+  .quote {
+    margin-top: auto; background: #fff; border-left: 4px solid var(--brand);
+    padding: 5.5mm 6.5mm; font-size: 11pt; line-height: 1.66; color: var(--ink);
+  }
+  .stats { display: flex; gap: 3.5mm; margin-top: 5mm; }
+  .stat {
+    flex: 1; background: #fff; border: 1px solid var(--line-soft);
+    border-radius: 2mm; padding: 4mm 4mm 4.5mm;
+  }
+  .stat .n { font-size: 17pt; font-weight: 700; color: var(--brand); line-height: 1.1; }
+  .stat .l { font-size: 7.8pt; color: var(--ink-2); line-height: 1.42; margin-top: 1.5mm; }
+  .sign { margin-top: 5mm; font-size: 9.4pt; color: var(--ink-2); }
+
+  /* what's in the folder — a plain manifest, so nobody has to guess what to open first */
+  .manifest { font-family: var(--mono); font-size: 8.4pt; line-height: 1.95; }
+  .manifest .f { color: var(--brand); font-weight: 700; }
+  .manifest .n { color: var(--ink-3); }
+
+  /* ---------- steps ---------- */
+  .step { display: flex; gap: 5mm; margin-bottom: 6mm; }
+  .step-n {
+    flex: 0 0 9mm; height: 9mm; border-radius: 50%;
+    background: var(--brand); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 11pt;
+  }
+  .step-b { flex: 1; padding-top: 0.6mm; }
+
+  /* ---------- boxes ---------- */
+  .box {
+    background: var(--tint); border-radius: 2mm; padding: 5mm 6mm; margin: 4mm 0;
+  }
+  .box-line { background: #fff; border: 1px solid var(--line); }
+  .box-brand { background: var(--brand); color: #fff; }
+  .box-brand .dim, .box-brand .sm { color: rgba(255,255,255,.82); }
+  .box-warn { background: var(--warn-bg); }
+  .box-ok   { background: var(--ok-bg); }
+
+  .pain {
+    background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--warn);
+    border-radius: 2mm; padding: 4.5mm 5.5mm; margin-bottom: 3.5mm;
+    font-size: 10.6pt; line-height: 1.6;
+  }
+  .pain .tag { font-size: 7.6pt; color: var(--warn); font-weight: 700; letter-spacing: .6pt;
+               text-transform: uppercase; display: block; margin-bottom: 1.5mm; }
+
+  /* ---------- skill card ---------- */
+  .card {
+    border: 1px solid var(--line-soft); border-radius: 2.5mm;
+    padding: 4.6mm 5.5mm; margin-bottom: 4mm; background: #fff;
+    border-left: 4px solid var(--brand);
+  }
+  .card-h { display: flex; align-items: baseline; gap: 3mm; margin-bottom: 2.6mm; }
+  .card-h .num {
+    font-family: var(--mono); font-size: 8.4pt; font-weight: 700; color: var(--brand);
+    background: var(--tint); border-radius: 1.5mm; padding: 0.7mm 2mm;
+  }
+  .card-h .nm { font-family: var(--mono); font-size: 10.2pt; font-weight: 700; }
+  .kv { display: flex; gap: 3mm; margin-bottom: 1.6mm; font-size: 9.4pt; line-height: 1.55; }
+  .kv .k { flex: 0 0 20mm; color: var(--ink-3); font-size: 8.6pt; padding-top: 0.5mm; }
+  .kv .v { flex: 1; }
+  .kv:last-child { margin-bottom: 0; }
+
+  /* ---------- flow diagram ---------- */
+  .flow { margin: 5mm 0; }
+  .fl-row {
+    display: flex; align-items: stretch; gap: 3mm; margin-bottom: 2.5mm;
+  }
+  .fl-box {
+    flex: 1; border: 1px solid var(--line); border-radius: 2mm;
+    padding: 3.4mm 4mm; background: #fff; font-size: 9.2pt; line-height: 1.5;
+  }
+  .fl-box .t { font-family: var(--mono); font-size: 8pt; color: var(--brand); font-weight: 700; }
+  .fl-arrow { text-align: center; color: var(--line); font-size: 12pt; margin: 0.6mm 0 1.6mm; }
+  .fl-hero {
+    border: 2px solid var(--brand); background: var(--tint);
+    border-radius: 2mm; padding: 4mm 5mm; margin-bottom: 2.5mm;
+  }
+
+  /* ---------- lanes ---------- */
+  .lane {
+    display: flex; gap: 4.5mm; padding: 4.5mm 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .lane:first-of-type { border-top: none; padding-top: 1mm; }
+  .lane-tag {
+    flex: 0 0 29mm;
+  }
+  .lane-tag .who { font-size: 8pt; font-weight: 700; color: var(--brand); letter-spacing: .5pt; }
+  .lane-tag .when { font-size: 7.8pt; color: var(--ink-3); margin-top: 0.8mm; line-height: 1.4; }
+  .lane-b { flex: 1; }
+
+  /* ---------- prompt box ---------- */
+  .prompt {
+    background: #fff; border: 1px solid var(--line); border-radius: 2mm;
+    font-family: var(--mono); font-size: 7.35pt; line-height: 1.5;
+    padding: 4mm 5mm; white-space: pre-wrap; color: var(--ink);
+  }
+  .prompt .c { color: var(--ink-3); }
+  .prompt .k { color: var(--brand); font-weight: 700; }
+  .cut {
+    border-top: 1px dashed var(--line); margin: 3mm 0 2mm;
+    font-size: 7.6pt; color: var(--ink-3); padding-top: 1.5mm;
+  }
+
+  /* ---------- misc ---------- */
+  .grid2 { display: flex; gap: 5mm; }
+  .grid2 > * { flex: 1; }
+  ul { margin: 0 0 2.6mm 4.6mm; }
+  li { margin-bottom: 1.5mm; line-height: 1.58; }
+  .tickrow { display: flex; gap: 2.5mm; margin-bottom: 2mm; align-items: baseline; }
+  .tickrow .mk { flex: 0 0 4mm; font-weight: 700; }
+  .faq { margin-bottom: 4mm; }
+  .faq .q { font-weight: 700; margin-bottom: 1mm; }
+  .faq .a { color: var(--ink-2); font-size: 9.6pt; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ 1. COVER ══════════════════════════ -->
+<section class="page cover">
+  <div class="cover-mark">POWERPLATFORM-SKILLS · v1.3.0 · สิงหาคม 2026</div>
+  <h1>ส่งต่อให้ทีม<br>Power Platform<br>Skill Suite</h1>
+  <div class="rule" style="margin-top:6mm"></div>
+  <p class="lead">
+    ชุด Claude Skills ที่พาเราจาก requirement → แบบที่ user เห็นชอบแล้ว →
+    Power Apps + SharePoint + Power Automate ที่ใช้งานได้จริง
+    ด้วย prompt สั้น ๆ และ token เท่าที่ Pro plan รับไหว
+  </p>
+
+  <div class="quote">
+    ผมเอากฎของ Power Apps ทั้งหมดที่เราเจ็บตัวมาแล้ว ไปใส่ไว้ให้ Claude รู้
+    <span class="b">ตั้งแต่ก่อนพิมพ์ code บรรทัดแรก</span>
+    พี่ ๆ จะได้ไม่ต้องตีงานกลับไปกลับมาแบบที่ผมเคยเจอ
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">17</div><div class="l">หน้าจอที่ compile ผ่าน Studio จริง<br>(2,830 controls)</div></div>
+    <div class="stat"><div class="n">131</div><div class="l">SharePoint columns<br>ที่ใช้งานอยู่จริง</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">skills<br>ลงครั้งเดียว ใช้ได้ทุกโปรเจกต์</div></div>
+    <div class="stat"><div class="n">0</div><div class="l">โปรแกรมที่ต้องลง<br>ไม่ต้องใช้ GitHub</div></div>
+  </div>
+
+  <div class="sign">จาก <span class="b">N'Vin</span> — ถ้าติดตรงไหน ทักมาได้เลยครับ</div>
+</section>
+
+<!-- ══════════════════════════ 2. TL;DR ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">อ่านหน้าเดียวก่อน</div>
+  <h2>ถ้าตอนนี้มีเวลา 2 นาที อ่านแค่หน้านี้พอ</h2>
+  <div class="rule"></div>
+
+  <div class="step">
+    <div class="step-n">1</div>
+    <div class="step-b">
+      <h3>ติดตั้ง — ทำครั้งเดียว ประมาณ 2 นาที</h3>
+      <p>ใน claude.ai กด <span class="b">Settings → Capabilities → Skills → Upload skill</span>
+      แล้วอัปโหลดไฟล์ <code>.zip</code> ทั้ง 5 อันที่ผมแนบมาให้ ทีละอัน</p>
+      <p class="sm dim">Skills เป็นของแต่ละ account และ <span class="b">ไม่ sync กัน</span>
+      ทุกคนต้องลงของตัวเอง และตอนผมอัปเดต ทุกคนต้องโหลดใหม่ — ผมจะบอกทุกครั้งว่ารอบไหนต้องโหลด รอบไหนข้ามได้</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-n">2</div>
+    <div class="step-b">
+      <h3>ใช้งาน — เปิดแชทใหม่ แล้วพิมพ์สั้น ๆ ว่าจะทำอะไร</h3>
+      <p>ไม่ต้องเรียกชื่อ skill ไม่ต้องอธิบายกฎ Power Apps ไม่ต้องแปะ convention อะไรทั้งนั้น
+      แค่บอกงาน เช่น <span class="en">“ทำหน้านี้เป็น Power App ให้หน่อย”</span> แล้วแนบรูปหรือ mockup ไป</p>
+      <p class="sm dim">กฎ 2,830 controls อยู่ใน skill แล้ว มันจะหยิบมาใช้เอง</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-n">3</div>
+    <div class="step-b">
+      <h3>ก่อนปิดแชท — วาง prompt 1 อัน แล้วส่งไฟล์ที่ได้กลับมาให้ผม</h3>
+      <p>prompt อยู่หน้า 9 และอยู่ในไฟล์ <code>team-quick-feedback.md</code> ที่แนบมา
+      ใช้เวลาไม่เกิน 2 นาที ไม่ต้องคิดเยอะ ไม่ต้องตัดสินใจอะไร</p>
+      <p class="sm dim">นี่คือส่วนเดียวที่ผมขอ และเป็นส่วนเดียวที่ทำให้ skill ดีขึ้นเรื่อย ๆ แทนที่จะค่อย ๆ เก่าไป</p>
+    </div>
+  </div>
+
+  <div class="box box-brand">
+    <p class="b" style="font-size:11pt">ไม่มีอะไรใหม่ที่ต้องเรียนครับ</p>
+    <p style="margin-top:1.5mm">ยังเป็นการคุยกับ Claude เหมือนเดิมทุกอย่าง
+    ต่างแค่ตอนนี้ Claude รู้กฎของเราแล้ว — ไม่ต้องลงโปรแกรม ไม่ต้องใช้ command line
+    และ<span class="b">ไม่ต้องแตะ GitHub เลยสักครั้ง</span></p>
+  </div>
+
+  <div class="box box-line" style="margin-top:5mm">
+    <h3 style="margin-bottom:2.5mm">ในโฟลเดอร์ที่ผมส่งให้ มีอะไรบ้าง</h3>
+    <div class="manifest">
+      <span class="f">5 × .zip</span> <span class="n">— อัปโหลดเข้า claude.ai ทีละอัน (ขั้นตอนที่ 1)</span><br>
+      <span class="f">team-quick-feedback.md</span> <span class="n">— prompt ที่วางท้ายแชท · หน้า 10</span><br>
+      <span class="f">project-style-override.md</span> <span class="n">— ใช้ตอนโปรเจกต์นี้ใช้ดีไซน์คนละชุด · หน้า 7</span><br>
+      <span class="f">CHANGELOG.md</span> <span class="n">— ผมแก้อะไรไปบ้าง และรอบไหนต้องโหลดใหม่</span><br>
+      <span class="f">ไฟล์ PDF นี้</span>
+    </div>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>2</span></div>
+</section>
+
+<!-- ══════════════════════════ 3. WHY ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">ที่มา</div>
+  <h2>ทำไมผมถึงทำอันนี้</h2>
+  <div class="rule"></div>
+
+  <p style="margin-bottom:4mm">เริ่มจากสองเรื่องที่พี่ ๆ บ่นตรงกัน และผมก็เจอเหมือนกันทุกครั้ง:</p>
+
+  <div class="pain">
+    <span class="tag">ปัญหาข้อ 1</span>
+    ใช้เวลาขึ้น Power Apps เยอะ กว่าจะเลื่อนแต่ละกล่องได้แต่ละอัน
+  </div>
+  <div class="pain">
+    <span class="tag">ปัญหาข้อ 2</span>
+    Claude มันยัง generate Power Apps ไม่เก่ง ต้อง prompt เยอะ ๆ ตีงานกลับไปมานาน
+    กว่าจะได้ YAML code ที่ไม่ error
+  </div>
+
+  <h3 style="margin-top:6mm">สองข้อนี้เป็นเรื่องเดียวกัน</h3>
+  <p>ที่ Claude generate ไม่เก่ง ไม่ใช่เพราะมันเขียน code ไม่เป็น
+  แต่เพราะมัน<span class="b">ไม่รู้กฎเฉพาะของ Power Apps ที่เราต้องเจ็บตัวเองถึงจะรู้</span> —
+  control type ไหนมีอยู่จริงบ้าง เวอร์ชันต้องเป็นเลขอะไร property เรียงยังไง
+  ค่าแบบไหนทำให้ YAML พังทั้งไฟล์</p>
+
+  <p>พอไม่รู้ มันก็เดา และคำตอบที่เดามาจะ<span class="b">ดูถูกต้องเสมอ</span> —
+  ชื่อ control ที่ฟังดูมีจริง property ที่ฟังดูสมเหตุสมผล เราถึงไม่รู้ตัวจนกด paste แล้ว error
+  นั่นแหละคือรอบที่กินเวลาเรามากที่สุด</p>
+
+  <p>ผมเลยไม่ได้ไปนั่งสอนมันใหม่ทุกแชท แต่<span class="b">ไปวัดกฎจากของจริงที่ compile ผ่านแล้ว</span>
+  แล้วใส่ไว้ใน skill ให้มันรู้ตั้งแต่ยังไม่เริ่มพิมพ์</p>
+
+  <div class="box box-line">
+    <h3>กฎทุกข้อวัดมาจากของที่ทำงานได้จริง ไม่ได้มาจากเอกสาร</h3>
+    <div class="tickrow"><span class="mk" style="color:var(--brand)">·</span>
+      <span>17 หน้าจอที่ compile ผ่าน Studio — 2,830 controls, 2,847 property blocks</span></div>
+    <div class="tickrow"><span class="mk" style="color:var(--brand)">·</span>
+      <span>10 SharePoint lists, 131 columns ที่ใช้งานอยู่จริงใน production</span></div>
+    <div class="tickrow"><span class="mk" style="color:var(--brand)">·</span>
+      <span>flow package ที่ export ออกมาจาก tenant ของเราเอง</span></div>
+    <p class="sm" style="margin-top:3mm"><span class="b">กฎข้อไหนมีตัวเลขแปะอยู่ แปลว่ามันไม่ใช่ความเห็น</span>
+    และตอนที่เอกสาร convention ของเราขัดกับไฟล์ที่ shipped ไปแล้ว — ไฟล์ชนะ เอกสารโดนแก้
+    (มี 7 ค่าที่เอกสารเราสั่งไว้ แต่ไม่ปรากฏเลยสักครั้งใน 17 หน้าจอ)</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>3</span></div>
+</section>
+
+<!-- ══════════════════════════ 4. THE FLOW ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">ภาพรวม</div>
+  <h2>สิ่งที่เปลี่ยนจริง ๆ คือลำดับการทำงาน</h2>
+  <div class="rule"></div>
+  <p class="lead" style="margin-bottom:2mm">ไม่ใช่ว่าเราพิมพ์เร็วขึ้น
+  แต่คือ<span class="b" style="color:var(--ink)">ตกลงแบบให้จบบนกระดาษก่อน แล้วค่อยสร้าง</span></p>
+
+  <div class="flow">
+    <div class="fl-box" style="text-align:center"><span class="b">ได้ requirement มา</span></div>
+    <div class="fl-arrow">↓</div>
+
+    <div class="fl-box">
+      <span class="t">แชท 1 · planning-powerplatform-solutions</span><br>
+      สัมภาษณ์ requirement แล้วออกมาเป็น <code>solution-spec.yaml</code> + mockup HTML + PDF ภาพรวมระบบ
+      (UI, database, tech stack)
+    </div>
+    <div class="fl-arrow">↓</div>
+
+    <div class="fl-hero">
+      <div class="t" style="font-family:var(--mono);font-size:8pt;color:var(--brand);font-weight:700">
+        ★ จุดที่ประหยัดเวลาที่สุดของทั้งกระบวนการ</div>
+      <p class="b" style="font-size:11.5pt;margin-top:1.5mm">เอา PDF กับ mockup ไปคุยกับ user ตรงนี้ ก่อนสร้างอะไรทั้งนั้น</p>
+      <p class="sm" style="margin-top:1.5mm">เมื่อก่อนเราไปเสียเวลาขึ้น Power Apps ก่อน แล้วค่อยรู้ว่า user อยากได้อีกแบบ
+      ตอนนี้ user เห็นภาพและแก้ตั้งแต่ยังเป็นกระดาษ ซึ่งแก้ 5 นาที ไม่ใช่ครึ่งวัน</p>
+    </div>
+    <div class="fl-arrow">↓</div>
+
+    <div class="fl-row">
+      <div class="fl-box"><span class="t">แชท 2</span><br>building-<br>sharepoint-lists<br>
+        <span class="sm dim">.xlsx สำหรับ copy ลง SharePoint</span></div>
+      <div class="fl-box"><span class="t">แชท 3</span><br>generating-<br>powerapps-yaml<br>
+        <span class="sm dim">.pa.yaml ที่ paste เข้า Studio</span></div>
+      <div class="fl-box"><span class="t">แชท 4</span><br>building-<br>powerautomate-flows<br>
+        <span class="sm dim">.zip ที่ import ได้</span></div>
+    </div>
+    <div class="fl-arrow">↓</div>
+
+    <div class="fl-box"><span class="t">แชท 5 · writing-app-manuals</span><br>
+      คู่มือ admin + คู่มือ user เป็นไฟล์ Word</div>
+  </div>
+
+  <div class="box">
+    <h3><code>solution-spec.yaml</code> คือของชิ้นเดียวที่เดินทางข้ามแชท</h3>
+    <p>แชท 1 เขียนมันขึ้นมา อีกสี่ตัวอ่านมัน — และแต่ละตัวอ่าน<span class="b">เฉพาะส่วนของตัวเอง</span>
+    เอาไฟล์นี้แนบเข้าไปในแชทถัดไป แล้วพิมพ์สั้น ๆ ว่าจะทำอะไร <span class="b">ไม่ต้องเล่าระบบใหม่ทั้งหมดอีกรอบ</span>
+    — อันนี้คือสิ่งที่ประหยัด token ได้มากที่สุด</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>4</span></div>
+</section>
+
+<!-- ══════════════════════════ 5. SKILLS 1-2 ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">มีอะไรบ้าง · 1 จาก 2</div>
+  <h2>5 skills แต่ละอันแก้ปัญหาอะไร</h2>
+  <div class="rule"></div>
+  <p class="sm dim" style="margin-bottom:4mm">แต่ละอันสร้างของคนละชนิด ไม่ทับกัน
+  เพราะฉะนั้นพิมพ์งานเข้าไปแล้ว มันจะวิ่งไปเข้าตัวที่ถูกเอง — ไม่ต้องเลือกให้มัน</p>
+
+  <div class="card">
+    <div class="card-h"><span class="num">01</span><span class="nm">planning-powerplatform-solutions</span></div>
+    <div class="kv"><div class="k">พูดว่า</div><div class="v">“ช่วยวางระบบขออนุมัติเปิดบัญชีให้หน่อย”
+      แล้วโยน flowchart / ER diagram / เอกสาร process ที่มีอยู่ให้มัน</div></div>
+    <div class="kv"><div class="k">ได้อะไร</div><div class="v"><code>solution-spec.yaml</code> ·
+      mockup HTML · PDF ภาพรวมระบบสำหรับเอาไปคุยกับ user</div></div>
+    <div class="kv"><div class="k">แก้ปัญหา</div><div class="v">การที่เราเริ่มขึ้นแอปก่อนตกลงแบบ
+      อันนี้ทำให้ user เห็นและแก้ได้ตั้งแต่ยังไม่มีอะไรให้แก้แพง</div></div>
+    <div class="kv"><div class="k">ต้องรู้</div><div class="v"><span class="b">ทำอันนี้ก่อนเสมอ</span>
+      อีกสี่ตัวอ่าน spec ที่มันเขียน · มันจะทำ glossary ก่อนเรื่องอื่นทั้งหมด
+      เพราะของสิ่งเดียวที่ถูกเรียกสองชื่อ จะกลายเป็นสอง list สองหน้าจอ แล้วต้อง migrate ทีหลัง ·
+      และมัน<span class="b">หยุดสัมภาษณ์เองเมื่อ spec ผ่าน validator แล้ว</span> ไม่ถามวนไปเรื่อย ๆ</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="num">02</span><span class="nm">generating-powerapps-yaml</span></div>
+    <div class="kv"><div class="k">พูดว่า</div><div class="v">“ทำหน้านี้เป็น Power App ให้หน่อย”
+      แล้วแนบ mockup / screenshot / HTML / spec</div></div>
+    <div class="kv"><div class="k">ได้อะไร</div><div class="v">ไฟล์ <code>.pa.yaml</code>
+      ที่ paste เข้า Power Apps Studio ได้เลย</div></div>
+    <div class="kv"><div class="k">แก้ปัญหา</div><div class="v"><span class="b">ปัญหาข้อ 2 ของพี่ ๆ ตรง ๆ</span>
+      — มันรู้ว่ามี control อยู่ 9 ชนิด เวอร์ชันต้องเป็นเลขอะไร property ต้องเรียงยังไง
+      ค่าไหนต้องใส่ block scalar ไม่งั้น YAML พัง และ<span class="b">มันรัน validator ให้ก่อนส่งงานทุกครั้ง</span></div></div>
+    <div class="kv"><div class="k">ต้องรู้</div><div class="v">อันนี้คือตัวที่ผมลงแรงมากที่สุด และเป็นตัวที่ผ่านสนามจริงมาแล้ว
+      — ลองกับโปรเจกต์ที่ไม่เกี่ยวอะไรกับโปรเจกต์ต้นทางเลย ออกมา 191 controls
+      โดยไม่มี control type หรือ property ที่ไม่มีอยู่จริงสักตัว
+      <span class="b">แต่ต้องอ่านหน้า 8 ก่อนเชื่อ validator ครับ</span></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="num">03</span><span class="nm">building-sharepoint-lists</span></div>
+    <div class="kv"><div class="k">พูดว่า</div><div class="v">“สร้าง list ตาม spec นี้ให้หน่อย”
+      (แนบ <code>solution-spec.yaml</code> จากแชท 1)</div></div>
+    <div class="kv"><div class="k">ได้อะไร</div><div class="v">ไฟล์ <code>.xlsx</code>
+      ที่ทำมาให้ copy ลง SharePoint ได้ตรง ๆ + สคริปต์สร้าง column</div></div>
+    <div class="kv"><div class="k">แก้ปัญหา</div><div class="v">การมานั่งพิมพ์ column ทีละอันในเบราว์เซอร์
+      และ<span class="b">กับดัก delegation</span> — มันจะไม่ยอมใช้ Lookup column ให้
+      เพราะ Lookup ไม่ delegate แล้ว gallery จะ<span class="b">เงียบ ๆ ตัดที่ 500 แถว โดยไม่มี error อะไรเลย</span>
+      (131 columns ที่ใช้จริงของเรา ไม่มี Lookup สักอัน — ตั้งใจ)</div></div>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>5</span></div>
+</section>
+
+<!-- ══════════════════════════ 6. SKILLS 3-5 ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">มีอะไรบ้าง · 2 จาก 2</div>
+  <h2 style="visibility:hidden;height:0;margin:0">skills ต่อ</h2>
+
+  <div class="card" style="margin-top:2mm">
+    <div class="card-h"><span class="num">04</span><span class="nm">building-powerautomate-flows</span></div>
+    <div class="kv"><div class="k">พูดว่า</div><div class="v">“ทำ flow ส่งเมลตอนมีคนกดส่งคำขอ”
+      — และต้องมีไฟล์ <code>.zip</code> ที่ export จาก tenant เราเป็นต้นแบบ</div></div>
+    <div class="kv"><div class="k">ได้อะไร</div><div class="v">ไฟล์ <code>.zip</code> ที่ import เข้า Power Automate ได้</div></div>
+    <div class="kv"><div class="k">แก้ปัญหา</div><div class="v">package ที่ import แล้วขึ้น connection กากบาทเทา
+      หรือ error <code>PackageFlowMissingConnectionMap</code> — เพราะ legacy package จริง ๆ
+      <span class="b">มี 5 ไฟล์ ไม่ใช่ 2</span> และสองไฟล์ในนั้น (<code>apisMap.json</code>,
+      <code>connectionsMap.json</code>) ไม่มีในเอกสารที่ไหนเลยที่เราหาเจอ</div></div>
+    <div class="kv"><div class="k">ต้องรู้</div><div class="v"><span class="b">ต้องมี .zip ต้นแบบก่อนเสมอ</span>
+      ไม่มีแล้วทำไม่ได้จริง ๆ ไม่ใช่มันขี้เกียจ — เพราะใน package มีรหัส connection กับ GUID
+      ที่ผูกกับ tenant เรา เดาไม่ได้ หาไม่ได้ ต้องมาจากไฟล์จริงเท่านั้น
+      สร้างต้นแบบใหม่ใช้เวลา 2 นาที (สร้าง flow เปล่า ๆ 1 action แล้ว export)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="num">05</span><span class="nm">writing-app-manuals</span></div>
+    <div class="kv"><div class="k">พูดว่า</div><div class="v">“เขียนคู่มือให้หน่อย”</div></div>
+    <div class="kv"><div class="k">ได้อะไร</div><div class="v">คู่มือ admin + คู่มือ user
+      เป็นไฟล์ <code>.docx</code> สองอัน จาก spec เดียวกัน</div></div>
+    <div class="kv"><div class="k">แก้ปัญหา</div><div class="v">คู่มือที่ไม่มีใครได้เขียนเพราะไม่มีเวลา
+      และคู่มือสองเล่มที่เขียนแยกกันแล้วเนื้อหาเพี้ยนกันภายในอาทิตย์เดียว</div></div>
+    <div class="kv"><div class="k">ต้องรู้</div><div class="v">มันมี<span class="b">โหมด draft
+      ที่ใช้ก่อนสร้างระบบ</span> — เอาไปให้ user อ่าน แล้ว user บอกว่า “เอ๊ะ เราไม่ได้ทำแบบนี้นะ”
+      อันนั้นคือเราเพิ่งจับ requirement ผิดได้ในราคาแค่หนึ่งประโยค
+      ถ้าไปถามเขาว่า “approve spec นี้ได้ไหม” เขาจะพยักหน้าอย่างเดียว</div></div>
+  </div>
+
+  <div class="box box-line" style="margin-top:6mm">
+    <h3>ไม่ต้องจำชื่อพวกนี้ก็ได้ครับ</h3>
+    <p>แต่ละ skill เขียน description ไว้ให้จับจากวิธีที่คนถามจริง ๆ เช่น
+    <span class="en">“make this a Power App”</span>, <span class="en">“ทำไม gallery ขึ้นแค่ 500 แถว”</span>,
+    <span class="en">“flow import ไม่ได้”</span> — พิมพ์ปัญหาไปตรง ๆ แล้วมันวิ่งไปเข้าตัวที่ถูกเอง</p>
+    <p class="sm" style="margin-top:2mm"><span class="b">ถ้าพิมพ์ไปแล้วมันไม่เรียก skill ขึ้นมา
+    นั่นคือบั๊กที่ควรบอกผม</span> ไม่ใช่เรื่องที่พี่ ๆ พิมพ์ผิด</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>6</span></div>
+</section>
+
+<!-- ══════════════════════════ 7. HOW TO USE / TOKENS ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">วิธีใช้</div>
+  <h2>ใช้ยังไงให้ token ไม่หมดก่อนงานเสร็จ</h2>
+  <div class="rule"></div>
+  <p class="lead" style="margin-bottom:4mm">พี่ ๆ ใช้ Pro plan เพราะฉะนั้นข้อนี้สำคัญพอ ๆ กับความถูกต้อง</p>
+
+  <div class="card" style="border-left-color:var(--brand)">
+    <h3>1. หนึ่ง stage ต่อหนึ่งแชท</h3>
+    <p>เปิดแชทใหม่ทุกครั้งที่ขึ้น skill ตัวใหม่ ไม่ใช่เรื่องความเป็นระเบียบ แต่เป็นเรื่อง budget ตรง ๆ —
+    ถ้าเอาการสัมภาษณ์ requirement กับการสร้างของสามอย่างมาอยู่แชทเดียวกัน
+    context จะถูกกินไปกับเรื่องที่ stage หลัง ๆ ไม่ได้ใช้ และ<span class="b">คุณภาพจะตกก่อนที่ token จะหมดด้วยซ้ำ</span></p>
+  </div>
+
+  <div class="card" style="border-left-color:var(--brand)">
+    <h3>2. พก <code>solution-spec.yaml</code> ข้ามแชท — แนบเป็นไฟล์ อย่า paste ทั้งก้อน</h3>
+    <p>แนบไฟล์ไป แล้วพิมพ์ว่า “สร้าง SharePoint list ตาม spec นี้” พอ
+    ไม่ต้องเล่าระบบใหม่ ไม่ต้อง paste YAML ทั้งอันลงในช่องแชท</p>
+  </div>
+
+  <div class="card" style="border-left-color:var(--brand)">
+    <h3>3. prompt สั้น ๆ ก็พอ กฎอยู่ใน skill แล้ว</h3>
+    <p>ไม่ต้องเขียน prompt ยาว ๆ อธิบายว่าอยากได้ YAML แบบไหน ไม่ต้องแปะ convention
+    ไม่ต้องเตือนมันเรื่อง property ordering — <span class="b">ทุกอย่างนั้นอยู่ใน skill แล้ว
+    การเขียนซ้ำคือการจ่าย token ซ้ำ</span></p>
+  </div>
+
+  <div class="card" style="border-left-color:var(--brand)">
+    <h3>4. มีอะไรจะแก้ บอกให้ครบในรอบเดียว</h3>
+    <p>สะสมสิ่งที่จะแก้ให้ครบแล้วส่งไปทีเดียว ประหยัดกว่าส่งทีละข้อสามรอบมาก
+    และผลลัพธ์มักจะดีกว่าด้วย เพราะมันเห็นภาพรวมของสิ่งที่เราต้องการ</p>
+  </div>
+
+  <div class="box box-ok" style="margin-top:5mm">
+    <p><span class="b">ถ้า validator เตือนขึ้นมาเป็นสิบบรรทัดเพราะโปรเจกต์นี้ใช้สีกับขนาดคนละชุด</span>
+    — อย่าไปแก้อะไร และอย่าเริ่มชินกับการมองข้าม warning
+    ให้เปิดไฟล์ <code>project-style-override.md</code> ที่แนบมา แล้ววาง prompt ในนั้นตอนเริ่มแชท
+    มันจะตั้งค่าสไตล์ของโปรเจกต์นี้ให้ โดยไม่ต้องแตะ skill เลย</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>7</span></div>
+</section>
+
+<!-- ══════════════════════════ 8. THE CAVEAT ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">เรื่องเดียวที่อยากให้จำ</div>
+  <h2>“ผ่าน validator” แปลว่า paste ได้<br>ไม่ได้แปลว่าหน้าจอถูก</h2>
+  <div class="rule"></div>
+
+  <p>ทุก skill จะรัน validator ให้ก่อนส่งงาน และมันจับได้เยอะจริง ๆ — control type ที่ไม่มีอยู่จริง,
+  property ที่เรียงผิด, ค่าที่ทำให้ YAML พัง, ขนาดที่หลุดจากชุดที่วัดมา</p>
+
+  <p><span class="b">แต่มันอ่านแค่ตัวหนังสือ มันไม่ได้คำนวณ layout</span>
+  มันไม่มีทางรู้ว่ากล่องนี้เตี้ยเกินกว่าของที่อยู่ข้างใน หรือเส้นขอบของลูกโดนขอบของพ่อบังอยู่</p>
+
+  <div class="box box-warn">
+    <h3>เรื่องนี้ผมพลาดเอง และมันทำให้เสียเวลาไป 3 รอบ</h3>
+    <p>ตอนแรกผมให้ validator ขึ้นข้อความว่า
+    <span class="en b">“Clean. Safe to paste into Power Apps Studio.”</span>
+    ซึ่งมันเคลมเกินจริง เพราะสิ่งที่มันพิสูจน์ได้จริง ๆ มีแค่ “ไฟล์นี้ parse ผ่าน”</p>
+    <p style="margin-top:2mm">ผลคือผมรัน validator ผ่าน แล้วก็เชื่อมัน — สามรอบติด
+    ทั้งที่หน้าจอออกมาเพี้ยนทุกรอบ ตอนนี้แก้แล้ว มันจะขึ้นว่า
+    <span class="en">“No errors found. This should PARSE and paste.”</span>
+    แล้วตามด้วยรายการ<span class="en b">ที่มันไม่ได้ตรวจ</span> ทุกครั้ง</p>
+  </div>
+
+  <div class="grid2" style="margin-top:5mm">
+    <div class="box box-line" style="margin:0">
+      <h3 style="color:var(--ok)">✓ มันตรวจให้</h3>
+      <ul class="sm">
+        <li>control type และเวอร์ชันมีจริงไหม</li>
+        <li>property เรียงถูกไหม</li>
+        <li>ค่าที่ต้องใส่ block scalar</li>
+        <li><code>X</code>/<code>Y</code> ที่ไม่ควรมี</li>
+        <li>property ที่หน้าจอต้องมี</li>
+        <li>enum member ที่ยังไม่มีใครยืนยัน</li>
+      </ul>
+    </div>
+    <div class="box box-line" style="margin:0">
+      <h3 style="color:var(--warn)">✗ มันตรวจไม่ได้</h3>
+      <ul class="sm">
+        <li>กล่องสูงพอใส่ของข้างในไหม</li>
+        <li>เส้นขอบโดนพ่อบังหรือเปล่า</li>
+        <li><code>=Parent.Width</code> ล้นพ่อที่มี padding</li>
+        <li>อะไรก็ตามที่ขึ้นกับข้อมูลจริงตอน run</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box box-brand" style="margin-top:5mm">
+    <p class="b" style="font-size:11pt">เพราะฉะนั้น: paste เข้าไป ดูหน้าจอ แล้วบอกมันว่าเห็นอะไร</p>
+    <p style="margin-top:1.5mm">การบอกว่า “กล่องนี้เตี้ยไป ตัวหนังสือล้น” หนึ่งรอบ
+    เร็วกว่านั่งเดากับมันสามรอบเยอะมาก — และรอบนั้นคือรอบที่ตา<span class="b">พี่ ๆ</span> ทำได้ดีกว่ามันแน่นอน</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>8</span></div>
+</section>
+
+<!-- ══════════════════════════ 9. IMPROVE — 3 LANES ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">พัฒนาต่อเอง</div>
+  <h2>ทำให้มันเก่งขึ้นเรื่อย ๆ ได้ยังไง<br>โดยไม่ต้องแตะ GitHub</h2>
+  <div class="rule"></div>
+
+  <p style="margin-bottom:1mm">ของพวกนี้สร้างมาจากระบบ<span class="b">เดียว</span>
+  ทุกโปรเจกต์หลังจากนั้นจะเจอเรื่องที่ 17 หน้าจอนั้นไม่เคยมี
+  ถ้าไม่มีทางส่งกลับ ทุกคนก็จะไปนั่งค้นพบการแก้เดิม ๆ ซ้ำกันเงียบ ๆ คนละมุม แล้ว skill ก็จะไม่ดีขึ้นเลย</p>
+  <p style="margin-bottom:4mm">เลยมีทางส่งกลับอยู่ <span class="b">3 ทาง</span>
+  และทางที่ผมอยากให้ใช้มากที่สุดคือทางแรก ซึ่งใช้เวลา 2 นาที</p>
+
+  <div class="lane">
+    <div class="lane-tag">
+      <div class="who">ทาง 1 · ทุกคน</div>
+      <div class="when">2 นาที<br>ทุกครั้งที่ทำงานจริงเสร็จ</div>
+    </div>
+    <div class="lane-b">
+      <h3>วาง prompt ท้ายแชท แล้วส่งไฟล์มาให้ผม</h3>
+      <p>prompt เต็ม ๆ อยู่หน้าถัดไป และในไฟล์ <code>team-quick-feedback.md</code>
+      Claude จะเขียนบันทึกสั้น ๆ ออกมาว่าอะไรต้องแก้บ้าง เซฟแล้วส่งมาทาง Teams จบ</p>
+      <p class="sm dim" style="margin-top:1.5mm"><span class="b">ต้องท้ายแชทเท่านั้น</span>
+      แชทยาว ๆ จะถูกย่อความ แล้วสิ่งที่เหลือรอดคือสรุปที่ฟังดูสมเหตุสมผล มากกว่าที่ถูกต้อง
+      ถามวันศุกร์ถึงงานวันอังคาร จะได้เรื่องแต่งที่มีผิวสัมผัสของข้อเท็จจริง</p>
+      <p class="sm dim"><span class="b">และอย่ากรองก่อนส่ง</span> — อย่าคิดแทนว่าเรื่องนี้สำคัญพอไหม
+      มีคนบอกไปหรือยัง หรือเป็นความผิดตัวเองหรือเปล่า ส่งมาเถอะครับ ตัดสินใจเป็นงานผม
+      และผมทำได้ดีกว่ามากตอนมีห้ารายงาน มากกว่ามีอันเดียว</p>
+    </div>
+  </div>
+
+  <div class="lane">
+    <div class="lane-tag">
+      <div class="who">ทาง 2 · ทำเองได้</div>
+      <div class="when">ไม่ต้องรอผม<br>เฉพาะเรื่องสไตล์</div>
+    </div>
+    <div class="lane-b">
+      <h3>โปรเจกต์นี้ใช้ดีไซน์คนละชุด — ตั้งค่าเองได้ในแชทนั้นเลย</h3>
+      <p>สี ขนาดฟอนต์ ระยะห่าง prefix ตัวแปร — พวกนี้เป็น<span class="b">ธรรมเนียมของทีม ไม่ใช่กฎของแพลตฟอร์ม</span>
+      เปลี่ยนได้โดยไม่ต้องรอใคร ใช้ prompt ในไฟล์ <code>project-style-override.md</code></p>
+      <p class="sm dim" style="margin-top:1.5mm">อยากรู้ว่าที่เตือนมามีอันไหนพังจริงบ้าง
+      พิมพ์ว่า <span class="en">“validate with --platform-only แล้วเทียบสองรอบให้ดู”</span>
+      อะไรที่หายไปคือเรื่องสไตล์ อะไรที่ยังอยู่คือเรื่องที่ Studio จะปฏิเสธจริง</p>
+    </div>
+  </div>
+
+  <div class="lane">
+    <div class="lane-tag">
+      <div class="who">ทาง 3 · ผมทำ</div>
+      <div class="when">ประมาณเดือนละครั้ง</div>
+    </div>
+    <div class="lane-b">
+      <h3>ผมรวมทุกอย่างที่ส่งมา แก้ skill แล้วส่ง zip ใหม่ให้</h3>
+      <p>พร้อมบอกทุกครั้งว่ารอบนี้<span class="b">ต้องโหลดใหม่ไหม</span> หรือข้ามได้
+      หน้าที่พี่ ๆ มีแค่โหลดกับอัปโหลดทับ</p>
+      <p class="sm dim" style="margin-top:1.5mm">และผมจะบอกด้วยว่าเรื่องไหน<span class="b">ผมไม่ได้แก้ และเพราะอะไร</span>
+      — คนที่ส่งมาสองครั้งแล้วไม่เห็นอะไรเกิดขึ้น จะเลิกส่ง แล้วผมก็เสียข้อมูลนั้นไปถาวร</p>
+    </div>
+  </div>
+
+  <div class="box box-line" style="margin-top:2mm">
+    <p class="sm"><span class="b">เส้นแบ่งง่าย ๆ ว่าจะใช้ทางไหน:</span>
+    ถ้า <span class="b">Studio หรือ SharePoint ปฏิเสธจริง ๆ</span> → ทาง 1 ส่งมาให้ผม เพราะทุกคนต้องได้กฎนั้น ·
+    ถ้ามัน<span class="b">ทำงานได้ แค่ไม่ตรงสไตล์โปรเจกต์นี้</span> → ทาง 2 แก้เองได้เลย</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>9</span></div>
+</section>
+
+<!-- ══════════════════════════ 10. THE PROMPT ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">ทาง 1 · prompt ที่ต้องวาง</div>
+  <h2>วางอันนี้ก่อนปิดแชท</h2>
+  <div class="rule"></div>
+  <p class="sm dim" style="margin-bottom:3mm">ถ้าก็อปจากไฟล์ <code>team-quick-feedback.md</code>
+  ที่แนบมาได้ ก็อปจากไฟล์ดีกว่าครับ จะได้ไม่มีอักขระหลุดตอนคัดลอกจาก PDF</p>
+
+  <div class="prompt"><span class="c">We are done. Before I close this chat, write a short feedback record so the skill that
+guided this work can be improved. Be blunt — this is for fixing the skill, not for
+reassuring me. An honest account of what you got wrong is the useful thing here.
+
+Output one YAML code block and nothing else. No summary paragraph, and do not re-print
+the artifact — I already have it.</span>
+
+<span class="k">meta:</span>
+  skill: &lt;which skill guided this&gt;
+  skill_version: &lt;the version comment in its SKILL.md, if you can see it&gt;
+  what_we_built: &lt;one line&gt;
+  rounds: &lt;how many times I sent it back for corrections&gt;
+  first_attempt_validated: &lt;true|false — did your FIRST output pass the validator?&gt;
+
+<span class="c"># Exact text the platform showed — Power Apps Studio, SharePoint, or the flow importer.
+# Copy it character for character, including the Location. Do not paraphrase. This is the
+# most valuable field in the file: every verbatim error so far has become a static check.</span>
+<span class="k">studio_errors_verbatim:</span> []
+
+<span class="k">fixes:</span>
+  - element: &lt;the exact control, column, or action. "the layout was wrong" is unusable&gt;
+    wrong: &lt;what you produced&gt;
+    right: &lt;what it had to become&gt;
+    caught_by: validator | studio | me-eyeballing | you-self-corrected
+    tier: platform | house | unclear
+    rule_status: absent | present-but-wrong | present-and-ignored
+    rule_quote: &lt;if present-but-wrong or present-and-ignored, quote the SKILL.md line&gt;
+    times: &lt;rounds this same thing took&gt;
+
+<span class="k">biggest_miss:</span> |
+  &lt;Free text, and answer it even if fixes is empty. What would have saved the most round
+  trips if the skill had said it on page one? If something felt structurally wrong rather
+  than individually wrong, this is where it goes.&gt;
+
+<span class="c">tier: `platform` means Studio or SharePoint REFUSED it — universal, everyone needs the fix.
+`house` means it worked and just did not match our conventions. Unsure? Write `unclear`.
+
+rule_status decides what the fix is. `absent` → add a rule. `present-but-wrong` → correct
+it. `present-and-ignored` → the rule was there, it was correct, and you did not follow it.
+Say so. It is the most valuable line you can write and the one you will most want to avoid.
+It means the rule is buried, or worded as advice where an instruction was needed.
+
+Quote any value containing a colon-space, because this record is YAML too:
+  wrong: "Control: Image@2.2.0"
+
+If a section is genuinely empty, return it empty. `fixes: []` is a real answer.</span></div>
+
+  <div class="cut">แล้วเซฟไฟล์ที่ได้ ส่งมาทาง Teams — จบครับ ไม่ต้องแก้ ไม่ต้องจัดรูปแบบ ไม่ต้องคัดกรอง</div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite</span><span>10</span></div>
+</section>
+
+<!-- ══════════════════════════ 11. FAQ ══════════════════════════ -->
+<section class="page">
+  <div class="eyebrow">ปิดท้าย</div>
+  <h2>คำถามที่น่าจะมี</h2>
+  <div class="rule"></div>
+
+  <div class="faq">
+    <div class="q">ต้องลง GitHub ไหม / ต้องลงโปรแกรมอะไรไหม</div>
+    <div class="a">ไม่ต้องเลยครับ มีแค่ claude.ai กับเบราว์เซอร์ ไฟล์ zip ผมส่งให้ทาง Teams
+    และ feedback ก็ส่งกลับมาทาง Teams เหมือนกัน</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">ผมลง skill แล้ว เพื่อนในทีมได้ด้วยไหม</div>
+    <div class="a"><span class="b">ไม่ได้ครับ</span> Skills บน claude.ai เป็นของแต่ละ account
+    และไม่ sync กัน ทุกคนต้องอัปโหลดเอง — และตอนผมออกเวอร์ชันใหม่ ทุกคนต้องโหลดใหม่เอง
+    ผมจะบอกทุกครั้งว่ารอบไหนควรโหลด</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">ต้องลงครบทั้ง 5 อันเลยไหม</div>
+    <div class="a">ลงครบดีที่สุดครับ เพราะมันถูกเขียนให้ส่งงานต่อกัน
+    แต่ถ้าจะเริ่มอันเดียวก่อน เอา <code>generating-powerapps-yaml</code> — เป็นตัวที่คืนเวลาให้เร็วที่สุด</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">มันจะกิน token เยอะไหม</div>
+    <div class="a">น้อยกว่าเดิมครับ เพราะกฎอยู่ใน skill แล้ว เราไม่ต้องพิมพ์อธิบายซ้ำทุกแชท
+    และไม่ต้องตีงานกลับไปมาหลายรอบ — รอบที่ตีกลับนั่นแหละที่แพงที่สุด
+    ขอแค่ทำตามกติกาหน้า 7: หนึ่ง stage ต่อหนึ่งแชท</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">ถ้าผมทำมันพัง / แก้อะไรผิดไป</div>
+    <div class="a">พังยากครับ และถ้าพังจริงก็แค่โหลด zip ใหม่มาอัปโหลดทับ ของเดิมอยู่กับผมครบ
+    ที่<span class="b">ไม่อยากให้ทำ</span>มีอย่างเดียวคือ อย่าไปแก้ไฟล์ <code>validate_*.py</code>
+    และอย่าปล่อยให้ตัวเองชินกับการมองข้าม warning — วันที่ warning กลายเป็นสิ่งที่ทุกคนข้าม
+    คือวันที่มันหมดประโยชน์</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">พิมพ์ไปแล้วมันไม่เรียก skill ขึ้นมาเลย</div>
+    <div class="a">บอกผมได้เลยครับ นั่นคือ description ของ skill เขียนไม่ครอบคลุมวิธีที่คนถามจริง
+    เป็นบั๊กที่ผมแก้ได้ ไม่ใช่เรื่องที่พี่ ๆ ต้องพิมพ์ให้ถูกใจมัน</div>
+  </div>
+
+  <div class="faq">
+    <div class="q">มันเคยผ่านสนามจริงหรือยัง</div>
+    <div class="a">ผ่านแล้วหนึ่งโปรเจกต์ ที่ไม่เกี่ยวอะไรกับโปรเจกต์ต้นทางเลย
+    ออกมา 191 controls ไม่มี control type หรือ property ที่ไม่มีอยู่จริงสักตัว
+    และไม่เตือนเรื่องสีเลยแม้จะใช้ชุดสีคนละชุดโดยสิ้นเชิง — ซึ่งเป็นสิ่งที่ตั้งใจให้เป็น
+    ส่วนที่<span class="b">พลาด</span>ก็มี และมันกลายเป็นเรื่องในหน้า 8</div>
+  </div>
+
+  <div class="box box-brand" style="margin-top:6mm">
+    <p class="b" style="font-size:12pt">สิ่งเดียวที่ผมขอ</p>
+    <p style="margin-top:2mm">วาง prompt หน้า 10 ท้ายแชท แล้วส่งไฟล์กลับมา</p>
+    <p style="margin-top:1.5mm">ของพวกนี้จะดีขึ้นตามจำนวนคนที่ส่งกลับ ไม่ใช่ตามเวลาที่ผมใส่ลงไป
+    คนที่ส่งมาห้าครั้ง กำลังเขียนเครื่องมือให้ตัวเองใช้ในอีกหกเดือนข้างหน้า</p>
+    <p style="margin-top:3mm" class="sm">ติดตรงไหน ทักมาได้เลยครับ ไม่ต้องเกรงใจ — N'Vin</p>
+  </div>
+
+  <div class="foot"><span>ส่งต่อให้ทีม · Power Platform Skill Suite · v1.3.0</span><span>11</span></div>
+</section>
+
+</body>
+</html>
