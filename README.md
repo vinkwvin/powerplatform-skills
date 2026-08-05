@@ -48,12 +48,14 @@ expensive to re-read, and cannot be validated — so it is never the source of t
 | 5 | `generating-powerapps-yaml` | done |
 | 6 | `building-sharepoint-lists` | done |
 | 7 | `planning-powerplatform-solutions` | done |
-| 8 | `building-powerautomate-flows` | not started |
-| 9 | `writing-app-manuals` | not started |
-| 10 | Lint and package → `dist/*.zip` | not started |
+| 8 | `building-powerautomate-flows` | done |
+| 9 | `writing-app-manuals` | done |
+| 10 | Lint and package → `dist/*.zip` | done |
 | 11 | **Feedback intake — recurring** | process defined |
 
 ## Install (Pro plan, ~2 minutes)
+
+All five are built and packaged in [`dist/`](dist/).
 
 1. Download the `.zip` for the skill you want from `dist/`.
 2. In claude.ai: **Settings → Capabilities → Skills → Upload skill**.
@@ -146,7 +148,11 @@ Every validator is tested in both directions, and the tests are the receipts:
 | `validate_pa_yaml.py` | 17 screens: 0 errors, 0 warnings | 6 defects → 7 errors, each naming the control path |
 | `validate_lists.py` | the spec: clean | 7 defects → 7 errors, each naming the offending key |
 | `validate_spec.py` | the schema example: clean | 8 defects → 8 errors |
+| `validate_flow.py` | the real tenant export: clean | 5 defects → 7 errors |
+| `validate_manual.py` | both generated manuals: clean | broken OOXML package → 2 errors |
 | `generate_workbook.py` + `xlsx_to_spec.py` | 131 fields round-trip losslessly | — |
+| `lint_skills.py` | 5 skills, 0 failures, no shared trigger phrases | — |
+| `package_skills.py` | 5 zips, each unzipped and re-verified | — |
 
 ## Improving the skills — this is the important part
 

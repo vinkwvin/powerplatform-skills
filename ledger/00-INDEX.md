@@ -61,6 +61,11 @@ the session that needs it.
 | `generating-powerapps-yaml` | 5 | 17 real screens clean; 6 injected defects caught | merges the two retired YAML skills |
 | `building-sharepoint-lists` | 6 | clean spec passes; 7 injected defects caught; 131-field round trip lossless | ships `xlsx_to_spec.py` for existing systems |
 | `planning-powerplatform-solutions` | 7 | renders the real spec to a 9-section overview, HTML + PDF | writes the spec the other four read |
+| `building-powerautomate-flows` | 8 | real export clean; 5 injected defects caught; generated package validates | rebuilt against the real export, not upgraded |
+| `writing-app-manuals` | 9 | both manuals clean; broken OOXML package caught | one source, two renderings |
+
+All five packaged and verified in `dist/`. `scripts/lint_skills.py` and
+`scripts/package_skills.py` re-run the whole check.
 
 ## Standing cautions
 

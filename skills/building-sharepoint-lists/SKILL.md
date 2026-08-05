@@ -105,6 +105,13 @@ survives creation and then breaks formulas, URLs, and exports.
 **`HOUSE` — `populated_by: automation` columns are omitted from user-entry forms.** A user typing
 into a column a flow overwrites is a support ticket waiting to happen.
 
+## Two words for one thing, on purpose
+
+**"Column" is the SharePoint term; "field" is the spec key.** `lists[].fields[]` in the spec
+becomes a column in SharePoint. Both appear here deliberately: use *field* when talking about the
+spec, *column* when talking about what the user creates in the browser. Keep the distinction —
+collapsing it makes one of the two documents wrong.
+
 ## Validation gate
 
 Run `python scripts/validate_lists.py <file>`. If it fails, fix and re-run. Do not present output
