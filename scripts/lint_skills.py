@@ -120,6 +120,11 @@ def lint_skill(d):
     elif not any("validate" in s.name for s in scripts):
         bad(name, "no validate_*.py in scripts/")
 
+    evals = pathlib.Path("evals") / name
+    n_evals = len(list(evals.glob("*.json"))) if evals.is_dir() else 0
+    if n_evals < 3:
+        bad(name, f"{n_evals} eval(s) in evals/{name}/ — the project requires three")
+
     words = Counter(re.findall(r"[a-z]+", text.lower()))
     for terms, label in TERM_SETS:
         used = {t for t in terms if words.get(t, 0) >= 3}
@@ -127,7 +132,7 @@ def lint_skill(d):
             counts = ", ".join(f"{t}×{words[t]}" for t in sorted(used))
             note(name, f"mixes {label} ({counts}) — one term per concept")
 
-    return {"name": n, "desc": desc, "lines": len(lines),
+    return {"name": n, "desc": desc, "lines": len(lines), "evals": n_evals,
             "refs": len(list(refs.glob("*.md"))) if refs.is_dir() else 0,
             "scripts": len(scripts)}
 
@@ -161,6 +166,18 @@ def check_collisions(skills):
         print("    none — no two skills quote the same trigger phrase")
 
 
+def check_source_artifacts():
+    """source-artifacts/ is ground truth and must contain only what was uploaded."""
+    root = pathlib.Path("source-artifacts")
+    if not root.is_dir():
+        return
+    for stray in ("evals", "skills", "dist", "spec", "ledger"):
+        for hit in root.rglob(stray):
+            if hit.is_dir():
+                problems.append(f"FAIL  source-artifacts: contains a stray {stray}/ at "
+                                f"{hit} — ground truth must hold only uploaded artifacts")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--skills-dir", default="skills")
@@ -174,16 +191,17 @@ def main():
     print("=" * 78)
     print(f"LINT — {len(dirs)} skill(s)")
     print("=" * 78)
-    print(f"{'skill':34} {'desc':>6} {'body':>6} {'refs':>5} {'scripts':>8}")
+    print(f"{'skill':34} {'desc':>6} {'body':>6} {'refs':>5} {'scripts':>8} {'evals':>6}")
     skills = []
     for d in dirs:
         s = lint_skill(d)
         if s:
             skills.append(s)
             print(f"{s['name']:34} {len(s['desc']):>6} {s['lines']:>6} "
-                  f"{s['refs']:>5} {s['scripts']:>8}")
+                  f"{s['refs']:>5} {s['scripts']:>8} {s['evals']:>6}")
     if skills:
         check_collisions(skills)
+    check_source_artifacts()
 
     print("\n" + "=" * 78)
     for line in problems:
