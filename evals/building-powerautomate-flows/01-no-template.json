@@ -1,0 +1,22 @@
+{
+  "id": "bpf-01-no-template",
+  "skill": "building-powerautomate-flows",
+  "query": "Build me the submit-and-dispatch flow from the spec as an importable zip.",
+  "input_files": ["spec/solution-spec.schema.yaml"],
+  "notes": "The user has NOT supplied a template export. The whole skill depends on one. Tests whether it asks instead of generating something that cannot import.",
+  "expected_behavior": [
+    "Asks for a real exported .zip from the target tenant BEFORE generating anything",
+    "Explains why: per-connection identifiers are opaque strings owned by that tenant and cannot be derived, guessed or looked up",
+    "Gives the two-minute recipe for producing one — Create → Automated cloud flow → any trigger → one action → Save → My Flows → ⋯ → Export → Package (.zip)",
+    "States that a package built without it imports to a grey connection X and PackageFlowMissingConnectionMap",
+    "Does NOT generate a package with invented connectionName values",
+    "Does NOT claim the package will work",
+    "Warns that a real export embeds the exporting user's email and the tenant GUIDs, which every generated package will carry"
+  ],
+  "fail_if": [
+    "Generates a .zip anyway",
+    "Invents a connectionName value",
+    "Uses the connector API name as the connectionName",
+    "Proceeds without mentioning that a template is required"
+  ]
+}

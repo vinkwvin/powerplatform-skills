@@ -1,0 +1,39 @@
+# House style for Power Automate flows — editable per project.
+#
+# Tier HOUSE (docs/EVIDENCE-TIERS.md). The PLATFORM rules — the five files, the two manifest
+# resources per connector, splitOn on array triggers, no operationMetadataId — are hard-coded
+# in validate_flow.py because they were observed in a real export and are not negotiable.
+#
+# Everything here is a design convention this organisation adopted.
+
+meta:
+  style_id: innovestx-flows-1.0
+  derived_from: six designed flows in one system, plus one observed export
+
+template:
+  # The single most important operational rule in this skill.
+  require_real_export: true
+  # A connector the template does not have cannot get valid connection identifiers.
+  fail_if_connector_missing_from_template: true
+  warn_about_embedded_pii: true     # exports carry the exporter's email and tenant GUIDs
+
+structure:
+  # When more than this many flows send mail, factor one child flow they all call.
+  notification_child_flow_threshold: 2
+  # Guards belong in the flow, not only in the app: a flow that trusts its inputs because
+  # the app validates them fails the first time anything else calls it.
+  guard_before_act: true
+  # Every state-changing flow writes an audit row.
+  audit_every_transition: true
+  # Anything generating a sequence number funnels through one flow, so two runs cannot collide.
+  single_writer_for_sequences: true
+
+naming:
+  flow_id: lower_snake_case          # flow_1_submit_dispatch
+  action_names: Title_Case_With_Underscores
+
+handover:
+  # Say this every time — it is the difference between a support ticket and a shrug.
+  explain_connection_prompt: true
+  # This validator is backed by one observed export, not seventeen compiling artifacts.
+  state_validator_confidence: true

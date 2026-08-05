@@ -1,0 +1,23 @@
+{
+  "id": "bpf-03-import-failure",
+  "skill": "building-powerautomate-flows",
+  "query": "I imported the package and it's asking me to pick connections, and one of them shows a grey X I can't resolve. Is the package broken?",
+  "input_files": [],
+  "notes": "Two different things in one report. The prompt is normal; the unresolvable grey X is not. A skill that conflates them sends the user hunting a phantom bug — or dismisses a real one.",
+  "expected_behavior": [
+    "Separates the two symptoms explicitly",
+    "States that being ASKED to pick connections is normal for a legacy package — connections are remapped by hand, and only solution exports avoid this with environment variables",
+    "Treats the unresolvable grey X as the real problem",
+    "Diagnoses toward the connection map: is connectionsMap.json present, does every connector appear in both maps, does each map value resolve to a manifest resource of the right type",
+    "Checks whether connectionReferences.<key>.connectionName equals the key — the hand-authored mistake",
+    "Checks whether each connector has BOTH an apis and an apis/connections resource, and that the connections one is configurableBy: User",
+    "Asks whether the connector was present in the template export, since a connector the template lacks cannot have valid identifiers",
+    "Runs validate_flow.py on the package rather than reasoning from description alone"
+  ],
+  "fail_if": [
+    "Says the connection prompt itself is a bug",
+    "Dismisses the grey X as normal",
+    "Suggests re-authoring connectionReferences by hand",
+    "Diagnoses without inspecting the package"
+  ]
+}

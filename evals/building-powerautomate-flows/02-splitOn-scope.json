@@ -1,0 +1,29 @@
+{
+  "id": "bpf-02-splitOn-scope",
+  "skill": "building-powerautomate-flows",
+  "query": "Build both flow_1_submit_dispatch and flow_4_precheck_gate. Here's an export from our tenant to use as the template.",
+  "input_files": [
+    "spec/solution-spec.schema.yaml",
+    "source-artifacts/flows/OOP[SaleSupportTeam]*.zip"
+  ],
+  "notes": "flow_1 has a powerapps trigger; flow_4 has a sharepoint_item trigger. splitOn belongs on exactly one of them. Tests conditional rules rather than blanket ones.",
+  "expected_behavior": [
+    "Produces TWO packages — a legacy package holds one flow",
+    "flow_4 (sharepoint_item trigger) gets splitOn: @triggerOutputs()?['body/value']",
+    "flow_1 (powerapps trigger) does NOT get splitOn, and the skill says why: a Power Apps trigger does not return an array",
+    "Both packages carry connectionReferences, apisMap, connectionsMap and definition.metadata verbatim from the template",
+    "Neither package contains operationMetadataId",
+    "All five files present in each package",
+    "Runs validate_flow.py on each and reports clean before handing over",
+    "Flags any REPLACE- placeholder that still needs filling",
+    "Tells the user the connection prompt at import is expected behaviour for a legacy package, not a failure"
+  ],
+  "fail_if": [
+    "Adds splitOn to the Power Apps trigger",
+    "Omits splitOn from the SharePoint trigger",
+    "Generates operationMetadataId",
+    "Authors connectionReferences instead of carrying them",
+    "Puts both flows in one package",
+    "Presents a package before running the validator"
+  ]
+}
