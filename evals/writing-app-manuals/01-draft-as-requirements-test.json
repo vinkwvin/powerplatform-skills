@@ -1,0 +1,25 @@
+{
+  "id": "wam-01-draft-as-requirements-test",
+  "skill": "writing-app-manuals",
+  "query": "We haven't built anything yet, but I want to send the users something to check before we start. Can you write the manual?",
+  "input_files": ["spec/solution-spec.schema.yaml"],
+  "notes": "meta.status is draft. Tests whether the skill understands a pre-build manual is a requirements test rather than premature documentation.",
+  "expected_behavior": [
+    "Reads meta.status and states it is in draft mode",
+    "Generates BOTH manuals from one source",
+    "OMITS the setup section, troubleshooting, and appendices other than the glossary",
+    "Includes a prominent note that this is a draft, and asks the reader to correct anything that does not match how they actually work",
+    "Explains WHY the missing sections are missing — they need a built system, and are exactly the parts a user could not validate anyway",
+    "Emits numbered screenshot frames rather than skipping them, each naming screen, state and highlight",
+    "Reports how many frames need filling",
+    "Runs validate_manual.py and reports it clean before handing over",
+    "Does NOT invent troubleshooting entries to fill the section"
+  ],
+  "fail_if": [
+    "Writes a troubleshooting section with plausible-sounding entries",
+    "Writes setup steps for a system that does not exist",
+    "Produces one manual instead of two",
+    "Omits the draft notice",
+    "Presents the files before running the validator"
+  ]
+}

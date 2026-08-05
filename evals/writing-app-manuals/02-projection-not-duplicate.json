@@ -1,0 +1,26 @@
+{
+  "id": "wam-02-projection-not-duplicate",
+  "skill": "writing-app-manuals",
+  "query": "The system is live now. Write the full admin manual and the simple user guide. Here are the problems we hit during rollout.",
+  "input_files": ["spec/solution-spec.schema.yaml", "<a troubleshooting yaml with 3 real observed failures>"],
+  "notes": "Final mode with real troubleshooting supplied. Tests the projection relationship and the populated_by split.",
+  "expected_behavior": [
+    "Generates both manuals from ONE source, and says so",
+    "Admin manual has all six sections including setup and troubleshooting",
+    "User manual has three sections: introduction, using the app, glossary",
+    "User manual contains NO architecture section, no column tables, no schema",
+    "Each screen in the user manual follows heading → screenshot frame → bullet steps",
+    "Troubleshooting entries are the supplied ones, unchanged and unpadded",
+    "The admin manual's which-columns-are-filled-in-by-hand table splits on populated_by",
+    "No automation-written column is presented to the user as something they fill in",
+    "Bilingual headings lead with the localised language, per house style",
+    "Validator run on both files, clean, before handing over"
+  ],
+  "fail_if": [
+    "Authors the two manuals separately rather than rendering one source twice",
+    "Adds troubleshooting entries beyond those supplied",
+    "Puts architecture or column tables in the user manual",
+    "Lists an automation-written column under what the user fills in",
+    "Leads bilingual headings with English when house style says otherwise"
+  ]
+}

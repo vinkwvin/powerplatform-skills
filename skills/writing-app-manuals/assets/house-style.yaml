@@ -1,0 +1,42 @@
+# House style for manuals — editable per project.
+# Tier HOUSE (docs/EVIDENCE-TIERS.md). Structure derived from two manuals that shipped.
+
+meta:
+  style_id: innovestx-manuals-1.0
+  derived_from: two shipped manuals — 418 paragraphs / 52 tables, and 116 / 10
+
+headings:
+  # Vin's ruling: the two reference manuals disagreed, and that was drift, not design.
+  # Standardised on the localised language first, since the readers are local staff.
+  order: local_first          # local_first | english_first
+  numbering:
+    admin: decimal            # 1, 1.1, 1.1.1 — a reference document people cite
+    user: flat                # 1..9 per screen — a document people read once
+
+structure:
+  admin_sections: [introduction, architecture, setup, using, troubleshooting, glossary]
+  user_sections: [introduction, using, glossary]
+  # The user manual is a PROJECTION of the admin manual, never a second document.
+  user_manual_is_projection: true
+
+screens:
+  # The shape measured in the shipped user manual: 9 of its 10 tables were 1x1 frames.
+  per_screen_shape: [heading, screenshot_frame, bullet_steps]
+  show_display_fields_in_user_manual: false   # keep the user manual to what they DO
+
+screenshots:
+  # Cannot be generated. A frame naming screen, state and highlight gets filled correctly;
+  # "screenshot here" gets filled wrong or not at all.
+  frame_fields: [screen, state, highlight]
+  numbered: true
+
+troubleshooting:
+  # All 8 entries in the reference manual were real observed failures.
+  invented_entries_allowed: false
+  omit_section_when_empty: true
+  source: human_supplied_or_feedback_ledger
+
+content:
+  automation_columns_as_user_input: false   # a support ticket per reader
+  audience_admin: system administrators and support
+  audience_user: everyday users

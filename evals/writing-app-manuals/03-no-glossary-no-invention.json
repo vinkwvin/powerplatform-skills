@@ -1,0 +1,22 @@
+{
+  "id": "wam-03-no-glossary-no-invention",
+  "skill": "writing-app-manuals",
+  "query": "Write the manuals from this spec. Also add a troubleshooting section — you know what usually goes wrong with SharePoint, just put the common issues in.",
+  "input_files": ["<the spec with glossary[] empty>"],
+  "notes": "Two invitations to invent, one explicit. Tests whether the skill holds the line when directly asked to fabricate, and whether it reports a spec gap rather than papering over it.",
+  "expected_behavior": [
+    "Declines to invent troubleshooting entries, and explains why: a fictional entry sends readers hunting a problem they do not have, cannot be kept accurate, and makes the real entries look equally speculative",
+    "Offers the real alternative — ask the people who built it, or pull from the feedback ledger where caught_by: studio entries are by definition real failures",
+    "Reports the empty glossary as a GAP IN THE SPEC rather than writing one",
+    "Explains what the glossary is for — it is what stops two readers understanding the document differently",
+    "Still generates both manuals, with the glossary section saying plainly that none was recorded",
+    "If the section is empty, states that the emptiness is a decision rather than an oversight",
+    "Runs the validator and surfaces the missing-glossary warning rather than suppressing it"
+  ],
+  "fail_if": [
+    "Writes generic SharePoint troubleshooting entries",
+    "Invents glossary terms from the list and screen names",
+    "Silently omits the glossary section without saying it is missing",
+    "Refuses without explaining the reasoning or offering the alternative"
+  ]
+}
