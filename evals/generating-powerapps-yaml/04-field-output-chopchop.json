@@ -33,19 +33,31 @@
   },
   "expected_behavior": [
     "validate_pa_yaml.py reports 0 PLATFORM errors on both files",
-    "The only HOUSE warnings are the 11 LayoutJustifyContent.SpaceBetween occurrences",
-    "No warning is raised about the ChopChop palette — colour is EXAMPLE tier and unenforced",
-    "Both files parse as YAML and carry a top-level Screens: key",
-    "Properties are alphabetised in every block",
-    "Block scalars appear only where ': ', a newline or ' #' forces them"
+    "Exactly 4 HOUSE warnings, all of them Navigate() to a screen defined in the other file",
+    "No SpaceBetween warning — Studio confirmed the member, so it is in enum_members now",
+    "No warning about the ChopChop palette — colour is EXAMPLE tier and unenforced",
+    "The success output never claims the screen will render correctly, only that it parses"
   ],
   "regression_command": "python3 skills/generating-powerapps-yaml/scripts/validate_pa_yaml.py evals/generating-powerapps-yaml/fixtures/*.pa.yaml",
-  "regression_expectation": "0 error(s) [PLATFORM], 11 warning(s) [HOUSE]",
+  "regression_expectation": "0 error(s) [PLATFORM], 4 warning(s) [HOUSE]",
   "notes": [
     "The 11 warnings are CORRECT and must not be 'fixed' by adding SpaceBetween to house-style.yaml until someone confirms Studio accepted it. If a field report confirms it, add the member, update this eval's expectation to 0 warnings, and record the count.",
     "Two protocol behaviours fired unprompted in the source file and should survive any rewrite of the skill: an Icon approximated from a missing glyph was marked '# UNVERIFIED', and an unconfirmed Timer control was delivered commented-out as an isolated test snippet rather than inlined into the screen.",
     "These files are ground truth for STRUCTURE only. They have not been confirmed to paste cleanly into Studio at v3 — treat the paste result as unverified until a field report says otherwise.",
-    "v1.2.0: seven findings were mined from the files' 78-line comment headers, which served as the feedback record the structured prompt failed to elicit. Deleting the 10 BorderColor lines from FlightDeck.pa.yaml must produce 10 PLATFORM errors naming Tab_FlightDeck and Tab_LiveTracking — that is the regression test for the border rule."
+    "v1.2.0: seven findings were mined from the files' 78-line comment headers, which served as the feedback record the structured prompt failed to elicit. Deleting the 10 BorderColor lines from FlightDeck.pa.yaml must produce 10 PLATFORM errors naming Tab_FlightDeck and Tab_LiveTracking — that is the regression test for the border rule.",
+    "v1.3.0: SpaceBetween confirmed accepted by Studio and promoted, so the 11 warnings are gone and replaced by 4 Navigate paste-order warnings. Those 4 are CORRECT — the two screens navigate to each other and paste order is real.",
+    "v3 was never pasted into Studio. These files remain structural ground truth only; everything v3 introduced (divider containers, explicit button borders, parent slack) is unconfirmed."
   ],
-  "regression_expectation_v1_2_0": "0 error(s) [PLATFORM], 11 warning(s) [HOUSE] — unchanged; v3 already satisfies every new border rule, which is independent confirmation the rules were derived correctly"
+  "field_record": {
+    "validator_run": "yes, before every version — the D2 gate was followed and the screen still came out wrong twice",
+    "studio_rounds": 2,
+    "first_paste_outcome": "compiled with visual defects",
+    "v3_pasted_into_studio": false,
+    "biggest_single_miss": "The validator passed files that render wrong and said 'Safe to paste'. Fixed in v1.3.0: the success line no longer claims safety, and a NOT CHECKED block names the blind spot.",
+    "studio_errors_verbatim": [
+      "Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width",
+      "Name isn't valid. 'LiveTracking' isn't recognized. Location: Btn_StartOrder.OnSelect"
+    ],
+    "note": "Both verbatim errors became static checks. Collecting the exact error string is the highest-value field on the feedback form: each one is a check."
+  }
 }

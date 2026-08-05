@@ -164,3 +164,124 @@ Sent to the chat as `prompts/followup-record-only.md`:
 5. **Studio round-trip count and the verbatim PA error codes.**
 6. **Anything corrected 3+ times** — a repeat after correction means the rule is not where the
    reader looks, whatever it says.
+
+
+## Round 3 — the structured record, and the finding that outranks all the others
+
+`prompts/followup-record-only.md` worked: the record came back complete.
+
+### The validator was run, every time — and that is the problem
+
+```
+validator_run: yes
+validator_run_when: before every version
+studio_rounds: 2
+first_paste_outcome: compiled with visual defects
+```
+
+The D2 gate was not skipped. The process was followed exactly as designed, and the screen still
+came out wrong twice. That rules out the explanation I was most expecting and leaves a worse one,
+which the report states directly:
+
+> *The validator passes files that will render wrong, and the skill never says so. So I ran the
+> validator, got "Clean. Safe to paste into Power Apps Studio.", and believed it — three times.*
+
+**`Clean. Safe to paste into Power Apps Studio.` was my sentence, and it is an overclaim.** The
+validator reads text — names, versions, ordering, YAML shape. It never computes a layout. It
+cannot see a container too short for its children, a border clipped by an equal-height parent, or
+`=Parent.Width` overflowing a padded parent. Every one of the seven findings is in that blind
+spot, which is why a clean run and a broken screen were never in tension.
+
+Fixed in v1.3.0. The success line is now `No errors found. This should PARSE and paste.`, always
+followed by an explicit `NOT CHECKED` block naming geometry, `Parent.Template*` scope, single-side
+rules and runtime data. `SKILL.md` says the same thing at the validation gate and instructs the
+model to tell the user what was checked and what only their eyes can check.
+
+The report's own summary of the pattern is the sharpest line in it:
+
+> *`repeated_corrections: []` — what did recur is the underlying pattern: three separate rounds
+> each surfaced a new class of geometry/render defect that the validator cannot see. That is one
+> blind spot presenting three times, not one mistake repeated.*
+
+A metric that counted repeated corrections would have scored this project clean. `rounds` was 2
+and every fix held first time. The defect was structural, and only prose caught it.
+
+### Two verbatim Studio errors — both statically checkable, both now checked
+
+```
+"Name isn't valid. 'TemplateWidth' isn't recognized.  Location: Check_Body.Width"
+"Name isn't valid. 'LiveTracking'  isn't recognized.  Location: Btn_StartOrder.OnSelect"
+```
+
+- **`Parent.Template*` off a gallery's direct child** — now a PLATFORM `ERROR`. Verified with
+  `fixtures/template-scope-probe.pa.yaml`, which holds both cases in one file: the direct child
+  passes, the grandchild errors, exactly one error total.
+- **`Navigate()` to a screen not in this file** — now a HOUSE `WARN` under a new `navigation`
+  section, because cross-file navigation is normal and only fails on paste *order*. It fires on
+  the real files at `Btn_StartOrder.OnSelect` — the control Studio named. `SKILL.md` step 9 now
+  requires stating the paste order whenever screens navigate to each other.
+
+Both were invisible to the validator at v1.0.0, and both are cheap to catch. That is the argument
+for collecting verbatim error strings in every field report: each one is a check.
+
+### Corrections to my round-2 classification
+
+The report disagreed with me on one, and it was right:
+
+| Finding | I guessed | Actual |
+|---|---|---|
+| `parent_width_overflows_padded_parent` | present, framed as style | **`present_but_wrong`** |
+| `aligncontainer_required` | `present_and_ignored` | `present_and_ignored` ✓ |
+
+`layout-sizing.md` had explained `=Parent.Width - N` as *"how 'give the control real padding so
+adjacent borders do not overlap' is expressed"*. That is not what it is for — it is the correction
+for a child overflowing a padded parent, and N is the parent's horizontal padding. A wrong
+explanation is worse than none, because it stops the reader looking further. Rewritten.
+
+### The border question, settled
+
+`borderthickness_was: absent` — so absence *was* the trigger, which appeared to contradict the 20
+reference buttons that omit it and shipped fine. Both are true:
+
+**All 20 have the identical `Fill: =RGBA(59, 57, 194, 1)`** — the primary brand blue. Studio's
+default border is blue. Blue on blue is invisible. ChopChop's affected controls were *tabs*, which
+are unfilled, so the same default border showed plainly.
+
+The reference set never hit the bug because its only unset-border buttons are all the one filled
+variant whose colour hides it. That is a latent exposure in ground truth, not a counter-example.
+The measured PLATFORM rule (`BorderThickness > 0` requires `BorderColor`) stands unchanged; the
+absent-thickness case stays prose rather than a check, since no property-level signal separates a
+filled primary button from a ghost tab.
+
+### Confirmed against Studio, and now promoted
+
+`LayoutJustifyContent.SpaceBetween` — **accepted**. Added to `enum_members`; the 11 warnings on
+the fixtures are gone, which is the v1.1.0 loop closing exactly as designed: flag the unknown,
+field-test it, promote it, stop warning. Also confirmed: `LayoutAlignItems.Stretch`,
+`AlignInContainer.Start`/`.Center`, `Parent.Template*` on a direct child, and `If()` returning
+`RGBA()` as `Fill`/`Color` inside a gallery template.
+
+### What v3 status changes
+
+```
+v3_pasted_into_studio: no
+```
+
+**v1 and v2 were pasted; v3 was not.** So everything v3 introduced is unconfirmed — the divider
+containers, the explicit button borders, the parent-slack heights. Two consequences:
+
+1. The `GroupContainer`-as-divider idiom is now marked **not yet paste-tested** in `SKILL.md`
+   rather than asserted. It was about to become a confident rule on the strength of a file nobody
+   pasted.
+2. `evals/04` keeps its warning that these fixtures are structural ground truth only.
+
+Rules 2 and 3 (per-side border, border clipping) come from v3's *diagnosis*, which is Rank 3
+reasoning, not Rank 1 evidence. Rule 1 is independently confirmed by the 2,830-control
+measurement and stands on its own.
+
+### Still open
+
+- Does the `Height: =1` `GroupContainer` divider actually render as a rule in Studio?
+- Partial corner radius on `GroupContainer` (`RadiusTopLeft` + `RadiusBottomLeft` only).
+- `Width: =Parent.Width * f` on a `GroupContainer`.
+- The `Timer` snippet.

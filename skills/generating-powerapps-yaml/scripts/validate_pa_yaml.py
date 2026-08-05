@@ -40,8 +40,11 @@ NUM_RE = re.compile(r"^=(\d+)$")
 # Enum.Member as it appears in a formula. Excludes Parent./Self./ThisItem./App. property
 # access, which is the same shape but is not an enum.
 ENUM_RE = re.compile(r"\b(?<!\.)([A-Z][A-Za-z]+)\.([A-Z][A-Za-z]+)\b")
+TEMPLATE_RE = re.compile(r"\bParent\.(TemplateWidth|TemplateHeight|TemplateSize|TemplatePadding)\b")
+NAVIGATE_RE = re.compile(r"\bNavigate\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)")
 
 errors, warns = [], []
+nav_targets = []          # (loc, screen_name) seen in this file
 STYLE = {}
 PLATFORM_ONLY = False
 
@@ -163,7 +166,7 @@ def check_properties(loc, ctrl, node, is_screen=False):
     return props
 
 
-def check_control(loc, name, body, depth):
+def check_control(loc, name, body, depth, gallery_child=False):
     fields = dict(items(body))
     if "Control" not in fields:
         err(loc, "control has no Control: key")
@@ -221,6 +224,24 @@ def check_control(loc, name, body, depth):
                      f"Padding*, LayoutGap, or {sect('positioning','inset_idiom')}",
                      "positioning")
 
+    for pname, vnode in props.items():
+        if isinstance(vnode, yaml.ScalarNode):
+            for target in NAVIGATE_RE.findall(vnode.value):
+                nav_targets.append((f"{loc}({name}).Properties.{pname}", target))
+
+    # -- PLATFORM: Parent.Template* resolves only on a gallery's DIRECT child --
+    # Field report, verbatim Studio error:
+    #   "Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width"
+    if not gallery_child:
+        for pname, vnode in props.items():
+            if isinstance(vnode, yaml.ScalarNode) and TEMPLATE_RE.search(vnode.value):
+                m = TEMPLATE_RE.search(vnode.value)
+                err(f"{loc}({name}).Properties.{pname}",
+                    f"Parent.{m.group(1)} on a control that is not a gallery's direct child. "
+                    f"Studio rejects this with \"Name isn't valid. '{m.group(1)}' isn't "
+                    f"recognized\". Give the gallery's direct child a real Width/Height and "
+                    f"reference =Parent.Width from here")
+
     # -- PLATFORM: a visible border with no colour gets Studio's default blue --
     bt = props.get("BorderThickness")
     if bt is not None and isinstance(bt, yaml.ScalarNode):
@@ -254,17 +275,18 @@ def check_control(loc, name, body, depth):
                 warn(f"{loc}({name}).Properties", f"Gallery missing {m}", "containment")
 
     if isinstance(fields.get("Children"), yaml.SequenceNode):
-        walk_children(f"{loc}({name})", fields["Children"], depth + 1)
+        walk_children(f"{loc}({name})", fields["Children"], depth + 1,
+                      gallery_child=(ctrl == "Gallery@2.15.0"))
 
 
-def walk_children(loc, seq, depth):
+def walk_children(loc, seq, depth, gallery_child=False):
     for i, item in enumerate(seq.value):
         if not isinstance(item, yaml.MappingNode):
             err(f"{loc}.Children[{i}]", "each child must be a single-key mapping '- Name:'")
             continue
         for name, body in items(item):
             if isinstance(body, yaml.MappingNode):
-                check_control(f"{loc}.Children[{i}]", name, body, depth)
+                check_control(f"{loc}.Children[{i}]", name, body, depth, gallery_child)
             else:
                 err(f"{loc}.Children[{i}]({name})", "control body must be a mapping")
 
@@ -289,6 +311,8 @@ def validate(path):
                        "not a bare control list")
         return
     scroll_want = sect("containment", "scroll_containers_per_screen")
+    screen_names = {s for s, _ in items(top["Screens"])}
+    nav_targets.clear()
     for sname, screen in items(top["Screens"]):
         loc = f"{path.name}[{sname}]"
         sf = dict(items(screen))
@@ -305,6 +329,24 @@ def validate(path):
             if n != scroll_want:
                 warn(loc, f"{n} LayoutOverflowY container(s); house style uses {scroll_want} "
                           f"per screen (content region plus the card inside it)", "containment")
+    check_navigation(path, screen_names)
+
+
+def check_navigation(path, screen_names):
+    """Field report, verbatim Studio error:
+       "Name isn't valid. 'LiveTracking' isn't recognized. Location: Btn_StartOrder.OnSelect"
+
+    Navigate() to a screen in ANOTHER file is legitimate and extremely common — it just has to
+    already exist in the app. So this is a WARN about paste order, not an error about the file.
+    """
+    for loc, target in nav_targets:
+        if target not in screen_names:
+            warn(loc,
+                 f"Navigate({target}) — no screen named {target} in this file. That is fine if "
+                 f"{target} already exists in the app; Studio rejects it with \"Name isn\'t "
+                 f"valid. \'{target}\' isn\'t recognized\" if it does not. Paste the file "
+                 f"defining {target} FIRST, or point OnSelect at Notify() until it exists",
+                 "navigation")
 
 
 def load_style(path):
@@ -352,8 +394,23 @@ def main():
         print("No platform errors. Review the HOUSE warnings: fix them, or if this project has "
               "different conventions, change assets/house-style.yaml rather than ignoring them.")
     else:
-        print("Clean. Safe to paste into Power Apps Studio.")
+        print("No errors found. This should PARSE and paste.")
+    print(BLIND_SPOT)
     return 0
+
+
+# A field report traced three Studio round trips to this exact overclaim: the validator said
+# "Clean. Safe to paste into Power Apps Studio", the file pasted, and the screen rendered wrong.
+# Everything this script checks is static — names, versions, ordering, YAML shape. It never
+# computes a layout, so it cannot see the class of defect that actually costs the round trips.
+BLIND_SPOT = """
+NOT CHECKED — a clean run means it will paste, not that it will render correctly:
+  · geometry — whether a container is tall enough for its children, or a child's border is
+    clipped by a parent of exactly the same height
+  · whether =Parent.Width overflows a padded parent (use =Parent.Width - <that padding>)
+  · single-side rules — BorderThickness draws all four sides, always
+  · anything that depends on runtime data
+Paste it, look at the screen, and fix what you see. Then re-run this."""
 
 
 if __name__ == "__main__":

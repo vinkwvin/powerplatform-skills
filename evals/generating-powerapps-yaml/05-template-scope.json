@@ -1,0 +1,25 @@
+{
+  "id": "gpy-05-template-scope",
+  "skill": "generating-powerapps-yaml",
+  "kind": "regression-fixture",
+  "query": "(no query — a probe for the Parent.Template* scope rule)",
+  "input_files": [
+    "evals/generating-powerapps-yaml/fixtures/template-scope-probe.pa.yaml"
+  ],
+  "provenance": {
+    "source": "Built from a verbatim Studio error in field report 01: \"Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width\"",
+    "captured": "2026-08-05"
+  },
+  "expected_behavior": [
+    "Exactly 1 PLATFORM error",
+    "It names Row_Grandchild.Properties.Width",
+    "Card_Direct, the gallery's direct child, produces NO error despite using Parent.TemplateWidth and Parent.TemplateHeight",
+    "The error message quotes the Studio wording so a reader can match it to what they saw"
+  ],
+  "regression_command": "python3 skills/generating-powerapps-yaml/scripts/validate_pa_yaml.py evals/generating-powerapps-yaml/fixtures/template-scope-probe.pa.yaml",
+  "regression_expectation": "1 error(s) [PLATFORM], 1 warning(s) [HOUSE]",
+  "notes": [
+    "The 1 HOUSE warning is the LayoutOverflowY count — expected, this is a probe and not a real screen.",
+    "Both sides of the rule live in one file deliberately: a check that only errors is half-tested, and a scope rule that over-fires would break every real gallery."
+  ]
+}

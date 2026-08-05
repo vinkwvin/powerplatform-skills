@@ -8,6 +8,83 @@ your two minutes.
 
 ---
 
+## generating-powerapps-yaml v1.3.0 — the validator stops overclaiming
+
+**Re-install: yes.** This is the most important release so far, and it is mostly one sentence.
+
+**What happened.** The full field record came back. The headline is not a missing rule — it is
+that the process worked perfectly and the screen still came out wrong:
+
+```
+validator_run: yes
+validator_run_when: before every version
+studio_rounds: 2
+first_paste_outcome: compiled with visual defects
+```
+
+The validation gate was never skipped. In the reporter's words:
+
+> *The validator passes files that will render wrong, and the skill never says so. So I ran the
+> validator, got "Clean. Safe to paste into Power Apps Studio.", and believed it — three times.*
+
+**That sentence was ours, and it was an overclaim.** The validator reads text: names, versions,
+ordering, YAML shape. It never computes a layout, so it cannot see a container too short for its
+children, a border clipped by an equal-height parent, or `=Parent.Width` overflowing a padded
+parent. Every rule added in v1.2.0 sits in that blind spot — which is exactly why a clean run and
+a broken screen were never in tension.
+
+Now:
+
+```
+No errors found. This should PARSE and paste.
+
+NOT CHECKED — a clean run means it will paste, not that it will render correctly:
+  · geometry — whether a container is tall enough for its children, or a child's border is
+    clipped by a parent of exactly the same height
+  · whether =Parent.Width overflows a padded parent
+  · single-side rules — BorderThickness draws all four sides, always
+  · anything that depends on runtime data
+Paste it, look at the screen, and fix what you see. Then re-run this.
+```
+
+`SKILL.md` says the same at the validation gate, and step 9 now tells the model to hand over the
+file with an explicit note on what was checked and what only your eyes can check.
+
+**Two new checks, both built from verbatim Studio errors in the report.** Quoting the exact error
+string turns out to be the highest-value thing a field report can contain — each one became a
+check:
+
+| Studio said | Now |
+|---|---|
+| `Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width` | PLATFORM error — `Parent.Template*` outside a gallery's direct child |
+| `Name isn't valid. 'LiveTracking' isn't recognized. Location: Btn_StartOrder.OnSelect` | HOUSE warning — `Navigate()` to a screen not in this file, with the paste order to fix it |
+
+The scope check is verified both ways by a new probe fixture: a gallery's direct child using
+`Parent.TemplateWidth` passes, its grandchild errors, one error total.
+
+**`LayoutJustifyContent.SpaceBetween` is confirmed** — Studio accepted it. Promoted into
+`enum_members`, and the 11 warnings it produced are gone. That is the v1.1.0 loop closing end to
+end: flag the unknown, field-test it, promote it, stop warning. Also confirmed:
+`LayoutAlignItems.Stretch`, `AlignInContainer.Start`/`.Center`, and `If()` returning `RGBA()` as
+a `Fill` inside a gallery template.
+
+**One v1.2.0 rule walked back to unverified.** The `GroupContainer`-with-`Height: =1` divider was
+presented as the fix for the no-per-side-border problem. The report shows it has never been pasted
+into Studio — the version that introduced it was written but never tested. It is now marked
+not-yet-paste-tested rather than asserted. The four-sided `BorderThickness` behaviour it works
+around is confirmed; the workaround is not.
+
+**A metric note worth reading if you maintain these.** The report filed
+`repeated_corrections: []` — nothing was corrected three or more times, and every fix held first
+time. A "repeat rate" metric would have scored this project clean. The reporter's own framing:
+
+> *one blind spot presenting three times, not one mistake repeated*
+
+Counting repeats would have missed it entirely. The free-text question — *what would have saved
+the most round trips?* — is what caught it, and it is the field to keep.
+
+---
+
 ## generating-powerapps-yaml v1.2.0 — seven border and layout rules from the field
 
 **Re-install: yes.** These are the rules that cost real Studio round trips.

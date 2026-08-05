@@ -17,7 +17,7 @@ description: >-
 
 # HTML, spec, or description → Power Apps Canvas pa.yaml
 
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 
 Every rule marked with a count below was measured across 17 screens that compiled in Studio.
 Where a rule has a number attached, it is not a preference.
@@ -54,7 +54,9 @@ Settle three things. If the user already said, state your assumption in one line
 7. **Emit the YAML** following the inline rules below.
 8. **Validate.** See the gate below. Do not skip it.
 9. **Deliver** the full file in one block, plus a separate one-control snippet for anything marked
-   `UNVERIFIED` so the user can paste-test it alone before trusting it inside a full screen.
+   `UNVERIFIED` so the user can paste-test it alone before trusting it inside a full screen. State
+   the **paste order** whenever screens `Navigate()` to each other, and say plainly that a clean
+   validator run proves the file parses, not that the screen renders correctly.
 10. **Offer the capture step** — one line, once the work is confirmed working: the user can paste
     `prompts/feedback-session.md` to record what had to be corrected.
 
@@ -119,9 +121,10 @@ structural containers; omit `DropShadow` entirely on elevated white cards.
 `Classic/Button`, prefer an explicit `BorderThickness: =0` over omitting it — 187 of 268
 reference buttons do, and a field report traced stray blue borders to buttons that set neither.
 
-**Power Apps has no per-side border.** `BorderThickness` draws all four sides. A single rule —
-a header underline, a row divider — is a `GroupContainer` of `Height: =1` filled with the line
-colour. Reaching for `BorderThickness` here draws a full box around the element.
+**Power Apps has no per-side border.** `BorderThickness` draws all four sides, so it cannot make
+a header underline or a row divider — it draws a full box. The workaround is a `GroupContainer`
+of `Height: =1` filled with the line colour, placed as a sibling. **The four-sided behaviour is
+confirmed; the divider container is not yet paste-tested** — use it, and say it is unverified.
 
 **A border is drawn on the control's own bounds**, so a child whose `Height` equals its parent's
 loses it to the parent edge. Give the parent 4–6px of slack, or inset the child with
@@ -147,6 +150,13 @@ paste failure, and it is the failure this skill exists to prevent. If you do not
 
 Run `python scripts/validate_pa_yaml.py <file>`. If it fails, fix and re-run. Do not present
 output to the user until the validator exits clean.
+
+**A clean run means the file will paste. It does not mean the screen will look right.** The
+validator reads text: names, versions, ordering, YAML shape. It never computes a layout, so it
+cannot see a container too short for its children, a border clipped by an equal-height parent, or
+`=Parent.Width` overflowing a padded parent. A field report traced three Studio round trips to
+trusting a clean run as proof of a correct screen. Say this to the user when you hand the file
+over — tell them what was checked and what only their eyes can check.
 
 The validator is a safety net, not the source of truth. It catches wrong control types,
 unsorted properties, missing block scalars, `X`/`Y` below the root, missing screen properties,

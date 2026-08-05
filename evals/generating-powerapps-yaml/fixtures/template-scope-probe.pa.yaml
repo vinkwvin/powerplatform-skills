@@ -1,0 +1,66 @@
+# Probe fixture — Parent.Template* scope. NOT a real screen and not for pasting.
+#
+# Exercises both sides of the rule in one file:
+#   Card_Direct     is the gallery's DIRECT child  -> Parent.TemplateWidth is legal, no error
+#   Row_Grandchild  is one level deeper            -> Parent.TemplateWidth must ERROR
+#
+# Expected: exactly 1 PLATFORM error, naming Row_Grandchild.Properties.Width.
+#
+# Field origin — Studio, verbatim:
+#   "Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width"
+Screens:
+  ScopeProbe:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsEmpty(colProbe), ClearCollect(colProbe, {Id: 1}))
+    Children:
+      - Probe_Root:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            Height: =640
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =640
+            Width: =1366
+            X: =0
+            Y: =0
+          Children:
+            - Probe_Gallery:
+                Control: Gallery@2.15.0
+                Properties:
+                  Height: =400
+                  Items: =colProbe
+                  LayoutMinHeight: =400
+                  TemplateSize: =120
+                  Width: =Parent.Width - 40
+                Children:
+                  - Card_Direct:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Height: =Parent.TemplateHeight
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =100
+                        Width: =Parent.TemplateWidth - 8
+                      Children:
+                        - Row_Grandchild:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              Height: =40
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutMinHeight: =40
+                              Width: =Parent.TemplateWidth - 16
+                            Children:
+                              - Probe_Label:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(27, 27, 35, 1)
+                                    FillPortions: =0
+                                    Height: =24
+                                    Size: =11
+                                    Text: =ThisItem.Id
+                                    VerticalAlign: =VerticalAlign.Middle

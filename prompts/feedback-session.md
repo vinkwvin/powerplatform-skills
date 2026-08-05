@@ -1,6 +1,6 @@
 # Paste-ready prompt — capture a working session for skill improvement
 
-<!-- v1.2.0 -->
+<!-- v1.3.0 -->
 
 **Where this goes:** at the **end** of any claude.ai chat where you used one of the five skills to
 build something real. Before you close it.
@@ -44,6 +44,11 @@ meta:
   rounds: <how many times I sent it back for corrections>
   reached_studio_broken: <true|false — did a broken version get as far as being pasted?>
   first_attempt_validated: <true|false — did your FIRST output pass the validator?>
+
+# Verbatim error strings are the single most valuable thing in this file. Each one has become
+# a static check — quote them exactly, including the Location, rather than paraphrasing.
+studio_errors_verbatim:
+  - "<exact text the platform showed, e.g. Name isn't valid. 'TemplateWidth' isn't recognized. Location: Check_Body.Width>"
 
 fixes:
   - element: <the specific control, column, box, action or section — be specific>
@@ -114,10 +119,17 @@ again, but the account of what went wrong exists only in this conversation.
 3. **Do not soften `wrong`.** Write what you actually produced, including the embarrassing ones.
 4. **Report `first_attempt_validated: false` honestly.** It is the single most useful number in the
    file — it is how we tell whether the skills are getting better rather than just longer.
-5. **No summary paragraph.** The artifact and the YAML are the whole deliverable.
-6. If a section is genuinely empty, return it empty. `friction: []` is a real answer, and padding it
+5. **Answer this even if every other field is empty: what would have saved the most round trips
+   if the skill had said it on page one?** One field report's answer was that the validator's own
+   success message overclaimed — it said "Safe to paste" when all it could prove was "this
+   parses". No structured field would have surfaced that. Counting repeated corrections would have
+   scored that project clean, because each fix held first time; the problem was one blind spot
+   presenting three times, not one mistake repeated. If something felt structurally wrong rather
+   than individually wrong, say so here.
+6. **No summary paragraph.** The artifact and the YAML are the whole deliverable.
+7. If a section is genuinely empty, return it empty. `friction: []` is a real answer, and padding it
    costs someone reading time later.
-7. **Quote any value containing a colon-space.** This record is YAML, so the same rule the skill
+8. **Quote any value containing a colon-space.** This record is YAML, so the same rule the skill
    enforces applies to the report about it:
 
    ```yaml

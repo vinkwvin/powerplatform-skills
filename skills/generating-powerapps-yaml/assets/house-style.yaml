@@ -82,6 +82,13 @@ interactive_state:
   # Hover and pressed lighten the FILL and leave the text colour alone.
   hover_changes_fill_only: true
 
+# --- cross-screen navigation ---------------------------------------------
+navigation:
+  enforce: true
+  # Navigate() to a screen defined in another file is normal — one file per screen is the
+  # default. It only fails when that screen is not in the app YET, which makes paste order
+  # part of the deliverable. Set enforce: false if you always paste a combined Screens: block.
+
 # --- naming ---------------------------------------------------------------
 naming:
   enforce: true
@@ -145,7 +152,8 @@ enum_members:
     Layout: [Horizontal, Vertical]                      # 16 (Gallery Layout)
     LayoutAlignItems: [Center, Start, Stretch]          # 396
     LayoutDirection: [Horizontal, Vertical]             # 851
-    LayoutJustifyContent: [Center, End, Start]          # 156
+    LayoutJustifyContent: [Center, End, SpaceBetween, Start]   # 156 measured; SpaceBetween
+                                                        # field-confirmed in Studio 2026-08
     LayoutOverflow: [Hidden, Scroll]                    # Scroll 34; Hidden is the default
     NotificationType: [Error, Information, Success, Warning]   # 7 measured, full documented set
     TextFormat: [Number, Text]                          # 4
