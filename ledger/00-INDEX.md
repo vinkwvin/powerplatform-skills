@@ -15,6 +15,7 @@ Read this first in any session. Never re-derive what a ledger file already recor
 | `06-vin-notes.md` | Vin's verdicts on the build-chat harvest | Vin | S2 | template only — awaiting Vin |
 | `07-buildchat-raw.md` | the build chat's own account of corrections and recurring mistakes, verbatim | Vin | S2 | **done** — Rank 4, unverified |
 | `08-buildchat-verified.md` | per-entry verdicts on `07` after checking against the artifacts; the "corrected 3+ times" list | S2 | S5–S9 | pending |
+| `09-field-report-01-chopchop.md` | first field use of a packaged skill on an unrelated project: 191 controls measured, 5 mutations caught, 1 gap found and fixed | S11 | all future skill edits | **done** — paste result still unconfirmed |
 
 ## Spec contract — Session 4
 
@@ -58,7 +59,7 @@ the session that needs it.
 
 | Skill | Session | Validator tested | Notes |
 |---|---|---|---|
-| `generating-powerapps-yaml` | 5 | 17 real screens clean; 6 injected defects caught | merges the two retired YAML skills |
+| `generating-powerapps-yaml` | 5 | 17 real screens clean; 6 injected defects caught; **field-tested — see `09`, 5 more mutations caught, now v1.1.0** | merges the two retired YAML skills |
 | `building-sharepoint-lists` | 6 | clean spec passes; 7 injected defects caught; 131-field round trip lossless | ships `xlsx_to_spec.py` for existing systems |
 | `planning-powerplatform-solutions` | 7 | renders the real spec to a 9-section overview, HTML + PDF | writes the spec the other four read |
 | `building-powerautomate-flows` | 8 | real export clean; 5 injected defects caught; generated package validates | rebuilt against the real export, not upgraded |

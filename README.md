@@ -51,7 +51,14 @@ expensive to re-read, and cannot be validated — so it is never the source of t
 | 8 | `building-powerautomate-flows` | done |
 | 9 | `writing-app-manuals` | done |
 | 10 | Lint and package → `dist/*.zip` | done |
-| 11 | **Feedback intake — recurring** | process defined |
+| 11 | **Feedback intake — recurring** | first report in: `ledger/09` |
+
+**First field result.** `generating-powerapps-yaml` was run on a project with nothing in common
+with the one it was built from. 191 controls, zero property names and zero control types the
+reference set had never seen, and — the part that mattered — **zero warnings about a completely
+foreign palette**, because colour is `EXAMPLE` tier. One real gap surfaced (enum members were
+unchecked outside `Icon`) and is fixed in v1.1.0. Full write-up:
+[`ledger/09-field-report-01-chopchop.md`](ledger/09-field-report-01-chopchop.md).
 
 ## Install (Pro plan, ~2 minutes)
 

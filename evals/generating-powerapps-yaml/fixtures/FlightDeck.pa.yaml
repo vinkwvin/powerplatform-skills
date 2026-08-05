@@ -1,0 +1,1351 @@
+# ChopChop — FlightDeck screen  (v3 — border + brand CI pass)
+#
+# PASTE ORDER: LiveTracking.pa.yaml FIRST, then this file. The two screens Navigate() to
+# each other, so whichever lands first has one dangling reference until the other arrives.
+#
+# ============================ BORDER TOKENS ============================
+# Every stroke on this screen comes from one of these five values. Nothing is left to a
+# Studio default — an unset BorderColor on Classic/Button falls back to the platform's
+# blue, which is what produced the blue outlines on the tab buttons in v2.
+#
+#   RGBA(196, 114, 10, 1)   brand          — outline on the ACTIVE tab
+#   RGBA(156, 91, 8, 1)     brand-dark     — outline on the filled primary button
+#   RGBA(232, 199, 150, 1)  brand-tint-70  — outline on brand-adjacent controls (Order btn)
+#   RGBA(200, 198, 196, 1)  neutral-60     — outline on secondary/ghost buttons
+#   RGBA(225, 223, 221, 1)  neutral-40     — outline on INACTIVE tabs and small chips
+#   RGBA(237, 235, 233, 1)  neutral-30     — card outlines and 1px divider rules
+#
+# ==================== v3 BORDER FIXES (all of them) ====================
+#
+#  A. BorderColor + BorderThickness are now set EXPLICITLY on all 5 Classic/Buttons.
+#     Tab_FlightDeck, Tab_LiveTracking and Btn_StartOrder previously had neither, so
+#     Studio drew its own blue focus-style border around them.
+#
+#  B. FocusedBorderThickness dropped from 2 to 1 on every button. A 2px focus ring on a
+#     34px control inside a 34px row has nowhere to draw and bleeds over the neighbour.
+#
+#  C. A 1px border is drawn ON the control's own bounds, so a child whose Height equals
+#     its parent's Height gets that border clipped by the parent edge. Every such pair is
+#     now given slack:
+#         Tabs_Row        34 -> 40   (buttons stay 34)
+#         HeaderRight_Row 28 -> 34   (Avatar_Tile stays 28)
+#         Hero_Actions_Row 40 -> 46  (buttons stay 40)
+#     and the gallery cards inset to `=Parent.TemplateWidth - 8` so their left/right
+#     borders sit inside the template rather than on its edge.
+#
+#  D. Power Apps has no per-side border. v2 used BorderThickness: =1 on AppBar, Footer_Row
+#     and the fleet spec rows where the design wanted a single rule — which draws a full
+#     box instead. Those are now explicit 1px divider GroupContainers filled with
+#     neutral-30.
+#
+# ==================== v2 LAYOUT FIXES (still in force) ====================
+#  1. Parent.Template* only resolves on a gallery's DIRECT child.
+#  2. Bare `=Parent.Width` inside a padded parent overflows it by the padding.
+#  3. AlignInContainer is required or a child stretches, ignoring its Width.
+#  4. Every container Height >= sum(children) + gaps + padding.
+#
+# SUBSTITUTIONS: Icon.Publish stands in for the helicopter glyph (no such member in the
+# confirmed 6-icon set); "★" is Label text; the progress marker is a two-segment bar.
+
+Screens:
+  FlightDeck:
+    Properties:
+      Fill: =RGBA(250, 249, 248, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =If(IsBlank(gblOrderRestaurant), Set(gblOrderRestaurant, "Nonna's Airstrip"));
+        If(IsBlank(gblOrderItems), Set(gblOrderItems, "Margherita Pizza, Truffle Fries"));
+        If(IsBlank(gblOrderTotal), Set(gblOrderTotal, "$28.50"));
+        If(IsBlank(gblFlightNumber), Set(gblFlightNumber, "CC-1147"));
+        If(IsBlank(gblOrderTimestamp), Set(gblOrderTimestamp, Now()));
+        If(IsEmpty(colChecklist), ClearCollect(colChecklist,
+          {Number: "1", Title: "Pick your plate", Body: "Browse the manifest and order from any kitchen on the network."},
+          {Number: "2", Title: "We file the plan", Body: "Kitchen preps, pilot pre-flights, food loads into a thermal pod."},
+          {Number: "3", Title: "Touchdown, your roof", Body: "We land on your building's pad, or the nearest cleared LZ."}));
+        If(IsEmpty(colManifest), ClearCollect(colManifest,
+          {Restaurant: "Nonna's Airstrip", Cuisine: "Italian", EtaText: "12 min", EtaFast: true, Rating: "4.9", Items: "Margherita Pizza, Truffle Fries", Total: "$28.50"},
+          {Restaurant: "Wok This Way", Cuisine: "Pan-Asian", EtaText: "9 min", EtaFast: true, Rating: "4.7", Items: "Kung Pao Chicken, Spring Rolls", Total: "$22.00"},
+          {Restaurant: "The Hangar Burger Co.", Cuisine: "American", EtaText: "16 min", EtaFast: false, Rating: "4.8", Items: "Double Stack, Onion Rings", Total: "$19.75"},
+          {Restaurant: "Sushi Squadron", Cuisine: "Japanese", EtaText: "14 min", EtaFast: false, Rating: "5.0", Items: "Chef's Omakase, Miso Soup", Total: "$41.00"},
+          {Restaurant: "Taco Tower", Cuisine: "Mexican", EtaText: "8 min", EtaFast: true, Rating: "4.6", Items: "Al Pastor x3, Elote", Total: "$16.25"},
+          {Restaurant: "Curry Control Tower", Cuisine: "Thai", EtaText: "11 min", EtaFast: true, Rating: "4.9", Items: "Green Curry, Garlic Naan", Total: "$24.90"}));
+        If(IsEmpty(colFleet), ClearCollect(colFleet,
+          {Name: "The Featherweight", Body: "Solo orders, tight rooftops.", Spec1Label: "Payload", Spec1Value: "1 pod", Spec2Label: "Cruise speed", Spec2Value: "95 kt"},
+          {Name: "The Workhorse", Body: "Group orders and office lunch runs.", Spec1Label: "Payload", Spec1Value: "6 pods", Spec2Label: "Cruise speed", Spec2Value: "140 kt"},
+          {Name: "The Red Eye", Body: "Late-night express, low-light certified.", Spec1Label: "Payload", Spec1Value: "2 pods", Spec2Label: "Cruise speed", Spec2Value: "150 kt"}))
+    Children:
+      - FlightDeck_Root:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =0
+            LayoutMinHeight: =700
+            LayoutMinWidth: =1000
+            LayoutOverflowY: =LayoutOverflow.Scroll
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            # ---- App bar (no border — a 1px divider sits under it) -------
+            - AppBar:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =52
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                  LayoutMinHeight: =52
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - Brand_Row:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =28
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutMinHeight: =28
+                        Width: =200
+                      Children:
+                        - BrandMark_Tile:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(196, 114, 10, 1)
+                              FillPortions: =0
+                              Height: =28
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutMinHeight: =28
+                              RadiusBottomLeft: =4
+                              RadiusBottomRight: =4
+                              RadiusTopLeft: =4
+                              RadiusTopRight: =4
+                              Width: =28
+                            Children:
+                              - BrandMark_Icon:
+                                  Control: Classic/Icon@2.5.0
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Height: =16
+                                    Icon: =Icon.Publish  # UNVERIFIED approximation — no helicopter glyph in the confirmed 6-icon set
+                                    Width: =16
+                        - BrandWord_Label:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              Color: =RGBA(32, 31, 30, 1)
+                              FillPortions: =0
+                              FontWeight: =FontWeight.Semibold
+                              Height: =28
+                              Size: =16
+                              Text: ="ChopChop"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Width: =150
+                  # Row is 40 so the 34px buttons' borders and focus rings have room
+                  - Tabs_Row:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =1
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =40
+                      Children:
+                        - Tab_FlightDeck:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderColor: =RGBA(196, 114, 10, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(156, 91, 8, 1)
+                              Fill: =RGBA(252, 238, 220, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Semibold
+                              Height: =34
+                              HoverColor: =RGBA(156, 91, 8, 1)
+                              HoverFill: =RGBA(252, 238, 220, 1)
+                              OnSelect: =Navigate(FlightDeck)
+                              PressedColor: =RGBA(156, 91, 8, 1)
+                              PressedFill: =RGBA(252, 238, 220, 1)
+                              Size: =11
+                              Text: ="Flight deck"
+                              Width: =110
+                        - Tab_LiveTracking:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Align: =Align.Center
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderColor: =RGBA(225, 223, 221, 1)
+                              BorderThickness: =1
+                              Color: =RGBA(96, 94, 92, 1)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FocusedBorderThickness: =1
+                              FontWeight: =FontWeight.Normal
+                              Height: =34
+                              HoverColor: =RGBA(32, 31, 30, 1)
+                              HoverFill: =RGBA(243, 242, 241, 1)
+                              OnSelect: =Navigate(LiveTracking)
+                              PressedColor: =RGBA(32, 31, 30, 1)
+                              PressedFill: =RGBA(243, 242, 241, 1)
+                              Size: =11
+                              Text: ="Live tracking"
+                              Width: =120
+                  # Row is 34 so the 28px avatar tile's border is not clipped
+                  - HeaderRight_Row:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Center
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =34
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =34
+                        Width: =60
+                      Children:
+                        - Avatar_Tile:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderColor: =RGBA(225, 223, 221, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(243, 242, 241, 1)
+                              FillPortions: =0
+                              Height: =28
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutMinHeight: =28
+                              RadiusBottomLeft: =14
+                              RadiusBottomRight: =14
+                              RadiusTopLeft: =14
+                              RadiusTopRight: =14
+                              Width: =28
+                            Children:
+                              - Avatar_Label:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Center
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =28
+                                    Size: =9
+                                    Text: ="JD"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =28
+            - AppBar_Divider:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(237, 235, 233, 1)
+                  FillPortions: =0
+                  Height: =1
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutMinHeight: =1
+            # ---- Content -------------------------------------------------
+            # 2500 = 236 + 560 + 604 + 784 + 54 sections + 176 gaps + 72 padding = 2486, +14 slack
+            - Content:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =2500
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =44
+                  LayoutMinHeight: =2500
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =40
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                  PaddingTop: =32
+                Children:
+                  # ---- Hero --------------------------------------------
+                  - Hero_Row:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =236
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =48
+                        LayoutMinHeight: =236
+                      Children:
+                        # 228 = 26 badge + 48 title + 60 lede + 46 actions + 48 gaps
+                        - Hero_TextCol:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1
+                              Height: =228
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =16
+                              LayoutMinHeight: =228
+                            Children:
+                              - Hero_Badge:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(223, 246, 221, 1)
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =26
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Width: =170
+                                  Children:
+                                    - Hero_Badge_Label:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(16, 124, 16, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =9
+                                          Text: |
+                                            ="Airspace status: open"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                              - Hero_Title:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =48
+                                    Size: =26
+                                    Text: ="Dinner, delivered by air."
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Hero_Lede:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =0
+                                    Height: =60
+                                    Size: =13
+                                    Text: ="Skip the traffic and the cold box. Your order flies direct from the kitchen to your rooftop — average delivery under 20 minutes."
+                                    VerticalAlign: =VerticalAlign.Top
+                              # 46 tall so the 40px buttons' borders + focus rings fit
+                              - Hero_Actions_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =46
+                                    Width: =300
+                                  Children:
+                                    - Btn_StartOrder:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(156, 91, 8, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(255, 255, 255, 1)
+                                          Fill: =RGBA(196, 114, 10, 1)
+                                          FocusedBorderThickness: =1
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =40
+                                          HoverColor: =RGBA(255, 255, 255, 1)
+                                          HoverFill: =RGBA(156, 91, 8, 1)
+                                          OnSelect: |
+                                            =Set(gblOrderRestaurant, "Nonna's Airstrip");
+                                            Set(gblOrderItems, "Margherita Pizza, Truffle Fries");
+                                            Set(gblOrderTotal, "$28.50");
+                                            Set(gblFlightNumber, "CC-" & Text(RoundDown(Rand()*900,0)+1000, "0000"));
+                                            Set(gblOrderTimestamp, Now());
+                                            Navigate(LiveTracking)
+                                          PressedColor: =RGBA(255, 255, 255, 1)
+                                          PressedFill: =RGBA(156, 91, 8, 1)
+                                          Size: =13
+                                          Text: ="Start an order"
+                                          Width: =150
+                                    - Btn_ViewMenu:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderColor: =RGBA(200, 198, 196, 1)
+                                          BorderThickness: =1
+                                          Color: =RGBA(50, 49, 48, 1)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FocusedBorderThickness: =1
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =40
+                                          HoverColor: =RGBA(50, 49, 48, 1)
+                                          HoverFill: =RGBA(250, 249, 248, 1)
+                                          OnSelect: =Notify("Scroll down to see tonight's flight manifest.", NotificationType.Information)
+                                          PressedColor: =RGBA(50, 49, 48, 1)
+                                          PressedFill: =RGBA(243, 242, 241, 1)
+                                          Size: =13
+                                          Text: ="View menu"
+                                          Width: =130
+                        # 150 = 26 head + 4 bar + 40 endpoints + 36 gaps + 40 padding = 146, +4
+                        - Hero_FlightCard:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              BorderColor: =RGBA(237, 235, 233, 1)
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FillPortions: =1
+                              Height: =150
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =18
+                              LayoutMinHeight: =150
+                              PaddingBottom: =20
+                              PaddingLeft: =20
+                              PaddingRight: =20
+                              PaddingTop: =20
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                            Children:
+                              - FlightCard_Head:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =26
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                    LayoutMinHeight: =26
+                                  Children:
+                                    - FlightCard_Head_Label:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =26
+                                          Size: =13
+                                          Text: ="Flight progress"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =140
+                                    - FlightCard_Eta_Badge:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(252, 238, 220, 1)
+                                          FillPortions: =0
+                                          Height: =24
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =24
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Width: =100
+                                        Children:
+                                          - FlightCard_Eta_Label:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(156, 91, 8, 1)
+                                                FillPortions: =0
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Size: =9
+                                                Text: ="ETA 12 min"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =80
+                              - FlightCard_Track_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =4
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =0
+                                    LayoutMinHeight: =4
+                                  Children:
+                                    - Fill_Segment:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(196, 114, 10, 1)
+                                          FillPortions: =45
+                                          Height: =4
+                                          LayoutMinHeight: =4
+                                          RadiusBottomLeft: =2
+                                          RadiusTopLeft: =2
+                                    - Remain_Segment:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(225, 223, 221, 1)
+                                          FillPortions: =55
+                                          Height: =4
+                                          LayoutMinHeight: =4
+                                          RadiusBottomRight: =2
+                                          RadiusTopRight: =2
+                              - FlightCard_Endpoints_Row:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =40
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                    LayoutMinHeight: =40
+                                  Children:
+                                    - Endpoint_Origin:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =1
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =40
+                                        Children:
+                                          - Dot_Origin:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(16, 124, 16, 1)
+                                                FillPortions: =0
+                                                Height: =8
+                                                LayoutMinHeight: =8
+                                                RadiusBottomLeft: =4
+                                                RadiusBottomRight: =4
+                                                RadiusTopLeft: =4
+                                                RadiusTopRight: =4
+                                                Width: =8
+                                          - Endpoint_Origin_Col:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =1
+                                                Height: =38
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =38
+                                              Children:
+                                                - Origin_Caption:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(96, 94, 92, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: ="Kitchen"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - Origin_Value:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Color: =RGBA(32, 31, 30, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =20
+                                                      Size: =11
+                                                      Text: ="Nonna's Airstrip"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                    - Endpoint_Dest:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =1
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =40
+                                        Children:
+                                          - Endpoint_Dest_Col:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =1
+                                                Height: =38
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinHeight: =38
+                                              Children:
+                                                - Dest_Caption:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Color: =RGBA(96, 94, 92, 1)
+                                                      FillPortions: =0
+                                                      Height: =14
+                                                      Size: =9
+                                                      Text: ="Landing zone"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                - Dest_Value:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Color: =RGBA(32, 31, 30, 1)
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =20
+                                                      Size: =11
+                                                      Text: ="Rooftop, Bldg 4"
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                          - Dot_Dest:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(196, 114, 10, 1)
+                                                FillPortions: =0
+                                                Height: =8
+                                                LayoutMinHeight: =8
+                                                RadiusBottomLeft: =4
+                                                RadiusBottomRight: =4
+                                                RadiusTopLeft: =4
+                                                RadiusTopRight: =4
+                                                Width: =8
+                  # ---- Checklist ---------------------------------------
+                  - Checklist_Section:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =560
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        LayoutMinHeight: =560
+                      Children:
+                        - Checklist_Head:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =82
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =82
+                            Children:
+                              - Checklist_Eyebrow:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(156, 91, 8, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =16
+                                    Size: =9
+                                    Text: ="How it works"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Checklist_Title:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    Size: =20
+                                    Text: ="Pre-flight checklist"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Checklist_Subtext:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =0
+                                    Height: =20
+                                    Size: =13
+                                    Text: ="Three steps between ordering and landing."
+                                    VerticalAlign: =VerticalAlign.Middle
+                        - Checklist_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =456
+                              Items: =colChecklist
+                              LayoutMinHeight: =456
+                              TemplatePadding: =6
+                              TemplateSize: =150
+                              Width: =Parent.Width
+                            Children:
+                              # Direct gallery child — the only level where Parent.Template* resolves.
+                              # Width inset by 8 so the card's own border sits inside the template.
+                              - Check_Card:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(237, 235, 233, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =Parent.TemplateHeight
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.TemplateWidth - 8
+                                  Children:
+                                    - Check_Number_Circle:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(252, 238, 220, 1)
+                                          FillPortions: =0
+                                          Height: =28
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =28
+                                          RadiusBottomLeft: =14
+                                          RadiusBottomRight: =14
+                                          RadiusTopLeft: =14
+                                          RadiusTopRight: =14
+                                          Width: =28
+                                        Children:
+                                          - Check_Number_Label:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Center
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(156, 91, 8, 1)
+                                                FillPortions: =0
+                                                FontWeight: =FontWeight.Bold
+                                                Height: =28
+                                                Size: =13
+                                                Text: =ThisItem.Number
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =28
+                                    - Check_Title:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =13
+                                          Text: =ThisItem.Title
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Check_Body:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(96, 94, 92, 1)
+                                          FillPortions: =0
+                                          Height: =40
+                                          Size: =11
+                                          Text: =ThisItem.Body
+                                          VerticalAlign: =VerticalAlign.Top
+                  # ---- Manifest ----------------------------------------
+                  - Manifest_Section:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =604
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        LayoutMinHeight: =604
+                      Children:
+                        - Manifest_Head:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =82
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =82
+                            Children:
+                              - Manifest_Eyebrow:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(156, 91, 8, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =16
+                                    Size: =9
+                                    Text: ="Tonight's routes"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Manifest_Title:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    Size: =20
+                                    Text: ="Flight manifest"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Manifest_Subtext:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =0
+                                    Height: =20
+                                    Size: =13
+                                    Text: ="Every kitchen on the network, ranked by delivery time."
+                                    VerticalAlign: =VerticalAlign.Middle
+                        - Manifest_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =500
+                              Items: =colManifest
+                              LayoutMinHeight: =500
+                              TemplatePadding: =6
+                              TemplateSize: =80
+                              Width: =Parent.Width
+                            Children:
+                              - Manifest_Card:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(237, 235, 233, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                    LayoutMinHeight: =Parent.TemplateHeight
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.TemplateWidth - 8
+                                  Children:
+                                    - Manifest_Left_Col:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =1
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =46
+                                        Children:
+                                          - Manifest_Name:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =RGBA(32, 31, 30, 1)
+                                                FillPortions: =0
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                Size: =13
+                                                Text: =ThisItem.Restaurant
+                                                VerticalAlign: =VerticalAlign.Middle
+                                          - Manifest_Tag_Row:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =18
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =8
+                                                LayoutMinHeight: =18
+                                              Children:
+                                                - Manifest_Cuisine:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =RGBA(96, 94, 92, 1)
+                                                      FillPortions: =0
+                                                      Height: =18
+                                                      Size: =9
+                                                      Text: =ThisItem.Cuisine
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =90
+                                                - Manifest_Rating:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =RGBA(196, 114, 10, 1)
+                                                      FillPortions: =0
+                                                      Height: =18
+                                                      Size: =9
+                                                      Text: ="★ " & ThisItem.Rating
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =50
+                                    - Manifest_Right_Row:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =36
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =10
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =36
+                                          Width: =176
+                                        Children:
+                                          - Manifest_Eta_Badge:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DropShadow: =DropShadow.None
+                                                Fill: =If(ThisItem.EtaFast, RGBA(223, 246, 221, 1), RGBA(243, 242, 241, 1))
+                                                FillPortions: =0
+                                                Height: =24
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                LayoutMinHeight: =24
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Width: =74
+                                              Children:
+                                                - Manifest_Eta_Label:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      Align: =Align.Center
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =If(ThisItem.EtaFast, RGBA(16, 124, 16, 1), RGBA(96, 94, 92, 1))
+                                                      FillPortions: =0
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =24
+                                                      Size: =9
+                                                      Text: =ThisItem.EtaText
+                                                      VerticalAlign: =VerticalAlign.Middle
+                                                      Width: =74
+                                          - Manifest_Order_Button:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                Align: =Align.Center
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BorderColor: =RGBA(232, 199, 150, 1)
+                                                BorderThickness: =1
+                                                Color: =RGBA(196, 114, 10, 1)
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                FocusedBorderThickness: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =30
+                                                HoverColor: =RGBA(196, 114, 10, 1)
+                                                HoverFill: =RGBA(252, 238, 220, 1)
+                                                OnSelect: |
+                                                  =Set(gblOrderRestaurant, ThisItem.Restaurant);
+                                                  Set(gblOrderItems, ThisItem.Items);
+                                                  Set(gblOrderTotal, ThisItem.Total);
+                                                  Set(gblFlightNumber, "CC-" & Text(RoundDown(Rand()*900,0)+1000, "0000"));
+                                                  Set(gblOrderTimestamp, Now());
+                                                  Navigate(LiveTracking)
+                                                PressedColor: =RGBA(156, 91, 8, 1)
+                                                PressedFill: =RGBA(252, 238, 220, 1)
+                                                Size: =11
+                                                Text: ="Order"
+                                                Width: =76
+                  # ---- Fleet -------------------------------------------
+                  # Spec rows have NO border — Power Apps has no per-side border, so the
+                  # single top rule is a 1px divider container instead of a full box
+                  - Fleet_Section:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =784
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        LayoutMinHeight: =784
+                      Children:
+                        - Fleet_Head:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =82
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =6
+                              LayoutMinHeight: =82
+                            Children:
+                              - Fleet_Eyebrow:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(156, 91, 8, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =16
+                                    Size: =9
+                                    Text: ="The fleet"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Fleet_Title:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(32, 31, 30, 1)
+                                    FillPortions: =0
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =32
+                                    Size: =20
+                                    Text: ="Built for the job"
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Fleet_Subtext:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =0
+                                    Height: =20
+                                    Size: =13
+                                    Text: ="Three airframes, sized to the order."
+                                    VerticalAlign: =VerticalAlign.Middle
+                        - Fleet_Gallery:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              Height: =680
+                              Items: =colFleet
+                              LayoutMinHeight: =680
+                              TemplatePadding: =6
+                              TemplateSize: =224
+                              Width: =Parent.Width
+                            Children:
+                              # 214 = 36+20+20+1+28+1+28 children + 48 gaps + 32 padding
+                              - Fleet_Card:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(237, 235, 233, 1)
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =Parent.TemplateHeight
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Width: =Parent.TemplateWidth - 8
+                                  Children:
+                                    - Fleet_Icon_Tile:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(243, 242, 241, 1)
+                                          FillPortions: =0
+                                          Height: =36
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                          LayoutMinHeight: =36
+                                          RadiusBottomLeft: =4
+                                          RadiusBottomRight: =4
+                                          RadiusTopLeft: =4
+                                          RadiusTopRight: =4
+                                          Width: =36
+                                        Children:
+                                          - Fleet_Icon:
+                                              Control: Classic/Icon@2.5.0
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(156, 91, 8, 1)
+                                                Height: =18
+                                                Icon: =Icon.Publish  # UNVERIFIED approximation — see header note
+                                                Width: =18
+                                    - Fleet_Name:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(32, 31, 30, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =20
+                                          Size: =13
+                                          Text: =ThisItem.Name
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Fleet_Body:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =RGBA(96, 94, 92, 1)
+                                          FillPortions: =0
+                                          Height: =20
+                                          Size: =11
+                                          Text: =ThisItem.Body
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - Fleet_Divider_1:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(237, 235, 233, 1)
+                                          FillPortions: =0
+                                          Height: =1
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =1
+                                    - Fleet_Spec1_Row:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =28
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutMinHeight: =28
+                                        Children:
+                                          - Fleet_Spec1_Label:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(96, 94, 92, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                Size: =11
+                                                Text: =ThisItem.Spec1Label
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =120
+                                          - Fleet_Spec1_Value:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(32, 31, 30, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                Size: =11
+                                                Text: =ThisItem.Spec1Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                                    - Fleet_Divider_2:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(237, 235, 233, 1)
+                                          FillPortions: =0
+                                          Height: =1
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =1
+                                    - Fleet_Spec2_Row:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =28
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutMinHeight: =28
+                                        Children:
+                                          - Fleet_Spec2_Label:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(96, 94, 92, 1)
+                                                FillPortions: =0
+                                                Height: =20
+                                                Size: =11
+                                                Text: =ThisItem.Spec2Label
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =120
+                                          - Fleet_Spec2_Value:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Align: =Align.Right
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(32, 31, 30, 1)
+                                                FillPortions: =1
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                Size: =11
+                                                Text: =ThisItem.Spec2Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                  # ---- Footer (divider + row, not a bordered box) ------
+                  - Footer_Section:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =54
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =16
+                        LayoutMinHeight: =54
+                      Children:
+                        - Footer_Divider:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(237, 235, 233, 1)
+                              FillPortions: =0
+                              Height: =1
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutMinHeight: =1
+                        - Footer_Row:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =36
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                              LayoutMinHeight: =36
+                            Children:
+                              - Footer_Caption:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(96, 94, 92, 1)
+                                    FillPortions: =1
+                                    Height: =20
+                                    Size: =9
+                                    Text: ="© 2026 ChopChop Aeroservices — concept product, not a real airline."
+                                    VerticalAlign: =VerticalAlign.Middle
+                              - Footer_Status_Badge:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Center
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(223, 246, 221, 1)
+                                    FillPortions: =0
+                                    Height: =24
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    LayoutMinHeight: =24
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Width: =170
+                                  Children:
+                                    - Footer_Status_Label:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Align: =Align.Center
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(16, 124, 16, 1)
+                                          FillPortions: =0
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          Size: =9
+                                          Text: |
+                                            ="Airspace status: open"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150

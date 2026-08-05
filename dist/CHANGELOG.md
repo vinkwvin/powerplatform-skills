@@ -8,6 +8,38 @@ your two minutes.
 
 ---
 
+## generating-powerapps-yaml v1.1.0 — enum members are checked like control types
+
+**Re-install: worth it if you generate screens.** One new check, no behaviour removed.
+
+**What prompted it.** The first field use of the suite, on a project with nothing in common with
+the one it was built from. The output was structurally clean — 191 controls, 5 control types, 9
+levels deep, zero property names the reference set had never seen, `X`/`Y` on the root containers
+only. But it used `LayoutJustifyContent.SpaceBetween`, which appears in none of the 17 reference
+screens, and **nothing flagged it**. `SpaceBetween` happens to be real. The next guess might not
+be, and an invented enum member fails only when Studio rejects the paste — the exact round trip
+this suite exists to avoid.
+
+The gap was that `Icon` had a confirmed-member list and no other enum did. Step 4 of the workflow
+said "choose control *types* from the catalog only", which a reader correctly reads as not being
+about enum members at all.
+
+**Changed:**
+- `assets/house-style.yaml` gains `enum_members:` — 14 enums with their measured members.
+- `validate_pa_yaml.py` checks any `Enum.Member` in any property value against that list. Tier
+  `HOUSE`, so it is a WARN: an unlisted member is *unconfirmed*, not *invalid*.
+- `references/control-catalog.md` §5 documents all 14 enums with counts.
+- `SKILL.md` step 4 now covers enum members explicitly.
+
+**If you hit the warning:** paste-test that one control alone. If Studio accepts it, add the
+member to `assets/house-style.yaml` and say so in your field report. That is how the confirmed
+set grows — it is not meant to stay at 14 enums forever.
+
+**New project with a different design system?** Nothing here changes: enum members are a platform
+vocabulary, not a house style, so this list should converge across projects rather than diverge.
+
+---
+
 ## v1.0.0 — first release
 
 All five skills. Install all of them.

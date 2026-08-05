@@ -1,0 +1,42 @@
+{
+  "id": "gpy-04-field-output-chopchop",
+  "skill": "generating-powerapps-yaml",
+  "kind": "regression-fixture",
+  "query": "(no query — this eval checks a real field output, not a fresh generation)",
+  "input_files": [
+    "evals/generating-powerapps-yaml/fixtures/LiveTracking.pa.yaml",
+    "evals/generating-powerapps-yaml/fixtures/FlightDeck.pa.yaml"
+  ],
+  "provenance": {
+    "source": "First field use of the packaged skill, on a project unrelated to the one it was built from (ChopChop, a helicopter-logistics UI). Generated in a fresh claude.ai chat, v3 of the file after two Studio round trips.",
+    "captured": "2026-08-05",
+    "why_it_matters": "The suite was derived from one system. This is the first evidence of what the skill produces on a different design language, and it is the fixture that proves the HOUSE/PLATFORM split works: a completely foreign palette produces zero warnings, because colour is EXAMPLE tier."
+  },
+  "measured": {
+    "screens": 2,
+    "controls": 191,
+    "control_types": ["GroupContainer@1.5.0", "Label@2.5.1", "Classic/Button@2.2.0",
+                      "Gallery@2.15.0", "Classic/Icon@2.5.0"],
+    "max_nesting_depth": 9,
+    "xy_properties": "2 X, 2 Y — both on the depth-1 root containers, none below",
+    "layout_overflow_y": "2 per screen",
+    "property_names_absent_from_reference_set": 0,
+    "icon_members_absent_from_reference_set": 0,
+    "enum_members_absent_from_reference_set": ["LayoutJustifyContent.SpaceBetween"]
+  },
+  "expected_behavior": [
+    "validate_pa_yaml.py reports 0 PLATFORM errors on both files",
+    "The only HOUSE warnings are the 11 LayoutJustifyContent.SpaceBetween occurrences",
+    "No warning is raised about the ChopChop palette — colour is EXAMPLE tier and unenforced",
+    "Both files parse as YAML and carry a top-level Screens: key",
+    "Properties are alphabetised in every block",
+    "Block scalars appear only where ': ', a newline or ' #' forces them"
+  ],
+  "regression_command": "python3 skills/generating-powerapps-yaml/scripts/validate_pa_yaml.py evals/generating-powerapps-yaml/fixtures/*.pa.yaml",
+  "regression_expectation": "0 error(s) [PLATFORM], 11 warning(s) [HOUSE]",
+  "notes": [
+    "The 11 warnings are CORRECT and must not be 'fixed' by adding SpaceBetween to house-style.yaml until someone confirms Studio accepted it. If a field report confirms it, add the member, update this eval's expectation to 0 warnings, and record the count.",
+    "Two protocol behaviours fired unprompted in the source file and should survive any rewrite of the skill: an Icon approximated from a missing glyph was marked '# UNVERIFIED', and an unconfirmed Timer control was delivered commented-out as an isolated test snippet rather than inlined into the screen.",
+    "These files are ground truth for STRUCTURE only. They have not been confirmed to paste cleanly into Studio at v3 — treat the paste result as unverified until a field report says otherwise."
+  ]
+}

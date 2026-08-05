@@ -122,3 +122,32 @@ palette:
 icons:
   enforce: true
   confirmed: [Icon.Document, Icon.View, Icon.Person, Icon.Clock, Icon.Publish, Icon.Trash]
+
+# --- confirmed enum members ----------------------------------------------
+# Same idea as `icons`, for every other enum. Each of these enums is larger than what
+# shipped here — an unlisted member is very often perfectly valid. So this is a WARN that
+# means "nobody on this team has pasted that one yet", not "that is wrong".
+#
+# Why it exists: without it a generator can emit a member that does not exist, and nothing
+# catches it until Studio rejects the paste — which is exactly the round trip this suite is
+# built to avoid. The warning turns an unknown into a one-control paste test.
+#
+# When Studio accepts a new member, add it here and record the count in the field report.
+# An enum absent from this map is not checked at all.
+enum_members:
+  enforce: true
+  confirmed:
+    Align: [Center, Left, Right]                        # 394 uses
+    AlignInContainer: [Center, Start]                   # 46
+    BorderStyle: [Dashed, None, Solid]                  # Dashed 7 measured; None/Solid are defaults
+    DropShadow: [None]                                  # 806 — and see NONEXISTENT for .Light
+    FontWeight: [Bold, Normal, Semibold]                # 721
+    Layout: [Horizontal, Vertical]                      # 16 (Gallery Layout)
+    LayoutAlignItems: [Center, Start, Stretch]          # 396
+    LayoutDirection: [Horizontal, Vertical]             # 851
+    LayoutJustifyContent: [Center, End, Start]          # 156
+    LayoutOverflow: [Hidden, Scroll]                    # Scroll 34; Hidden is the default
+    NotificationType: [Error, Information, Success, Warning]   # 7 measured, full documented set
+    TextFormat: [Number, Text]                          # 4
+    TextMode: [MultiLine, Password, SingleLine]         # 13
+    VerticalAlign: [Bottom, Middle, Top]                # 1370

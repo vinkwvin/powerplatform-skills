@@ -37,6 +37,9 @@ NONEXISTENT = {"DropShadow.Light": "DropShadow.Light does not exist — use Drop
 
 DEFAULT_STYLE = pathlib.Path(__file__).resolve().parent.parent / "assets" / "house-style.yaml"
 NUM_RE = re.compile(r"^=(\d+)$")
+# Enum.Member as it appears in a formula. Excludes Parent./Self./ThisItem./App. property
+# access, which is the same shape but is not an enum.
+ENUM_RE = re.compile(r"\b(?<!\.)([A-Z][A-Za-z]+)\.([A-Z][A-Za-z]+)\b")
 
 errors, warns = [], []
 STYLE = {}
@@ -131,6 +134,18 @@ def check_properties(loc, ctrl, node, is_screen=False):
                      f"larger than this — mark '# UNVERIFIED' and paste-test it alone, then add "
                      f"it to house-style.yaml once Studio accepts it",
                      "icons")
+
+        # Same treatment for every other enum: an unlisted member may well be valid, but
+        # nobody here has pasted it, and a member that does not exist fails only in Studio.
+        known = sect("enum_members", "confirmed", {}) or {}
+        for enum, member in ENUM_RE.findall(val):
+            if enum in known and member not in known[enum]:
+                warn(f"{loc}.Properties.{key}",
+                     f"{enum}.{member} is not in the confirmed member list for {enum} "
+                     f"{sorted(known[enum])}. It may be valid — this enum is larger than what "
+                     f"shipped here. Mark '# UNVERIFIED', paste-test that one control alone, "
+                     f"then add the member to house-style.yaml",
+                     "enum_members")
 
     # -- HOUSE: ordering --
     if sect("property_order", "mode", "alphabetical_case_insensitive") == \

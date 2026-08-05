@@ -19,7 +19,8 @@ accepts it. That is how the confirmed set grows.
 2. Property sets that every instance carries
 3. Optional properties, by type
 4. Icon enum
-5. What is deliberately absent
+5. Every other enum
+6. What is deliberately absent
 
 ---
 
@@ -157,7 +158,41 @@ Material-Symbols names (`dashboard`, `cloud_upload`, `expand_more`) have no equi
 the nearest member above and say which ones you approximated. `Icon.Error` is **not** confirmed
 despite appearing in older written notes — it occurs in zero screens.
 
-## 5. What is deliberately absent
+## 5. Every other enum
+
+`HOUSE` — the members observed across the 17 screens. Held in `assets/house-style.yaml` under
+`enum_members`, and checked by the validator exactly like `Icon`.
+
+| Enum | Members observed | Uses |
+|---|---|---|
+| `VerticalAlign` | `.Middle` (1369) · `.Top` (1) | 1370 |
+| `LayoutDirection` | `.Vertical` (439) · `.Horizontal` (412) | 851 |
+| `FontWeight` | `.Semibold` (505) · `.Normal` (179) · `.Bold` (37) | 721 |
+| `LayoutAlignItems` | `.Center` (310) · `.Start` (66) · `.Stretch` (20) | 396 |
+| `Align` | `.Left` (201) · `.Center` (169) · `.Right` (24) | 394 |
+| `LayoutJustifyContent` | `.Center` (89) · `.End` (34) · `.Start` (33) | 156 |
+| `AlignInContainer` | `.Center` (30) · `.Start` (16) | 46 |
+| `LayoutOverflow` | `.Scroll` (34) | 34 |
+| `Layout` | `.Horizontal` (11) · `.Vertical` (5) | 16 |
+| `TextMode` | `.MultiLine` (13) | 13 |
+| `NotificationType` | `.Information` (4) · `.Success` (3) | 7 |
+| `BorderStyle` | `.Dashed` (7) | 7 |
+| `TextFormat` | `.Number` (4) | 4 |
+| `DropShadow` | `.None` (806) | 806 |
+
+**Read this table the same way as the control list.** Every one of these enums is larger than
+what shipped here. `LayoutJustifyContent.SpaceBetween` is a real member and appears in zero of
+the 17 screens — an unlisted member is *unconfirmed*, not *invalid*.
+
+The reason to flag it anyway: a member that genuinely does not exist looks identical to one that
+does, and nothing reveals the difference until Studio rejects the paste. In an environment with
+no CLI, that round trip is the expensive thing this suite exists to avoid. So an unlisted member
+gets `# UNVERIFIED`, a one-control test snippet, and a line in `house-style.yaml` once it works.
+
+`DropShadow.Light` is the counter-example, and the reason the check is worth having: plausible,
+frequently generated, and it does not exist. It is a hard `ERROR`, not a warning.
+
+## 6. What is deliberately absent
 
 - **No tenth control type.** `Rectangle`, `Image`, `Slider`, `DatePicker`, `Toggle`, `Timer`,
   `HtmlText` do not appear in any of the 17 screens. They may work; none is confirmed. Mark

@@ -17,7 +17,7 @@ description: >-
 
 # HTML, spec, or description → Power Apps Canvas pa.yaml
 
-<!-- v1.0.0 -->
+<!-- v1.1.0 -->
 
 Every rule marked with a count below was measured across 17 screens that compiled in Studio.
 Where a rule has a number attached, it is not a preference.
@@ -43,7 +43,10 @@ Settle three things. If the user already said, state your assumption in one line
 3. **Build the control tree** from the DOM, top-down. See `references/patterns.md`.
 4. **Choose control types from the catalog only.** Nine types exist. See
    `references/control-catalog.md`. Anything not in it gets `# UNVERIFIED` and a question — never
-   a plausible guess.
+   a plausible guess. **The same applies to enum members** — `LayoutJustifyContent.SpaceBetween`,
+   `Icon.Helicopter`, any `Enum.Member`. Confirmed members are listed in
+   `assets/house-style.yaml`; an unlisted one is a guess until Studio accepts it, and a member
+   that does not exist fails only at paste time.
 5. **Translate the hard patterns** — tables → `Gallery`, editable tables → a collection, status
    badges → `Switch()`, upload zones → `GroupContainer` with `BorderStyle.Dashed`.
 6. **Wire behaviour** — `href`/`onclick` → `OnSelect: =Navigate(Target)`. Anything whose target
@@ -123,8 +126,9 @@ output to the user until the validator exits clean.
 
 The validator is a safety net, not the source of truth. It catches wrong control types,
 unsorted properties, missing block scalars, `X`/`Y` below the root, missing screen properties,
-a missing `Items.Value`, `DropShadow.Light`, tabs, flow-style mappings, and sizes outside the
-measured set. All 17 reference screens pass it with zero warnings.
+a missing `Items.Value`, `DropShadow.Light`, tabs, flow-style mappings, sizes outside the
+measured set, and enum members nobody here has confirmed. All 17 reference screens pass it with
+zero warnings.
 
 ## References — read the one you need
 
