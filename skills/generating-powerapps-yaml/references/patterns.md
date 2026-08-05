@@ -72,9 +72,11 @@ with the project's tokens.
       Width: =Parent.Width - 40
 ```
 
-No `X`/`Y`. A horizontal row usually wants `LayoutAlignItems: =LayoutAlignItems.Center`, and any
-fixed-height child inside it wants `AlignInContainer: =AlignInContainer.Center` so it does not
-stretch.
+No `X`/`Y`. A horizontal row takes `LayoutAlignItems: =LayoutAlignItems.Center`, and every
+fixed-size child inside it **must** carry `AlignInContainer` — without it AutoLayout stretches the
+child to fill the row and its `Width`/`Height` is silently ignored. Not a preference: this is the
+single most-repeated correction in the field reports, and the failure is silent, which is why it
+survives so many rounds.
 
 ## 3. Sidebar nav
 

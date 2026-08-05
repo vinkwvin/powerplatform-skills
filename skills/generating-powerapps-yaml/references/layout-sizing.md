@@ -65,6 +65,27 @@ Bare `=Parent.Width` appears 147 times, `=Parent.TemplateWidth` 36 (gallery temp
 
 This is how "give the control real padding so adjacent borders do not overlap" is expressed.
 
+**`=Parent.Width` is the parent's FULL width and ignores the parent's padding.** A child given
+bare `=Parent.Width` inside a parent with `PaddingLeft: =24` overflows by exactly that 24. The
+`- N` form is not decoration — it is the correction, and N is the sum of the parent's horizontal
+padding. Field-reported, cost a round trip.
+
+**`Parent.TemplateWidth` and `Parent.TemplateHeight` resolve only on a gallery's DIRECT child.**
+One level deeper they are blank and the control collapses to nothing. If a grandchild needs the
+template width, give the direct child a real `Width` and have the grandchild reference
+`=Parent.Width` from there. Field-reported.
+
+**A border is drawn on the control's own bounds, not inside them.** A child whose `Height` equals
+its parent's `Height` has its top and bottom border clipped by the parent edge; the same happens
+horizontally at full width. Give the parent 4–6px more than the child, or inset the child. This
+is why the reference set's rows are consistently taller than the controls inside them.
+
+**There is no per-side border in Power Apps.** `BorderThickness` applies to all four sides, so a
+header underline or a row divider cannot be expressed with it — reaching for it draws a full box.
+The idiom is a `GroupContainer` with `Height: =1` and `Fill` set to the line colour, placed as a
+sibling. Field-reported after `BorderThickness: =1` on three containers drew boxes where single
+rules were wanted.
+
 ## 3. Containment
 
 **Every container carries both `Height` and `LayoutMinHeight`** — 887/887. Same for galleries:

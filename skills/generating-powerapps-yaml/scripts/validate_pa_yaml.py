@@ -221,6 +221,22 @@ def check_control(loc, name, body, depth):
                      f"Padding*, LayoutGap, or {sect('positioning','inset_idiom')}",
                      "positioning")
 
+    # -- PLATFORM: a visible border with no colour gets Studio's default blue --
+    bt = props.get("BorderThickness")
+    if bt is not None and isinstance(bt, yaml.ScalarNode):
+        m = NUM_RE.match(bt.value.strip())
+        if m and int(m.group(1)) > 0 and "BorderColor" not in pk:
+            err(f"{loc}({name}).Properties",
+                f"BorderThickness: {bt.value.strip()} with no BorderColor — Studio paints its "
+                f"own default blue. Set both, or set BorderThickness: =0. (2,830 reference "
+                f"controls: every visible border sets both)")
+
+    # Not checked: an ABSENT BorderThickness on a button. A field report traced Studio's
+    # default blue border to buttons that set neither property — but 20 of the 268 reference
+    # buttons also leave it absent and shipped fine, so absence alone is not the cause and a
+    # warning here would fire on known-good output. The causal rule is the one above.
+    # Open question in ledger/09; promote this to a check only if a report settles it.
+
     # -- HOUSE: required property sets --
     for m in sorted(set(sect("required_properties", ctrl, [])) - pk):
         warn(f"{loc}({name}).Properties", f"{base} missing {m}", "required_properties")

@@ -15,14 +15,21 @@
   "measured": {
     "screens": 2,
     "controls": 191,
-    "control_types": ["GroupContainer@1.5.0", "Label@2.5.1", "Classic/Button@2.2.0",
-                      "Gallery@2.15.0", "Classic/Icon@2.5.0"],
+    "control_types": [
+      "GroupContainer@1.5.0",
+      "Label@2.5.1",
+      "Classic/Button@2.2.0",
+      "Gallery@2.15.0",
+      "Classic/Icon@2.5.0"
+    ],
     "max_nesting_depth": 9,
     "xy_properties": "2 X, 2 Y — both on the depth-1 root containers, none below",
     "layout_overflow_y": "2 per screen",
     "property_names_absent_from_reference_set": 0,
     "icon_members_absent_from_reference_set": 0,
-    "enum_members_absent_from_reference_set": ["LayoutJustifyContent.SpaceBetween"]
+    "enum_members_absent_from_reference_set": [
+      "LayoutJustifyContent.SpaceBetween"
+    ]
   },
   "expected_behavior": [
     "validate_pa_yaml.py reports 0 PLATFORM errors on both files",
@@ -37,6 +44,8 @@
   "notes": [
     "The 11 warnings are CORRECT and must not be 'fixed' by adding SpaceBetween to house-style.yaml until someone confirms Studio accepted it. If a field report confirms it, add the member, update this eval's expectation to 0 warnings, and record the count.",
     "Two protocol behaviours fired unprompted in the source file and should survive any rewrite of the skill: an Icon approximated from a missing glyph was marked '# UNVERIFIED', and an unconfirmed Timer control was delivered commented-out as an isolated test snippet rather than inlined into the screen.",
-    "These files are ground truth for STRUCTURE only. They have not been confirmed to paste cleanly into Studio at v3 — treat the paste result as unverified until a field report says otherwise."
-  ]
+    "These files are ground truth for STRUCTURE only. They have not been confirmed to paste cleanly into Studio at v3 — treat the paste result as unverified until a field report says otherwise.",
+    "v1.2.0: seven findings were mined from the files' 78-line comment headers, which served as the feedback record the structured prompt failed to elicit. Deleting the 10 BorderColor lines from FlightDeck.pa.yaml must produce 10 PLATFORM errors naming Tab_FlightDeck and Tab_LiveTracking — that is the regression test for the border rule."
+  ],
+  "regression_expectation_v1_2_0": "0 error(s) [PLATFORM], 11 warning(s) [HOUSE] — unchanged; v3 already satisfies every new border rule, which is independent confirmation the rules were derived correctly"
 }

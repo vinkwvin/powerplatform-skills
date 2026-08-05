@@ -1,6 +1,6 @@
 # Paste-ready prompt — capture a working session for skill improvement
 
-<!-- v1.1.0 -->
+<!-- v1.2.0 -->
 
 **Where this goes:** at the **end** of any claude.ai chat where you used one of the five skills to
 build something real. Before you close it.
@@ -25,16 +25,12 @@ We are done. Before I close this chat, write a feedback record so the skill that
 be improved. Be blunt — this is for fixing the skill, not for reassuring me. An honest account of
 what you got wrong is the useful thing here.
 
-### First: the artifact
+### First: the record
 
-Output the **final working version** of what we built, in full, in one code block. The version that
-worked after all corrections — not your first attempt, and not a summary of the differences. If it is
-too long for one block, say so and output it in labelled parts.
-
-This is the most valuable part of the record, because it can be checked. The prose below is context
-for it.
-
-### Then: the record
+**Write this before anything else, and do not output the artifact above it.** The record is short
+and it is the part that gets lost — a long artifact emitted first eats the whole response and the
+record silently never arrives. That has already happened once. If you can only deliver one of the
+two, deliver this one.
 
 YAML, one code block, nothing outside it.
 
@@ -98,6 +94,15 @@ than no rule, because it takes up space and creates false confidence.
   this project differs, in which case the fix is a config value, not a rule.
 - **`unclear`** — say `unclear`. Do not guess. A misfiled tier turns one project's preference into
   everyone's law.
+
+### Then: the artifact
+
+Now output the **final working version** of what we built, in full — the version that worked after
+all corrections, not your first attempt and not a summary of the differences.
+
+If it is long, say so and stop after the record rather than truncating it. I would rather ask for
+the artifact in a second message than lose the record to it — I can always request the files
+again, but the account of what went wrong exists only in this conversation.
 
 ### Rules
 

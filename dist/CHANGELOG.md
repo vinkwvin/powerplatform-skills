@@ -8,6 +8,51 @@ your two minutes.
 
 ---
 
+## generating-powerapps-yaml v1.2.0 — seven border and layout rules from the field
+
+**Re-install: yes.** These are the rules that cost real Studio round trips.
+
+Also update your copy of `prompts/feedback-session.md` — see the note at the end.
+
+**Where they came from.** The same field report as v1.1.0. The two returned files carried 78 lines
+of comment header explaining what v2 got wrong and how v3 fixed it — a correction log in prose.
+Seven findings came out of it, and two of them were already in the skill:
+
+| Finding | Was it in the skill? |
+|---|---|
+| `BorderThickness > 0` with no `BorderColor` → Studio's default blue | no |
+| No per-side border — `BorderThickness` draws all four sides | no |
+| A border draws on the control's own bounds → clipped by an equal-height parent | no |
+| `Parent.Template*` resolves only on a gallery's direct child | counted, never stated as a rule |
+| Bare `=Parent.Width` overflows a padded parent by the padding | present, framed as style not failure |
+| `AlignInContainer` or a fixed-size child stretches | **yes — and ignored anyway** |
+| Container `Height` ≥ sum(children) + gaps + padding | no |
+
+The `AlignInContainer` one is the interesting case. It was in `patterns.md` §2, correct, and
+phrased as "any fixed-height child *wants* `AlignInContainer`". It was still the most-repeated
+correction in the field. Fix: promote to a hard rule in `SKILL.md`, add a checklist line, rewrite
+as "must", and say the failure is silent. Nothing was added to the skill's length that isn't
+load-bearing.
+
+**One new PLATFORM error.** `BorderThickness > 0` with no `BorderColor`. Measured before shipping:
+across all 2,830 reference controls, every control with a visible border sets both, zero
+exceptions. Deleting the `BorderColor` lines from the field files reproduces the reported bug and
+names the same two controls the report blames.
+
+**One rule proposed and withdrawn**, worth knowing about because it shows the guardrail working.
+The report implied that leaving `BorderThickness` unset on a button is what lets the default blue
+through, so a warning was added for exactly that. It fired on 20 of the reference set's own
+buttons — which shipped and worked. A validator that warns on known-good output is how people
+learn to ignore warnings, so the check was removed and the advice demoted to prose. Ground truth
+outranks a plausible inference, including mine.
+
+**Also in this release:** `prompts/feedback-session.md` v1.2.0. It used to ask for the artifact
+first and the record second; two long files ate the whole response and the record never arrived.
+The record now comes first, with an instruction to stop rather than truncate. `prompts/
+followup-record-only.md` is new — use it when the artifact came back without the record.
+
+---
+
 ## generating-powerapps-yaml v1.1.0 — enum members are checked like control types
 
 **Re-install: worth it if you generate screens.** One new check, no behaviour removed.

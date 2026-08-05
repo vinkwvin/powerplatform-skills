@@ -105,14 +105,62 @@ Regression: the 17 reference screens stay at 0 errors / 0 warnings; ChopChop now
 Studio accepted it, and then eval `04` moves to a 0-warning expectation. Adding it now would
 convert a real open question into a fabricated confirmation.
 
-## Open question — the honest limit of this report
+## Round 2 — the comment headers ARE the feedback record
 
-**Whether these files paste cleanly into Studio at v3 is unconfirmed.** Everything above is
-structural: measured from the files, verified by mutation. Nobody has reported the paste result.
+The files came back from `prompts/feedback-session.md` with no structured YAML record. The reason
+is a defect in that prompt, not in the chat: it asked for **the artifact first and the record
+second**, and two 1,400-line files consumed the whole response. Fixed in `feedback-session.md`
+v1.2.0 — the record now comes first, with an instruction to stop rather than truncate it.
 
-The file headers say v3 was a "border + brand CI pass" fixing cases where "Studio drew its default
-blue", which means at least two Studio round trips already happened — so `rounds > 1`, and there
-is correction history in that chat which this report does not have. The next action is
-`prompts/feedback-session.md` pasted at the end of that conversation; it will produce the
-`first_attempt_validated` and `rounds` fields that are missing here, and may well surface
-corrections that never reached me.
+But the 78 lines of comment header on the two files are a correction log in prose. Mined, they
+give seven findings, all of them the kind that costs a Studio round trip:
+
+| # | Finding | `rule_status` |
+|---|---|---|
+| 1 | `BorderThickness > 0` with no `BorderColor` → Studio paints its default blue | absent |
+| 2 | No per-side border; `BorderThickness` draws all four sides | absent |
+| 3 | A border draws on the control's own bounds → clipped when child `Height` == parent `Height` | absent |
+| 4 | `Parent.Template*` resolves only on a gallery's direct child | counted in `layout-sizing.md`, never stated as a constraint |
+| 5 | Bare `=Parent.Width` overflows a padded parent by the padding | present, but framed as a style distribution rather than a failure |
+| 6 | `AlignInContainer` or a fixed-size child stretches and ignores its `Width` | **`present-and-ignored`** — `patterns.md:76`, phrased as "wants" |
+| 7 | Container `Height` >= sum(children) + gaps + padding | absent |
+
+№6 is the category `docs/IMPROVING-SKILLS.md` calls the most valuable and the least likely to be
+volunteered: the rule was correct, present, and buried in §2 of a reference file as a preference.
+It is now a hard rule in `SKILL.md` and a checklist line. That fix makes the skill better without
+making it longer, which is the only kind of fix that scales.
+
+### The border rule, and where measurement corrected inference
+
+№1 was checkable against the reference set, so it was measured rather than assumed. Across all
+2,830 reference controls, **every control with `BorderThickness > 0` sets `BorderColor`, and every
+control without `BorderColor` has thickness `=0` or absent. Zero exceptions.** That is now a
+PLATFORM `ERROR`.
+
+Independent confirmation: deleting the 10 `BorderColor` lines from ChopChop v3 reproduces v2's bug
+and the validator names `Tab_FlightDeck` and `Tab_LiveTracking` — the exact two controls the v3
+header blames. The rule derived from the reference set and the bug found in the field are the same
+rule.
+
+**An over-reach was caught and withdrawn.** The header says the offending buttons had *neither*
+property, so a HOUSE warning was added for `Classic/Button` with no `BorderThickness` — 248 of 268
+reference buttons set it explicitly. It fired on **20 of the reference screens' own buttons**,
+which shipped and worked. So absence alone is not the cause, and a warning on known-good ground
+truth is the precise thing that teaches people to ignore warnings. The check was removed and the
+guidance demoted to prose in `SKILL.md`. Artifacts outrank inference; the hierarchy did its job.
+
+The follow-up prompt asks the one question that would settle it: in the broken version, was
+`BorderThickness` absent or `=0`?
+
+## Open questions
+
+Sent to the chat as `prompts/followup-record-only.md`:
+
+1. **Was `validate_pa_yaml.py` ever run?** If a real session skipped the D2 gate, that is a bigger
+   finding than all seven rules above, and the fix is the gate's wording rather than any rule.
+2. **Did v3 actually paste clean?** Until answered, v3 is the latest draft, not ground truth.
+3. **Did Studio accept `LayoutJustifyContent.SpaceBetween`?** Deliberately still unconfirmed.
+4. **`BorderThickness` absent or `=0`** in the version that broke.
+5. **Studio round-trip count and the verbatim PA error codes.**
+6. **Anything corrected 3+ times** — a repeat after correction means the rule is not where the
+   reader looks, whatever it says.

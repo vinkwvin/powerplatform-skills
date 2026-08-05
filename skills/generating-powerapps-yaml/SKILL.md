@@ -17,7 +17,7 @@ description: >-
 
 # HTML, spec, or description → Power Apps Canvas pa.yaml
 
-<!-- v1.1.0 -->
+<!-- v1.2.0 -->
 
 Every rule marked with a count below was measured across 17 screens that compiled in Studio.
 Where a rule has a number attached, it is not a preference.
@@ -68,6 +68,9 @@ Settle three things. If the user already said, state your assumption in one line
 [ ] screen has Fill, LoadingSpinnerColor, OnVisible
 [ ] no X or Y below the root container
 [ ] Height + LayoutMinHeight on every container and gallery
+[ ] BorderColor set wherever BorderThickness > 0; buttons set BorderThickness explicitly
+[ ] AlignInContainer on every fixed-size child of a row
+[ ] no Parent.Template* below a gallery's direct child
 [ ] Items AND Items.Value on every DropDown and Radio
 [ ] validator run, exits clean
 [ ] UNVERIFIED items listed, with a test snippet each
@@ -109,6 +112,27 @@ height. (887/887 containers, 36/36 galleries.)
 
 **Never write `DropShadow.Light`** — it does not exist. Use `DropShadow.None` on flat and
 structural containers; omit `DropShadow` entirely on elevated white cards.
+
+**`BorderThickness` and `BorderColor` travel together.** A border thicker than 0 with no
+`BorderColor` gets Studio's default blue, which looks like a focus ring nobody asked for.
+(2,830 controls: every one with a visible border sets both, zero exceptions.) On a borderless
+`Classic/Button`, prefer an explicit `BorderThickness: =0` over omitting it — 187 of 268
+reference buttons do, and a field report traced stray blue borders to buttons that set neither.
+
+**Power Apps has no per-side border.** `BorderThickness` draws all four sides. A single rule —
+a header underline, a row divider — is a `GroupContainer` of `Height: =1` filled with the line
+colour. Reaching for `BorderThickness` here draws a full box around the element.
+
+**A border is drawn on the control's own bounds**, so a child whose `Height` equals its parent's
+loses it to the parent edge. Give the parent 4–6px of slack, or inset the child with
+`Width: =Parent.Width - 8`. Same for gallery cards: `=Parent.TemplateWidth - 8`.
+
+**`Parent.Template*` resolves only on a gallery's *direct* child.** One level deeper it is blank,
+and the control collapses. Pass the value down through the direct child's own `Width`/`Height`.
+
+**`AlignInContainer` is required on any fixed-size child of a row**, or AutoLayout stretches it
+and its `Width`/`Height` is silently ignored. This is not a nicety — it is the most-missed rule
+in this file.
 
 **Spaces only.** A tab anywhere in leading whitespace breaks the paste.
 
